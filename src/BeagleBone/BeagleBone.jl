@@ -3,9 +3,10 @@
 # read(::T, identifier)
 
 include("SysLED.jl")
+include("GPIO.jl")
 
 #List of available devices and their constructors
-const DEVICES = Dict("sysled" => SysLED())
+const DEVICES = Dict("sysled" => SysLED(), "gpio" => GPIO())
 
 """
     dev = getdev(devname)
