@@ -44,7 +44,7 @@ function bbparse(l::Tuple)
             write!(dev, command[2], command[3])
         else
             val = read(dev, command[2])
-            println("val")
+            println("$val")
             #TODO return somewhere
         end
     end

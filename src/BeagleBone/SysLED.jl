@@ -6,15 +6,15 @@ end
 
 function write!(::SysLED, ind::Int32, val::Bool)
     ind ∉ [1,2,3,4] && error("Invalid SysLEND ind: $ind")
-    filename = "/sys/class/leds/beaglebone:green:usr$(ind-1)"
-    file = open(filename, "w+")
+    filename = "/sys/class/leds/beaglebone:green:usr$(ind-1)/brightness"
+    file = open(filename, "r+")
     write(file, val ? "1" : "0")
     close(file)
     return
 end
 function Base.read(::SysLED, ind::Int32)
     ind ∉ [1,2,3,4] && error("Invalid SysLEND ind: $ind")
-    filename = "/sys/class/leds/beaglebone:green:usr$(ind-1)"
+    filename = "/sys/class/leds/beaglebone:green:usr$(ind-1)/brightness"
     file = open(filename, "r")
     l = readline(file, val)
     (l != "1" && l != "0") && error("Invalid value \"$l\" read from SysLed")

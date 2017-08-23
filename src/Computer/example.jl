@@ -1,6 +1,6 @@
 include("server.jl")
 
-stream = BeagleBoneStream(ip"127.0.0.1")
+stream = BeagleBoneStream(ip"192.168.7.2")
 led2 = SysLED(2)
 led3 = SysLED(3)
 
@@ -22,7 +22,7 @@ for i = 1:10
     send!(led3, !ledon)
     #read(stream) #Sends request to read, reads all inputs
     sleep(0.5)
-    led_on = !ledon
+    ledon = !ledon
 end
 set!(led2, false)
 set!(led3, false)
