@@ -1,5 +1,5 @@
 struct BeagleBoneStream <: LabStream
-    devices::Device
+    devices::Array{Device,1}
     stream::TCPSocket
 end
 
@@ -9,13 +9,13 @@ function BeagleBoneStream(addr::IPAddr, port::Int64=2001)
 end
 
 #For BeagleBoneStream we can directly serialize the data, other streams might want to send binary data
-serialize(bbstream::BeagleBoneStream, cmd) = serialize(bbstream.stream, cmd)
+Base.serialize(bbstream::BeagleBoneStream, cmd) = serialize(bbstream.stream, cmd)
 
 function init_devices!(bbstream::BeagleBoneStream, devs::Device...)
     for dev in devs
         if dev ∉ bbstream.devices
             setstream!(dev, bbstream)
-            append!(bbstream.devices, dev)
+            push!(bbstream.devices, dev)
             initialize(dev)
         else
             warn("Device $dev already added to a stream")
@@ -28,11 +28,11 @@ function send!(stream::BeagleBoneStream)
     cmds = Tuple[]
     for dev in stream.devices
         val = getsetvalue(dev)
-        devstream, cmd = safe_getwritecommand(dev, val)
+        cmd, devstream = safe_getwritecommand(dev, val)
         devstream == stream || error("Device $dev is connected to other stream $devstream")
         push!(cmds, cmd)
     end
-    ncmds = length(cmds)
+    ncmds = Int32(length(cmds))
     if ncmds > 0
         allcmds = (true, ncmds, cmds...)
         println("Sending command: $allcmds")
@@ -40,14 +40,14 @@ function send!(stream::BeagleBoneStream)
     end
     return
 end
-function read(stream::BeagleBoneStream)
+function Base.read(stream::BeagleBoneStream)
     cmds = Tuple[]
     for dev in stream.devices
-        devstream, cmd = safe_getreadcommand(dev)
+        cmd, devstream = safe_getreadcommand(dev)
         devstream == stream || error("Device $dev is connected to other stream $devstream")
         push!(cmds, cmd)
     end
-    ncmds = length(cmds)
+    ncmds = Int32(length(cmds))
     if ncmds > 0
         allcmds = (false, ncmds, cmds...)
         println("Sending command: $allcmds")
@@ -61,7 +61,7 @@ function init_devices!(bbstream::BeagleBoneStream, devs::Device...)
     for dev in devs
         if dev ∉ bbstream.devices
             setstream!(dev, bbstream)
-            append!(bbstream.devices, dev)
+            push!(bbstream.devices, dev)
             initialize(dev)
         else
             warn("Device $dev already added to a stream")
@@ -70,11 +70,11 @@ function init_devices!(bbstream::BeagleBoneStream, devs::Device...)
     return
 end
 
-function close!(bbstream::BeagleBoneStream)
+function Base.close(bbstream::BeagleBoneStream)
     cmds = Tuple[]
     for dev in stream.devices
-        close!(dev)
+        close(dev)
     end
-    close!(bbstream.stream)
+    close(bbstream.stream)
     return
 end

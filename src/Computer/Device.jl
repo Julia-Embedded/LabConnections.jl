@@ -2,7 +2,7 @@
 #What to do when connecting
 initialize(::Device) = nothing
 #What to do when disconnecting
-close!(::Device) = nothing
+Base.close(::Device) = nothing
 #Which stream is the Device connected to
 getstream(dev::Device) = dev.stream
 #Set the stream the Device is connected to
@@ -31,12 +31,13 @@ end
 #Maybe rethink a bit to support IObox
 function send!(dev::Device, val)
     cmd, stream = safe_getwritecommand(dev, val)
-    serialize(stream, (true, 1, cmd))
+    #TODO This is not very general
+    serialize(stream, (true, Int32(1), cmd))
     return
 end
-function read(dev::Device)
+function Base.read(dev::Device)
     cmd, stream = safe_getreadcommand(dev)
-    serialize(stream, (false, 1, cmd))
+    serialize(stream, (false, Int32(1), cmd))
     #TODO get, wait for and return response
     return
 end

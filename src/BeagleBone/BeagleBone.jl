@@ -5,7 +5,7 @@
 include("SysLED.jl")
 
 #List of available devices and their constructors
-const DEVICES = Dict("sysled" => SysLED()]
+const DEVICES = Dict("sysled" => SysLED())
 
 """
     dev = getdev(devname)
@@ -39,7 +39,7 @@ function bbparse(l::Tuple)
     ndev = l[2]::Int32              #Number of devices/commands
     for i = 1:ndev
         command = l[2+i]::Tuple
-        dev = getdev(devname)
+        dev = getdev(command[1])
         if iswrite
             write!(dev, command[2], command[3])
         else
@@ -59,8 +59,9 @@ function run_server(port=2001)
     @async while isopen(server)
         sock = accept(server)
         @async while isopen(sock)
-         l = deserialize(sock); println("deserialize: $l")
-         bbparse(l)
+            l = deserialize(sock);
+            println("deserialize: $l")
+            bbparse(l)
         end
     end
     return server

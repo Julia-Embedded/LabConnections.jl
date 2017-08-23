@@ -12,7 +12,7 @@ function write!(::SysLED, ind::Int32, val::Bool)
     close(file)
     return
 end
-function read(::SysLED, ind::Int32)
+function Base.read(::SysLED, ind::Int32)
     ind ∉ [1,2,3,4] && error("Invalid SysLEND ind: $ind")
     filename = "/sys/class/leds/beaglebone:green:usr$(ind-1)"
     file = open(filename, "r")

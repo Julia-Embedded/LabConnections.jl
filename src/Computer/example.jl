@@ -14,7 +14,7 @@ for i = 1:10
     send!(stream) #Sends all the outputs to the stream in one atomic call
     #read(stream) #Sends request to read, reads all inputs
     sleep(1)
-    led_on = !led_on
+    ledon = !ledon
 end
 for i = 1:10
     send!(led2, ledon)
@@ -22,9 +22,9 @@ for i = 1:10
     send!(led3, !ledon)
     #read(stream) #Sends request to read, reads all inputs
     sleep(0.5)
-    led_on = !led_on
+    led_on = !ledon
 end
 set!(led2, false)
 set!(led3, false)
 send!(stream)
-close!(stream) #Tells BeagleBone to stop listening and close outputs
+close(stream) #Tells BeagleBone to stop listening and close outputs
