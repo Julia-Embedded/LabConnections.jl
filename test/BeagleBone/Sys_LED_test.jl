@@ -1,4 +1,6 @@
-include("../../src/BeagleBone/BeagleBone.jl")
+include("../../src/LabConnection.jl")
+using LabConnection.BeagleBone
+import LabConnection.BeagleBone: getdev, write!
 
 using Base.Test
 
@@ -19,7 +21,7 @@ ledon = true
     end
 
     @testset "IO Communication" begin
-        # Instanciate all possible leds and perform 10 read/write commands  
+        # Instanciate all possible leds and perform 10 read/write commands
         for i = 1:10
             for j = 1:4
                 write!(device, j, ledon)

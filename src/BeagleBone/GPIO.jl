@@ -63,18 +63,20 @@ channels =[
     "gpio7"
 ]
 
-function write!(::GPIO, index::Int32, args::Tuple{Int32,Bool}, debug::Bool=false)
+function write!(::GPIO, index::Int32, args::Tuple{Int32,String}, debug::Bool=false)
     debug && return
     operation, entry = args[1], args[2]
     (index <= 0 || index > length(channels)) && error("Invalid GPIO index: $index")
     (operation <= 0 || operation > length(writeOperations)) && error("Invalid GPIO operation: $operation")
     filename = "/sys/class/gpio/$(channels[index])/$(writeOperations[operation]["dir"])"
 
-    value = writeOperations[operation]["entries"][entry ? 1 : 2]
-    file = open(filename, "r+")
-
-    write(file, "$(value)")
-    close(file)
+    if entry in writeOperations[operation]["entries"]
+        file = open(filename, "r+")
+        write(file, "$(entry)")
+        close(file)
+    else
+        error("Cannot write $(entry) to operation: $operation")
+    end
     return
 end
 
