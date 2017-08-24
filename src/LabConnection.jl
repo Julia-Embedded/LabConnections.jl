@@ -1,5 +1,19 @@
 module LabConnection
 
-# package code goes here
+    module BeagleBone
+        export run_server
+        import Base: read
+        println("Initializing BB")
+        include(joinpath("BeagleBone","BeagleBone.jl"))
+        include(joinpath("BeagleBone","precompile.jl"))
+        println("Precompiling BB")
+        precompile_bb()
+        return
+    end
 
-end # module
+    module Computer
+        import Base: read, close, get, serialize, set!
+        println("Initializing Computer")
+        include(joinpath("Computer","Computer.jl"))
+    end
+end

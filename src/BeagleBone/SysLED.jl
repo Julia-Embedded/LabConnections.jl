@@ -4,7 +4,8 @@ The on-board leds with id ∈ [1,2,3,4]
 struct SysLED
 end
 
-function write!(::SysLED, ind::Int32, val::Bool)
+function write!(::SysLED, ind::Int32, val::Bool, debug::Bool=false)
+    debug && return
     ind ∉ [1,2,3,4] && error("Invalid SysLEND ind: $ind")
     filename = "/sys/class/leds/beaglebone:green:usr$(ind-1)/brightness"
     file = open(filename, "r+")
@@ -12,7 +13,8 @@ function write!(::SysLED, ind::Int32, val::Bool)
     close(file)
     return
 end
-function Base.read(::SysLED, ind::Int32)
+function read(::SysLED, ind::Int32, debug::Bool=false)
+    debug && return
     ind ∉ [1,2,3,4] && error("Invalid SysLEND ind: $ind")
     filename = "/sys/class/leds/beaglebone:green:usr$(ind-1)/brightness"
     file = open(filename, "r")

@@ -1,3 +1,5 @@
+export SysLED
+
 mutable struct SysLED <: Device
     i::Int32
     nextout::Bool
@@ -12,7 +14,7 @@ set!(led::SysLED, val::Bool) = led.nextout = val
 #Get the value from set! back for use
 getsetvalue(led::SysLED) = led.nextout
 #Get value that was read erlier
-Base.get(led::SysLED) = led.latestread
+get(led::SysLED) = led.latestread
 
 #No definition for IOBox since there are no LEDs
 #Stream specific methods

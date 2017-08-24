@@ -2,11 +2,12 @@
 # write!(::T, identifier, val)
 # read(::T, identifier)
 
+include("Debug.jl")
 include("SysLED.jl")
 include("GPIO.jl")
 
 #List of available devices and their constructors
-const DEVICES = Dict("sysled" => SysLED(), "gpio" => GPIO())
+const DEVICES = Dict("debug" => Debug(), "sysled" => SysLED(), "gpio" => GPIO())
 
 """
     dev = getdev(devname)
@@ -58,11 +59,27 @@ Run a server on `port` that listens for commands from computer
 function run_server(port=2001)
     server = listen(port)
     @async while isopen(server)
-        sock = accept(server)
-        @async while isopen(sock)
-            l = deserialize(sock);
-            println("deserialize: $l")
-            bbparse(l)
+        try
+            sock = accept(server)
+            @async while isopen(sock)
+                try
+                    l = deserialize(sock);
+                    println("deserialize: $l")
+                    bbparse(l)
+                catch err
+                    if !isopen(sock) && isa(err, Base.EOFError)
+                        println("Connection to server closed")
+                    else
+                        throw(err)
+                    end
+                end
+            end
+        catch err
+            if isa(err,Base.UVError) && err.prefix == "accept"
+                println("Server closed successfully")
+            else
+                throw(err)
+            end
         end
     end
     return server

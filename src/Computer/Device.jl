@@ -1,8 +1,10 @@
+export initialize, getstream, setstream!, send!, set!, getsetvalue
+
 ###### Defaults for Device
 #What to do when connecting
 initialize(::Device) = nothing
 #What to do when disconnecting
-Base.close(::Device) = nothing
+close(::Device) = nothing
 #Which stream is the Device connected to
 getstream(dev::Device) = dev.stream
 #Set the stream the Device is connected to
@@ -32,12 +34,17 @@ end
 function send!(dev::Device, val)
     cmd, stream = safe_getwritecommand(dev, val)
     #TODO This is not very general
-    serialize(stream, (true, Int32(1), cmd))
+    allcmds = (true, Int32(1), cmd)
+    println("Sending single command: $allcmds")
+    serialize(stream, allcmds)
     return
 end
-function Base.read(dev::Device)
+function read(dev::Device)
     cmd, stream = safe_getreadcommand(dev)
-    serialize(stream, (false, Int32(1), cmd))
+    allcmds = (false, Int32(1), cmd)
+    println("Sending single command: $allcmds")
+    serialize(stream, allcmds)
+
     #TODO get, wait for and return response
     return
 end

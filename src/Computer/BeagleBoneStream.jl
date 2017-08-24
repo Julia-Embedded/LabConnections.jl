@@ -1,3 +1,5 @@
+export BeagleBoneStream, init_devices!, send!
+
 struct BeagleBoneStream <: LabStream
     devices::Array{Device,1}
     stream::TCPSocket
@@ -9,7 +11,7 @@ function BeagleBoneStream(addr::IPAddr, port::Int64=2001)
 end
 
 #For BeagleBoneStream we can directly serialize the data, other streams might want to send binary data
-Base.serialize(bbstream::BeagleBoneStream, cmd) = serialize(bbstream.stream, cmd)
+serialize(bbstream::BeagleBoneStream, cmd) = serialize(bbstream.stream, cmd)
 
 function init_devices!(bbstream::BeagleBoneStream, devs::Device...)
     for dev in devs
@@ -40,7 +42,7 @@ function send!(stream::BeagleBoneStream)
     end
     return
 end
-function Base.read(stream::BeagleBoneStream)
+function read(stream::BeagleBoneStream)
     cmds = Tuple[]
     for dev in stream.devices
         cmd, devstream = safe_getreadcommand(dev)
@@ -57,22 +59,10 @@ function Base.read(stream::BeagleBoneStream)
     end
     return
 end
-function init_devices!(bbstream::BeagleBoneStream, devs::Device...)
-    for dev in devs
-        if dev ∉ bbstream.devices
-            setstream!(dev, bbstream)
-            push!(bbstream.devices, dev)
-            initialize(dev)
-        else
-            warn("Device $dev already added to a stream")
-        end
-    end
-    return
-end
 
-function Base.close(bbstream::BeagleBoneStream)
+function close(bbstream::BeagleBoneStream)
     cmds = Tuple[]
-    for dev in stream.devices
+    for dev in bbstream.devices
         close(dev)
     end
     close(bbstream.stream)
