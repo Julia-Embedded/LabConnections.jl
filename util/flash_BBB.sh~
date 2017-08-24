@@ -47,12 +47,21 @@ if [ "{flag}"=true ]; then
     } || { # catch
       # save log for exception
       flag=false
-      printf "${RED}Could not send folder /${project} to the BBB, aborting!${NC}\n"
+      printf "${RED}Could not send project /${project} to the BBB, aborting!${NC}\n"
     }
   done
 fi
 
-printf "${BLUE}Connecting to the BBB${NC}\n"
+printf "${BLUE}Deleting temporary files...${NC}\n"
+for project in "${projects[@]}"; do
+  {
+    rm -rf ${project}
+  } || {
+    printf "${RED}Could not delete project /${project}, aborting!${NC}\n"
+}
+done
+
+printf "${BLUE}Connecting to the BBB...${NC}\n"
 {
   ssh -t debian@192.168.7.2 "./LabConnection.jl/util/startup.sh; bash -l"
 } || {
