@@ -5,10 +5,9 @@
 include("Debug.jl")
 include("SysLED.jl")
 include("GPIO.jl")
-include("PWM.jl")
 
 #List of available devices and their constructors
-const DEVICES = Dict("debug" => Debug(), "sysled" => SysLED(), "gpio" => GPIO(), "pwm" => PWM())
+const DEVICES = Dict("debug" => Debug(), "sysled" => SysLED(), "gpio" => GPIO())
 
 """
     dev = getdev(devname)
