@@ -25,7 +25,7 @@ function precompile_bb()
 
     # Precompile GPIO
     gpio = GPIO()
-    write!(gpio, Int32(1), (Int32(2), "1"), debug)
+    write!(gpio, Int32(1), ("value", "1"), debug)
     #read(gpio, ind, args, debug)
 
     try getdev("nonexistent")       catch end
