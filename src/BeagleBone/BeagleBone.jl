@@ -1,4 +1,4 @@
-# Devices should define a type `T` with methods:
+# AbstractDevice should define a type `T` with methods:
 # write!(::T, identifier, val)
 # read(::T, identifier)
 

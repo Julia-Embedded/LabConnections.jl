@@ -8,7 +8,7 @@ printf "${BLUE}Updating project${NC}\n..."
 
 codeHost=gitlab.control.lth.se
 codeUser=labdev
-projects=(LabConnection)
+projects=LabConnection
 flag=false
 
 printf "${BLUE}Initializing Transferring files to BBB${NC}\n"
