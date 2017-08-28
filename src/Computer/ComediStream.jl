@@ -16,7 +16,7 @@ function ComediStream()
     ComediStream(AbstractDevice[], SendTuple[], ReadTuple[])
 end
 
-function init_devices!(stream::ComediStream, devs::AbstractDevice...)
+function init_devices!(comedistream::ComediStream, devs::AbstractDevice...)
     for dev in devs
         if dev ∉ comedistream.devices
             setstream!(dev, comedistream)
@@ -30,12 +30,11 @@ function init_devices!(stream::ComediStream, devs::AbstractDevice...)
 end
 
 function send(comedistream::ComediStream, cmd::SendTuple)
-    ccall((:comedi_write, comedipath),Int32,(Int32,Int32,Int32,Float64), cmd[1], cmd[2], cmd[3], cmd[4])
+    ccall((:comedi_write, comedipath), Int32, (Int32,Int32,Int32,Float64), cmd[1], cmd[2], cmd[3], cmd[4])
     return
 end
 function read(comedistream::ComediStream, cmd::ReadTuple)
-    ccall((:comedi_read, comedipath),Int32,(Int32,Int32,Int32), cmd[1], cmd[2], cmd[3])
-    return
+    return ccall((:comedi_read, comedipath), Float64, (Int32,Int32,Int32), cmd[1], cmd[2], cmd[3])
 end
 
 function send(comedistream::ComediStream)
@@ -51,6 +50,6 @@ end
 
 function close(stream::ComediStream)
     foreach(close, stream.devices)
-    ccall((:comedi_stop, comedipath),Int32,(Int32,), 0)
+    ccall((:comedi_stop, comedipath), Int32, (Int32,), 0)
     return
 end
