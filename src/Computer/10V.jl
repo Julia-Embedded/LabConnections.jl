@@ -1,4 +1,4 @@
-export AnalogInput10V
+export AnalogInput10V, AnalogOutput10V
 
 mutable struct AnalogInput10V <: AbstractDevice
     i::Int32

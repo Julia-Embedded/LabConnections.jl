@@ -3,7 +3,7 @@ export SysLED
 mutable struct SysLED <: AbstractDevice
     i::Int32
     stream::LabStream
-    SysLED(i::Int32) = new(i, false, false)
+    SysLED(i::Int32) = new(i)
 end
 SysLED(i::Int64) = SysLED(convert(Int32, i))
 

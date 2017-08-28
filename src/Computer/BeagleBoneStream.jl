@@ -30,19 +30,19 @@ end
 
 function send(bbstream::BeagleBoneStream)
     ncmds = length(bbstream.sendbuffer)
-    serialize(bbstream.stream, (true, ncmds, bbstream.sendbuffer))
+    serialize(bbstream.stream, (true, Int32(ncmds), bbstream.sendbuffer...))
     empty!(bbstream.sendbuffer)
     return
 end
 function read(comedistream::BeagleBoneStream)
     ncmds = length(bbstream.readbuffer)
-    serialize(bbstream.stream, (false, ncmds, bbstream.sendbuffer))
+    serialize(bbstream.stream, (false, Int32(ncmds), bbstream.readbuffer...))
     #TODO wait for answer
     vals = nothing
-    empty!(bbstream.sendbuffer)
+    empty!(bbstream.readbuffer)
     return vals
 end
-# 
+#
 # function send(stream::BeagleBoneStream)
 #     cmds = Tuple[]
 #     for dev in stream.devices
@@ -82,14 +82,13 @@ end
 function send(bbstream::BeagleBoneStream, cmd)
     allcmds = (true, Int32(1), cmd)
     println("Sending single command: $allcmds")
-    serialize(stream, allcmds)
+    serialize(bbstream.stream, allcmds)
     return
 end
 function read(bbstream::BeagleBoneStream, cmd)
-    cmd, stream = safe_getreadcommand(dev)
     allcmds = (false, Int32(1), cmd)
     println("Sending single command: $allcmds")
-    serialize(stream, allcmds)
+    serialize(bbstream.stream, allcmds)
     #TODO get, wait for and return response
     return
 end

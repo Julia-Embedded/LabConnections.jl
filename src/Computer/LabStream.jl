@@ -1,3 +1,5 @@
+export LabStream
+
 abstract type LabStream end
 
 function close(stream::LabStream)
