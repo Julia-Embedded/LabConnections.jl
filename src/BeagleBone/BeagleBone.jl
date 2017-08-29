@@ -53,15 +53,31 @@ function bbparse(l::Tuple)
     end
 end
 
+global __waiting_first_connection__ = false
 """
     run_server(port=2001)
 Run a server on `port` that listens for commands from computer
+Optional debug keyword disables blinking system leds
 """
-function run_server(port=2001)
+function run_server(port=2001; debug=false)
+    global __waiting_first_connection__ = true
     server = listen(port)
     @async while isopen(server)
         try
+            @async while __waiting_first_connection__ && !debug
+                #Blink SysLED 2 when waiting for first connection to signal availability
+                led = SysLED()
+                write!(led, 2, true)
+                sleep(0.4)
+                write!(led, 2, false)
+                sleep(0.2)
+                write!(led, 2, true)
+                sleep(0.4)
+                write!(led, 2, false)
+                sleep(0.8)
+            end
             sock = accept(server)
+            __waiting_first_connection__ = false
             @async while isopen(sock)
                 try
                     l = deserialize(sock);

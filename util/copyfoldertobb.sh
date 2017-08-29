@@ -17,7 +17,7 @@ if [ "{flag}"=true ]; then
     {
       printf "${GREEN}Transferring /${project}...${NC}\n"
       printf "scp -r ../../${project} debian@192.168.7.2:/home/debian"
-      scp -r ../../${project} debian@192.168.7.2:/home/debian
+      scp -r ../../${project} debian@192.168.7.2:/home/debian/juliapackages
     } || { # catch
       # save log for exception
       flag=false
