@@ -5,4 +5,4 @@
 #
 # The code may be executed from anywhere on the HOST computer.
 ###############################################################################
-ssh -t debian@192.168.7.2 "./LabConnection.jl/util/startup.sh; bash -l"
+ssh -t debian@192.168.7.2 "./LabConnections.jl/util/startup.sh; bash -l"

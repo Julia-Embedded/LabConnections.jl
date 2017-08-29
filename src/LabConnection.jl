@@ -1,4 +1,5 @@
-module LabConnection
+__precompile__()
+module LabConnections
 
     module BeagleBone
         export run_server
@@ -12,7 +13,7 @@ module LabConnection
     end
 
     module Computer
-        import Base: read, close, get, serialize
+        import Base: read, send, close, get, serialize
         println("Initializing Computer")
         include(joinpath("Computer","Computer.jl"))
     end

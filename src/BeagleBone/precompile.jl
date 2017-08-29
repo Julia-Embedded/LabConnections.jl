@@ -28,6 +28,8 @@ function precompile_bb()
     write!(gpio, Int32(1), ("value", "1"), debug)
     #read(gpio, ind, args, debug)
 
+#TODO write/read
+
     try getdev("nonexistent")       catch end
     try bbparse("Invalid input")    catch end
     try bbparse(("Invalid input"))  catch end

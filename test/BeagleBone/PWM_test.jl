@@ -1,6 +1,6 @@
-include("../../src/LabConnection.jl")
-using LabConnection.BeagleBone
-import LabConnection.BeagleBone: getdev, write!, setup, teardown
+include("../../src/LabConnections.jl")
+using LabConnections.BeagleBone
+import LabConnections.BeagleBone: getdev, write!, setup, teardown
 
 pins = Dict(
     "P9.22" => ("PWM0A", "pwmchip0", "0"),

@@ -1,20 +1,11 @@
 export SysLED
 
-mutable struct SysLED <: Device
+mutable struct SysLED <: AbstractDevice
     i::Int32
-    nextout::Bool
-    latestread::Bool
     stream::LabStream
-    SysLED(i::Int32) = new(i, false, false)
+    SysLED(i::Int32) = new(i)
 end
 SysLED(i::Int64) = SysLED(convert(Int32, i))
-
-#Save value to send later
-set!(led::SysLED, val::Bool) = led.nextout = val
-#Get the value from set! back for use
-getsetvalue(led::SysLED) = led.nextout
-#Get value that was read erlier
-get(led::SysLED) = led.latestread
 
 #No definition for IOBox since there are no LEDs
 #Stream specific methods
