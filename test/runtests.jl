@@ -1,4 +1,4 @@
-using LabConnection
+using LabConnections
 using Base.Test
 
 # write your own tests here

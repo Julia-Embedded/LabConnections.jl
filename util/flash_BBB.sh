@@ -15,7 +15,7 @@ printf "${BLUE}Updating project${NC}\n..."
 
 codeHost=gitlab.control.lth.se
 codeUser=labdev
-projects=(LabConnection.jl)
+projects=(LabConnections.jl)
 flag=false
 
 for project in "${projects[@]}"; do
@@ -63,7 +63,7 @@ done
 
 printf "${BLUE}Connecting to the BBB...${NC}\n"
 {
-  ssh -t debian@192.168.7.2 "./LabConnection.jl/util/startup.sh; bash -l"
+  ssh -t debian@192.168.7.2 "./LabConnections.jl/util/startup.sh; bash -l"
 } || {
    printf "${RED}Could Connect to the BBB!${NC}\n"
 }

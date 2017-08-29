@@ -1,9 +1,9 @@
 #On beaglebone, run:
-# include("LabConnection/src/LabConnection.jl")
-# using LabConnection.BeagleBone
+# include("LabConnections/src/LabConnections.jl")
+# using LabConnections.BeagleBone
 # run_server()
 
-using LabConnection.Computer
+using LabConnections.Computer
 
 stream = BeagleBoneStream(ip"192.168.7.2")
 led1 = SysLED(1)

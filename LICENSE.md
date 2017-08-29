@@ -1,4 +1,4 @@
-The LabConnection.jl package is licensed under the MIT "Expat" License:
+The LabConnections.jl package is licensed under the MIT "Expat" License:
 
 > Copyright (c) 2017: Mattias Fält.
 > 

@@ -1,6 +1,6 @@
-include("../../src/LabConnection.jl")
-using LabConnection.BeagleBone
-import LabConnection.BeagleBone: getdev, write!, channels
+include("../../src/LabConnections.jl")
+using LabConnections.BeagleBone
+import LabConnections.BeagleBone: getdev, write!, channels
 
 using Base.Test
 
