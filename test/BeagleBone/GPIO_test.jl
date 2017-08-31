@@ -1,4 +1,3 @@
-include("../../src/LabConnections.jl")
 using LabConnections.BeagleBone
 import LabConnections.BeagleBone: getdev, write!, channels
 

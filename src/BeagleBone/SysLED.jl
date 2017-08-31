@@ -18,8 +18,8 @@ function read(::SysLED, ind::Int32, debug::Bool=false)
     ind ∉ [1,2,3,4] && error("Invalid SysLEND ind: $ind")
     filename = "/sys/class/leds/beaglebone:green:usr$(ind-1)/brightness"
     file = open(filename, "r")
-    l = readline(file)
-    (l != "1" && l != "0") && error("Invalid value \"$l\" read from SysLed")
+    l = read(file,Char)
+    (l != '1' && l != '0') && error("Invalid value \"$l\" read from SysLed")
     close(file)
-    return l == "1"
+    return l == '1'
 end

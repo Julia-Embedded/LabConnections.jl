@@ -29,27 +29,43 @@ Parse and execute the command `cmd`
 """
 bbparse(any) = error("Unexpected input: $any")
 
+
+function bbsend(sock, vals)#, timestamps)
+    serialize(sock, vals)#, (timestamps...)))
+end
+
 """
-    bbparse(l::Tuple)
-Parse input on the form `l=(iswrite, ndev, cmd1, cmd2, ..., cmdn)``
+    bbparse(l::Tuple, sock)
+Parse input on the form `l=(iswrite, ndev, cmd1, cmd2, ..., cmdn)`
 where if `iswrite`
     `cmdi = (devname, id, val)`
     and if not `iswrite`
     `cmdi = (devname, id)`
+
+and send back on socket (vals, timestamps)
 """
-function bbparse(l::Tuple)
+function bbparse(l::Tuple, sock)
     iswrite = l[1]::Bool            #True if write command, false if read
     ndev = l[2]::Int32              #Number of devices/commands
-    for i = 1:ndev
-        command = l[2+i]::Tuple
-        dev = getdev(command[1])
-        if iswrite
+    if iswrite
+        for i = 1:ndev
+            command = l[2+i]::Tuple
+            dev = getdev(command[1])
             write!(dev, command[2], command[3])
-        else
-            val = read(dev, command[2])
-            println("$val")
-            #TODO return somewhere
         end
+        return
+    else
+        #TODO fix to have at least partial type stability
+        vals = Array{Any,1}(ndev)
+        timestamps = Array{UInt64,1}(ndev)
+        for i = 1:ndev
+            command = l[2+i]::Tuple
+            dev = getdev(command[1])
+            vals[i] = read(dev, command[2])
+            timestamps[i] = UInt64(0)#time_ns()
+        end
+        bbsend(sock, (vals, timestamps))
+        return
     end
 end
 
@@ -81,8 +97,8 @@ function run_server(port=2001; debug=false)
             @async while isopen(sock)
                 try
                     l = deserialize(sock);
-                    println("deserialize: $l")
-                    bbparse(l)
+                    #println("deserialize: $l")
+                    bbparse(l, sock)
                 catch err
                     if !isopen(sock) && isa(err, Base.EOFError)
                         println("Connection to server closed")

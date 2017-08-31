@@ -34,51 +34,18 @@ function send(bbstream::BeagleBoneStream)
     empty!(bbstream.sendbuffer)
     return
 end
-function read(comedistream::BeagleBoneStream)
+#TODO know the types of outputs some way
+function read(bbstream::BeagleBoneStream)
     ncmds = length(bbstream.readbuffer)
     serialize(bbstream.stream, (false, Int32(ncmds), bbstream.readbuffer...))
-    #TODO wait for answer
-    vals = nothing
     empty!(bbstream.readbuffer)
-    return vals
+    vals, timestamps = deserialize(bbstream.stream)
+    length(vals) == ncmds || error("Wrong number of return values in $vals on request $(bbstream.readbuffer)")
+    #TODO Do something with timestamps
+    return (vals...,) #Converting from array to tuple
 end
-#
-# function send(stream::BeagleBoneStream)
-#     cmds = Tuple[]
-#     for dev in stream.devices
-#         val = getsetvalue(dev)
-#         cmd, devstream = safe_getwritecommand(dev, val)
-#         devstream == stream || error("Device $dev is connected to other stream $devstream")
-#         push!(cmds, cmd)
-#     end
-#     ncmds = Int32(length(cmds))
-#     if ncmds > 0
-#         allcmds = (true, ncmds, cmds...)
-#         println("Sending command: $allcmds")
-#         serialize(stream, allcmds)
-#     end
-#     return
-# end
-# function read(stream::BeagleBoneStream)
-#     cmds = Tuple[]
-#     for dev in stream.devices
-#         cmd, devstream = safe_getreadcommand(dev)
-#         devstream == stream || error("Device $dev is connected to other stream $devstream")
-#         push!(cmds, cmd)
-#     end
-#     ncmds = Int32(length(cmds))
-#     if ncmds > 0
-#         allcmds = (false, ncmds, cmds...)
-#         println("Sending command: $allcmds")
-#         serialize(stream, allcmds)
-#         #TODO save values in dev
-#         # update_read_vale!(dev, val)
-#     end
-#     return
-# end
 
-
-#Maybe rethink a bit to support IObox
+#The following are for interal use only
 function send(bbstream::BeagleBoneStream, cmd)
     allcmds = (true, Int32(1), cmd)
     println("Sending single command: $allcmds")
@@ -89,8 +56,10 @@ function read(bbstream::BeagleBoneStream, cmd)
     allcmds = (false, Int32(1), cmd)
     println("Sending single command: $allcmds")
     serialize(bbstream.stream, allcmds)
-    #TODO get, wait for and return response
-    return
+    vals, timestamps = deserialize(bbstream.stream)
+    length(vals) == 1 || error("Wrong number of return values in $vals on request $cmd")
+    #TODO Do something with timestamps
+    return vals[1], timestamps[1]
 end
 
 function close(bbstream::BeagleBoneStream)

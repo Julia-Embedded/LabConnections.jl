@@ -1,5 +1,6 @@
 using LabConnections
 using Base.Test
 
-# write your own tests here
-@test 1 == 2
+include("BeagleBone/PWM_test.jl")
+include("BeagleBone/Sys_LED_test.jl")
+include("BeagleBone/GPIO_test.jl")

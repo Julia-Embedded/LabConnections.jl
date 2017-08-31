@@ -8,12 +8,12 @@ module LabConnections
         include(joinpath("BeagleBone","BeagleBone.jl"))
         include(joinpath("BeagleBone","precompile.jl"))
         println("Precompiling BB")
-        precompile_bb()
+        #precompile_bb()
         return
     end
 
     module Computer
-        import Base: read, send, close, get, serialize
+        import Base: read, send, close, get, put!, serialize
         println("Initializing Computer")
         include(joinpath("Computer","Computer.jl"))
     end

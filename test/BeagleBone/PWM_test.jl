@@ -1,4 +1,3 @@
-include("../../src/LabConnections.jl")
 using LabConnections.BeagleBone
 import LabConnections.BeagleBone: getdev, write!, setup, teardown
 
@@ -25,9 +24,8 @@ for pin in keys(pins)
     teardown(dev, pin)
 end
 
-
-println("Running second experiment on pin $(pin)...")
 pin = "P9.22"
+println("Running second experiment on pin $(pin)...")
 setup(dev, pin)
 write!(dev, pin, 2, "1000000000")
 write!(dev, pin, 3, "250000000")

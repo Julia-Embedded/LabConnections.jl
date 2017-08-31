@@ -1,4 +1,4 @@
-export initialize, getstream, setstream!, send, set!
+export initialize, getstream, setstream!, send
 
 ###### Defaults for AbstractDevice
 #What to do when connecting
@@ -37,17 +37,18 @@ function send(dev::AbstractDevice, val)
 end
 function read(dev::AbstractDevice)
     cmd, stream = safe_getreadcommand(dev)
-    return read(stream, cmd)
+    vals, ts = read(stream, cmd)
+    return vals
 end
 
-function set!(dev::AbstractDevice, val)
+function put!(dev::AbstractDevice, val)
     cmd, stream = safe_getwritecommand(dev, val)
     push!(stream.sendbuffer,cmd)
     return
 end
 
-function get(dev::AbstractDevice, val)
-    cmd, stream = safe_getreadcommand(dev, val)
+function get(dev::AbstractDevice)
+    cmd, stream = safe_getreadcommand(dev)
     push!(stream.readbuffer,cmd)
     return
 end
