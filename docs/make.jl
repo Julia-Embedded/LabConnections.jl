@@ -1,4 +1,4 @@
-using Documenter, LabProcesses
+using Documenter, LabConnections
 # makedocs()
 # deploydocs(
 # deps   = Deps.pip("pygments", "mkdocs", "python-markdown-math", "mkdocs-cinder"),
