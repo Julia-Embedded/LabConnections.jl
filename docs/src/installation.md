@@ -18,7 +18,7 @@ If chosing the latter, connect the BB and download the julia tarball for ARM (AR
     `cd ~/Downloads'
     `scp -r julia-0.6.0-linux-arm.tar.gz debian@192.168.7.2:/home/debian'
 
-next, log on to the BB running
+next, log on to the BB via SSH by running
 
     `ssh debian@192.168.7.2'
 
@@ -32,20 +32,20 @@ Next, open a new terminal on the HOST and cd to the /util directory of the LabCo
 
 This directory contains some nice utility files to operate the BB from the host. To flash it with the current revision of the software, including all dependencies, simply execut the shells cript `flash.sh'.
 
+![block diagram](flashBB.png)
+
 ## Setting up automatic communication between the BB and the HOST via TCP
-To setup automatic start of julia server on the beagle bone
-1. Make sure that julia is installed in `/home/debian/julia-903644385b/bin/julia` on the BeagleBone or edit `juliaserver.service` accordingly
-2. Create the folder `/home/debian/juliapackages/` on the BeagleBone
-3. On the computer, go to `LabConnections/util` and run `./copyfoldertobb.sh`
-    - If this failes, make sure that there is not already a folder `/home/debian/juliapackages/LabConnections`
-1. Copy `LabConnections/src/BeagleBone/startup/juliaserver.service` to `/lib/systemd/system/juliaserver.service` on the BeagleBone.
-2. Run: `sudo systemctl enable juliaserver` on BeagleBone
-3. Run: `sudo systemctl start juliaserver` on BeagleBone
+To setup automatic start of Julia server on the BB, make sure to have completed all prior installation instructions. SSH to the BeagleBone and copy the julilaserver.service to the systemd/system
 
-After a while, the BeagleBone should start blinking on SysLED 2: on-off-on-sleep-repeat
+    `ssh debian@192.168.7.2'
+    `sudo cp -r /home/debian/juliapackets/LabConnections/src/BeagleBone/startup/juliaserver.service /lib/systemd/system/juliaserver.service` (on the BeagleBone)
 
-The server should now start automatically on restart of the BeagleBone.
+Then execute the commands
 
+`sudo systemctl enable juliaserver` (on the BeagleBone)
+`sudo systemctl start juliaserver` (on the BeagleBone)
+
+After a while, the BeagleBone should start blinking on SysLED 2: on-off-on-sleep-repeat. The server should now start automatically on restart of the BeagleBone, and you should be able to run the examples in in /Examples on the host computer.
 
 ```@systemConfiguration
 ```
