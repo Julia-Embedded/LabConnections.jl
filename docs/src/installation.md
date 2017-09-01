@@ -30,7 +30,7 @@ Next, open a new terminal on the HOST and cd to the /util directory of the LabCo
 
     `cd && cd .julia/v0.6/LabConnection/util'
 
-This directory contains some nice utility files to operate the BB from the host. To flash it with the current revision of the software, including all dependencies, simply type `./flash.sh'
+This directory contains some nice utility files to operate the BB from the host. To flash it with the current revision of the software, including all dependencies, simply execut the shells cript `flash.sh'.
 
 ## Setting up automatic communication between the BB and the HOST via TCP
 To setup automatic start of julia server on the beagle bone
