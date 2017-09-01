@@ -15,3 +15,10 @@ makedocs(
         "index.md",
     ]
 )
+
+deploydocs(
+    repo   = "gitlab.control.lth.se/labdev/LabConnections.jl.git",
+    target = "build",
+    deps   = nothing,
+    make   = nothing
+)
