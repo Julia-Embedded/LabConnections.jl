@@ -1,37 +1,9 @@
 # LabConnections
+This is the documentation for the LabCommunication project, detailing installation instructions, examples and tests which may be run, as well as documenting the protocols and structure of the IO communication.
 
 ```@contents
 Depth = 3
 ```
 
-asd
-
-## Installation
-asd
-
-# How to implement a new process
-asd
-
-# How to control a process
-asd
-
-# How to implement a Simulated Process
-asd
-
-## Linear process
-asd
-
-asd
-
-# Process interface specification
-asd
-
-```@autodocs
-Modules = [LabConnections]
-Private = false
-```
-
-# Index
-
-```@index
+```@systemConfiguration
 ```

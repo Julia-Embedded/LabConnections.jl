@@ -1,3 +1,5 @@
+push!(LOAD_PATH,"../src/")
+
 using Documenter, LabConnections
 # makedocs()
 # deploydocs(
@@ -13,6 +15,8 @@ makedocs(
     sitename = "LabConnections",
     pages = [
         "index.md",
+        "installation.md",
+        "systemConfiguration.md",
     ]
 )
 
