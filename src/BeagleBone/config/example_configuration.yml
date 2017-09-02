@@ -1,0 +1,53 @@
+---
+gpio:
+  - Location: ["P9.33"]
+    ID_internal: 1
+    Description: "Input pin for event detection"
+    Setting: "in"
+
+  - Location: ["P9.34"]
+    ID_internal: 2
+    Description: "Input pin for event detection"
+    Setting: "in"
+
+  - Location: ["P9.35"]
+    ID_internal: 3
+    Description: "Output pin for ADC chip reset"
+    Setting: "out"
+
+  - Location: ["P9.36"]
+    ID_internal: 4
+    Description: "Output pin for external LED"
+    Setting: "out"
+pwm:
+  - Location: ["P8.14"]
+    ID_internal: 5
+    Description: "PWM pin for analog output"
+
+  - Location: ["P8.21"]
+    ID_internal: 6
+    Description: "PWM pin for analog output"
+adc:
+  - Location: ["P8.17", "P8.18", "P8.21", "P8.22"]
+    ID_internal: 7
+    Description: "Analog sensor reading on ADC channel 0 over SPI"
+    Setting: "CH0"
+
+  - Location: ["P8.17", "P8.18", "P8.21", "P8.22"]
+    ID_internal: 8
+    Description: "Analog sensor reading on ADC channel 1 over SPI"
+    Setting: "CH1"
+
+  - Location: ["P8.17", "P8.18", "P8.21", "P8.22"]
+    ID_internal: 9
+    Description: "Analog sensor reading on ADC channel 5 over SPI"
+    Setting: "CH5"
+qep:
+  - Location: ["P8.42", "P8.27"]
+    ID_internal: 10
+    Description: "Wheel encoder reading on eQEP0"
+
+  - Location: ["P8.12", "P8.11"]
+    ID_internal: 11
+    Description: "Wheel encoder reading on eQEP2"
+...
