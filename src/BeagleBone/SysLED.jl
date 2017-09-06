@@ -1,25 +1,46 @@
 """
-The on-board leds with id ∈ [1,2,3,4]
+    SysLED
+Type representing the system LEDs on the BeagleBone. The LEDs are indexed by
+i ∈ [1,2,3,4].
 """
-struct SysLED
+type SysLED <: IO_Object
+    i::Int32
+    brightness_filestream::IOStream
+    function SysLED(i::Int32)
+        i ∉ [1,2,3,4] && error("Invalid SysLED index: $i")
+        #Note, in the future we should interface to config and retrieve IOStream from there
+        brightness_filestream = open("/sys/class/leds/beaglebone:green:usr$(i-1)/brightness","r+")
+        return new(i, brightness_filestream)
+    end
 end
 
-function write!(::SysLED, ind::Int32, val::Bool, debug::Bool=false)
+"""
+    write!(led::SysLED, val::Bool, debug::Bool=false)
+Turns the LED 'SysLed' on/off for val = true/false respectively.
+"""
+function write!(led::SysLED, val::Bool, debug::Bool=false)
     debug && return
-    ind ∉ [1,2,3,4] && error("Invalid SysLEND ind: $ind")
-    filename = "/sys/class/leds/beaglebone:green:usr$(ind-1)/brightness"
-    file = open(filename, "r+")
-    write(file, val ? "1" : "0")
-    close(file)
-    return
+    write(led.brightness_filestream, val ? "1" : "0")
+    seekstart(led.brightness_filestream)
 end
-function read(::SysLED, ind::Int32, debug::Bool=false)
+
+"""
+    l = read(led::SysLED, debug::Bool=false)
+Reads the current brightness value from the LED 'SysLED'.
+"""
+function read(led::SysLED, debug::Bool=false)
     debug && return
-    ind ∉ [1,2,3,4] && error("Invalid SysLEND ind: $ind")
-    filename = "/sys/class/leds/beaglebone:green:usr$(ind-1)/brightness"
-    file = open(filename, "r")
-    l = read(file,Char)
+    l = read(led.brightness_filestream, Char)
     (l != '1' && l != '0') && error("Invalid value \"$l\" read from SysLed")
-    close(file)
-    return l == '1'
+    seekstart(led.brightness_filestream)
+    return l
+end
+
+"""
+    teardown(led::SysLED, debug::Bool=false)
+Closes all open filestreams for the SysLED 'led'.
+"""
+function teardown(led::SysLED, debug::Bool=false)
+    debug && return
+    close(led.brightness_filestream)
 end

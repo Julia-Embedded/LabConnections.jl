@@ -6,6 +6,7 @@ function precompile_bb()
     clientside = connect(3001)
 
     #Precompile serialize
+    initdev("debug", Int32(1))
     serialize(clientside, (true, Int32(2), ("debug", Int32(1), true), ("debug", Int32(1), (1,2.0,"asd"))))
     serialize(clientside, (true, Int32(2), ("debug", Int32(1), Int32(1)),
                                     ("debug", Int32(1), 1.0)))
@@ -22,17 +23,21 @@ function precompile_bb()
 
     debug = true
     #Precompile SysLED
-    led = SysLED()
-    write!(led, Int32(1), true, debug)
-    read(led, Int32(1), debug)
+    led = initdev("sysled",Int32(1))
+    write!(led, true, debug)
+    read(led, debug)
 
     ind = 1
     println("False: $(ind ∉ [1,2,3,4])")
 
     # Precompile GPIO
-    gpio = GPIO()
-    write!(gpio, Int32(1), ("value", "1"), debug)
+    gpio = initdev("gpio",Int32(1))
+    write!(gpio, (Int32(1), "1"), debug)
     #read(gpio, ind, args, debug)
+
+    # Precompile PWM
+    pwm = initdev("pwm", Int32(1))
+    write!(pwm, (Int32(1),"1"), debug)
 
     #Do read/write to file
     val = true

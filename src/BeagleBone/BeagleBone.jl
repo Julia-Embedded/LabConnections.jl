@@ -1,24 +1,64 @@
-# AbstractDevice should define a type `T` with methods:
-# write!(::T, identifier, val)
-# read(::T, identifier)
-
+include("IO_Object.jl")
 include("Debug.jl")
 include("SysLED.jl")
 include("GPIO.jl")
 include("PWM.jl")
 
 #List of available devices and their constructors
-const DEVICES = Dict("debug" => Debug(), "sysled" => SysLED(), "gpio" => GPIO(), "pwm" => PWM())
+const DEVICES = Dict("debug" => Debug, "sysled" => SysLED, "gpio" => GPIO, "pwm" => PWM)
+
+#Currently active devices on the BeagleBone
+active_devices = Dict{String,Dict{Int32,IO_Object}}("debug" => Dict{Int32,Debug}(), "sysled" => Dict{Int32,SysLED}(),
+                                                          "gpio" => Dict{Int32,GPIO}(), "pwm" => Dict{Int32,PWM}())
 
 """
-    dev = getdev(devname)
-    Gets the device corresponding to the name `devname`
+    active_device = initdev(dev_name::String, i:Int32)
+Initializes a new device of type 'dev_name' at index 'i' on the BeagleBone,
+and adds it to the dict of currently active devices. Returns the initialized
+device 'active_device'.
 """
-function getdev(devname)
-    dev = try
-        DEVICES[devname]
+function initdev(dev_name::String, i::Int32)
+    #Check if the type of device is valid
+    dev_constr = try
+         DEVICES[dev_name]
+     catch
+         error("Device $dev_name does not exist")
+     end
+    #Check if the device index is already in use
+    haskey(active_devices[dev_name],i) && error("Index $i is already in use for device $dev_name")
+    #Construct a new device and add it to dict of currently active devices
+    active_device = dev_constr(i)
+    active_devices[dev_name][i] = active_device
+    return active_device
+end
+
+"""
+    closedev(dev_name::String, i::Int32)
+Closes down a currently active device of type 'dev_name' at index 'i' on the BeagleBone,
+and removes it from the dict of currently active devices.
+"""
+function closedev(dev_name::String, i::Int32)
+    active_device = try
+        active_devices[dev_name][i]
     catch
-        error("Device $devname does not exist")
+        error("No device of type $dev_name at index $i is currently active")
+    end
+    #Call the teardown method on the device, to close all file-streams and
+    #unexport the device from the BeagleBone
+    teardown(active_device)
+    #Remove the device from the dict of active devices
+    delete!(active_devices[device_name], i)
+end
+
+"""
+    dev = getdev(dev_name::String, i::Int32)
+Retrieves the active device of type `dev_name` at index 'i'
+"""
+function getdev(dev_name::String, i::Int32)
+    dev = try
+        active_devices[dev_name][i]
+    catch
+        error("No device of type $dev_name at index $i is currently active")
     end
     return dev
 end
@@ -50,8 +90,8 @@ function bbparse(l::Tuple, sock)
     if iswrite
         for i = 1:ndev
             command = l[2+i]::Tuple
-            dev = getdev(command[1])
-            write!(dev, command[2], command[3])
+            dev = getdev(command[1], command[2])
+            write!(dev, command[3])
         end
         return
     else
@@ -60,8 +100,8 @@ function bbparse(l::Tuple, sock)
         timestamps = Array{UInt64,1}(ndev)
         for i = 1:ndev
             command = l[2+i]::Tuple
-            dev = getdev(command[1])
-            vals[i] = read(dev, command[2])
+            dev = getdev(command[1], command[2])
+            vals[i] = read(dev)
             timestamps[i] = UInt64(0)#time_ns()
         end
         bbsend(sock, (vals, timestamps))
@@ -71,7 +111,7 @@ end
 
 global __waiting_first_connection__ = false
 """
-    run_server(port=2001)
+    run_server(port=2001; debug=false)
 Run a server on `port` that listens for commands from computer
 Optional debug keyword disables blinking system leds
 """
@@ -82,14 +122,14 @@ function run_server(port=2001; debug=false)
         try
             @async while __waiting_first_connection__ && !debug
                 #Blink SysLED 2 when waiting for first connection to signal availability
-                led = SysLED()
-                write!(led, 2, true)
+                led = initdev("sysled",2)
+                write!(led, true)
                 sleep(0.4)
-                write!(led, 2, false)
+                write!(led, false)
                 sleep(0.2)
-                write!(led, 2, true)
+                write!(led, true)
                 sleep(0.4)
-                write!(led, 2, false)
+                write!(led, false)
                 sleep(0.8)
             end
             sock = accept(server)
