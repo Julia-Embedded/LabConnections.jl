@@ -46,8 +46,9 @@ function closedev(dev_name::String, i::Int32)
     #Call the teardown method on the device, to close all file-streams and
     #unexport the device from the BeagleBone
     teardown(active_device)
+
     #Remove the device from the dict of active devices
-    delete!(active_devices[device_name], i)
+    delete!(active_devices[dev_name], i)
 end
 
 """
@@ -61,6 +62,36 @@ function getdev(dev_name::String, i::Int32)
         error("No device of type $dev_name at index $i is currently active")
     end
     return dev
+end
+
+"""
+    message = listdev()
+Lists all the active devices as an insidence array for testing
+"""
+function listdev()
+    message = "Complete overview of active devices"
+    count = zeros(length(keys(DEVICES)))
+    for (index, key) in enumerate(keys(DEVICES))
+        count[index] = length(active_devices[key])
+    end
+    return count
+end
+
+"""
+    message = printdev()
+Prints all the active devices and writes out specifics of a single devices
+"""
+function printdev(dev_name::String, i::Int32)
+    println("Complete overview of active devices")
+    for (index, key) in enumerate(keys(DEVICES))
+        println(" *    $(key) - $(length(active_devices[key]))")
+    end
+    try
+        dev = active_devices[dev_name][i]
+        println(to_string(dev))
+    catch
+        println("\nNo device of type $dev_name at index $i is currently active")
+    end
 end
 
 """

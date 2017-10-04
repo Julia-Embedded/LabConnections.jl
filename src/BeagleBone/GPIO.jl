@@ -19,15 +19,40 @@ read(gpio, 1)
 """
 type GPIO <: IO_Object
   i::Int32
-  filestreams::Array{IOStream,1} #1 = value, 2 = direction, 3 = edge
+  basedir::String
+  filestreams::Array{IOStream,1}
   function GPIO(i::Int32)
     (i <= 0 || i > length(channels)) && error("Invalid GPIO index: $i")
-    #TODO, in the future we should interface to config and let it setup gpio-folder and streams.
-    #TODO: Add a write to export-file
-    value_filestream = open("/sys/class/gpio/$(channels[i])/value","r+")
-    direction_filestream = open("/sys/class/gpio/$(channels[i])/direction","r+")
-    edge_filestream = open("/sys/class/gpio/$(channels[i])/edge","r")
-    return new(i, [value_filestream, direction_filestream, edge_filestream])
+
+    # If the tests re being run, a dummy filesystem is created
+    if isdefined(:RUNNING_TESTS)
+      # Export a dummy file system for testing
+      basedir = "$(pwd())/testfilesystem/gpio"
+      try
+        println("$(basedir)/$(channels[i])")
+        mkpath("$(basedir)/$(channels[i])")
+      catch
+        error("Could not export the GPIO device for channel $(channels[i]) for testing as the directory $(basedir)/$(channels[i]) already exists.")
+      end
+      try
+        f = open("$(basedir)/$(channels[i])/value", "w"); write(f,"0"); close(f);
+        f = open("$(basedir)/$(channels[i])/direction", "w"); write(f,"0"); close(f);
+        f = open("$(basedir)/$(channels[i])/edge", "w"); write(f,"0"); close(f);
+      catch
+        error("Could not open the requested GPIO testfiles for channel $(channels[i]).")
+      end
+    else
+      basedir = "/sys/class/gpio"
+      # TODO Export for real-time use
+    end
+
+    # setup IOstreams
+    value_filestream = open("$(basedir)/$(channels[i])/value","r+")
+    direction_filestream = open("$(basedir)/$(channels[i])/direction","r+")
+    edge_filestream = open("$(basedir)/$(channels[i])/edge","r")
+
+    # Initialize object
+    return new(i, basedir, [value_filestream, direction_filestream, edge_filestream])
   end
 end
 
@@ -81,7 +106,7 @@ function write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
     write(gpio.filestreams[operation], entry)
     seekstart(gpio.filestreams[operation])
   else
-    error("Invalid entry for GPIO operation $operation: $entry")
+    error("Invalid entry for GPIO operation $(operation): $(entry)")
   end
 end
 
@@ -98,17 +123,43 @@ function read(gpio::GPIO, operation::Int32, debug::Bool=false)
 end
 
 """
-  teardown!(gpio::GPIO)
+  teardown(gpio::GPIO, debug::Bool=false)
 Closes all open streams on the GPIO, and unexports it from the file system.
 """
-function teardown!(gpio::GPIO, debug::Bool=false)
+function teardown(gpio::GPIO, debug::Bool=false)
   debug && return
+
   #Close all IOStreams
   for stream in gpio.filestreams
     close(stream)
   end
+
   #Unexport filestructure
-  filename = "/sys/class/gpio/unexport"
-  #TODO Verify if this is the correct command to send to unexport...
-  write(filename, channels[gpio.i])
+  if isdefined(:RUNNING_TESTS)
+    # Remove the dummy file system for testing
+    basedir = "$(pwd())/testfilesystem/gpio"
+    try
+      rm("$(gpio.basedir)/$(channels[gpio.i])"; recursive=true)
+    catch
+      error("Could not remove the requested GPIO testfiles for channel $(channels[i]).")
+    end
+  else
+    # Remove the file system
+    filename = "/sys/class/gpio/unexport"
+    #TODO Verify if this is the correct command to send to unexport...
+    write(filename, channels[gpio.i])
+  end
+end
+
+"""
+  to_string(gpio::GPIO, debug::Bool=false)
+Generates a string representation of the GPIO device.
+"""
+function to_string(gpio::GPIO, debug::Bool=false)
+  debug && return
+  message = "\nID: $(gpio.i)\n\nAvailable filestreams:\n"
+  for ii = 1:length(gpio.filestreams)
+    message = string(message, "  index=$(ii) - name=$(gpio.filestreams[ii].name) - write/read=$(iswritable(gpio.filestreams[ii]))/$(isreadable(gpio.filestreams[ii]))\n")
+  end
+  return message
 end
