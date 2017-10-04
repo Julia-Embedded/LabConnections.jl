@@ -24,7 +24,7 @@ function precompile_bb()
     debug = true
     #Precompile SysLED
     led = initdev("sysled",Int32(1))
-    write!(led, true, debug)
+    write!(led, "1", debug)
     read(led, debug)
 
     ind = 1

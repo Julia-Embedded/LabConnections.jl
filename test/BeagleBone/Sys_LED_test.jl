@@ -1,36 +1,39 @@
 using LabConnections.BeagleBone
-import LabConnections.BeagleBone: getdev, write!
+import LabConnections.BeagleBone: getdev, write!, closedev, read, initdev
 
 using Base.Test
 
-#Fixture
-device = getdev("sysled")
-ledon = true
-
 @testset "SYS LED Tests" begin
     @testset "Error Handling" begin
-        # Attempt to initialize faulty device
-        @test_throws ErrorException  getdev("wrong_device_name")
+
+        device = initdev("sysled", 1)
 
         # Test that an exception is thrown when a faulty ID is given
-        @test_throws ErrorException write!(device, 5, ledon)
+        @test_throws ErrorException write!(device, "bad_entry")
 
-        # Test that an exception is thrown when a faulty ID is given
-        @test_throws ErrorException write!(device, 0, ledon)
+        # Close device
+        closedev("sysled", 1)
     end
 
     @testset "IO Communication" begin
         # Instanciate all possible leds and perform 10 read/write commands
+        device1 = initdev("sysled", 1)
+        device2 = initdev("sysled", 2)
+        device3 = initdev("sysled", 3)
+        device4 = initdev("sysled", 4)
+
         for i = 1:10
-            for j = 1:4
-                write!(device, j, ledon)
-            end
-            sleep(0.001)
-            for j = 1:4
-                val = read(device, j)
-                @test val == ledon
-            end
-            ledon = !ledon
+            state =
+            write!(device1, "$(i%2)")
+            write!(device2, "$((i+1)%2)")
+            write!(device3, "$(i%2)")
+            write!(device4, "$((i+1)%2)")
+            sleep(0.1)
         end
+
+        closedev("sysled", 1)
+        closedev("sysled", 2)
+        closedev("sysled", 3)
+        closedev("sysled", 4)
     end
 end
