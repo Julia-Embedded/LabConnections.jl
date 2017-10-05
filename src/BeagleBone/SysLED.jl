@@ -5,12 +5,17 @@ i ∈ [1,2,3,4].
 """
 type SysLED <: IO_Object
     i::Int32
+    basedir::String
     filestream::IOStream
     function SysLED(i::Int32)
         i ∉ [1,2,3,4] && error("Invalid SysLED index: $i")
-        #Note, in the future we should interface to config and retrieve IOStream from there
-        brightness_filestream = open("/sys/class/leds/beaglebone:green:usr$(i-1)/brightness","r+")
-        return new(i, brightness_filestream)
+
+        # Export system for testing
+        basedir = export_led(i)
+
+        # open filestream
+        brightness_filestream = open("$(basedir)/beaglebone:green:usr$(i-1)/brightness","r+")
+        return new(i, basedir, brightness_filestream)
     end
 end
 
@@ -20,9 +25,10 @@ Turns the LED 'SysLed' on/off for val = true/false respectively.
 """
 function write!(led::SysLED, entry::String, debug::Bool=false)
     debug && return
-    entry ∉ ["0", "1"] && error("Invalid SysLED entry $(entry), valid options are 0 and 1 (string)")
-    write(led.filestream, entry)
+    entry ∉ ["0", "1"] && error("Invalid SysLED entry $(entry), valid options are 0 and 1 ::String")
     seekstart(led.filestream)
+    write(led.filestream, "$entry\n")
+    flush(led.filestream)
 end
 
 """
@@ -31,10 +37,8 @@ Reads the current brightness value from the LED 'SysLED'.
 """
 function read(led::SysLED, debug::Bool=false)
     debug && return
-    l = read(filestream, Char)
-    (l != '1' && l != '0') && error("Invalid value \"$l\" read from SysLed")
     seekstart(led.filestream)
-    return l
+    return readline(led.filestream)
 end
 
 """
@@ -44,4 +48,35 @@ Closes all open filestreams for the SysLED 'led'.
 function teardown(led::SysLED, debug::Bool=false)
     debug && return
     close(led.filestream)
+
+    if isdefined(:RUNNING_TESTS)
+      # Remove the dummy file system for testing
+      try
+        #println("$(led.basedir)/beaglebone:green:usr$(led.i-1)")
+        rm("$(led.basedir)/beaglebone:green:usr$(led.i-1)"; recursive=true)
+      catch
+        error("Could not remove the requested LED testfiles for channel beaglebone:green:usr$(led.i-1).")
+      end
+    end
+end
+
+function export_led(i::Int32)
+  if isdefined(:RUNNING_TESTS)
+    # Export a dummy file system for testing
+    basedir = "$(pwd())/testfilesystem/leds"
+    try
+      #println("$(basedir)/beaglebone:green:usr$(i-1)")
+      mkpath("$(basedir)/beaglebone:green:usr$(i-1)")
+    catch
+      error("Could not export the LED device for beaglebone:green:usr$(i-1)) for testing as the directory $(basedir)/beaglebone:green:usr$(i-1) already exists.")
+    end
+    try
+      f = open("$(basedir)/beaglebone:green:usr$(i-1)/brightness", "w"); write(f,"0"); close(f);
+    catch
+      error("Could not open the requested LED testfiles for beaglebone:green:usr$(i-1)/brightness.")
+    end
+  else
+    basedir = "/sys/class/leds"
+  end
+  return basedir
 end

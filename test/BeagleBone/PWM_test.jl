@@ -1,10 +1,11 @@
 using Base.Test
 
-# TODO write tests for PWM
-@testset "PWM Inialization and termination" begin
-    @test 1 == 1
-end
+@testset "PWM tests" begin
+    @testset "Inialization and termination" begin
+        @test 1 == 1
+    end
 
-@testset "PWM Read and write" begin
-    @test 1 == 1
+    @testset "Read and write" begin
+        @test 1 == 1
+    end
 end
