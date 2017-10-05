@@ -48,7 +48,7 @@ const gpio_channels =[
 ]
 
 # These pins are exported with the Device Tree Overlay cape-universaln (default)
-const validPins = Dict(
+const pwm_pins = Dict(
     "P9.22" => ("PWM0A", "pwmchip0", "0"),
     "P9.21" => ("PWM0B", "pwmchip0", "1"),
     "P9.14" => ("PWM1A", "pwmchip2", "0"),
