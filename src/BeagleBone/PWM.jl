@@ -5,11 +5,12 @@ AM3359 chip, see p.182 in
 
     www.ti.com/product/AM3359/technicaldocuments
 """
+
 type PWM <: IO_Object
     i::Int32
     pin::String
     chip::String
-    filestreams::Array{IOStream,1} #1 = enable, 2 = period, 3 = duty_cycle, 4 = polarity
+    filestreams::Array{IOStream,1}
     function PWM(i::Int32)
         pins = collect(keys(validPins))
         (i < 1 || i > length(pins)) && error("Invalid PWM index: $i")
@@ -34,24 +35,6 @@ type PWM <: IO_Object
         return new(i, pin, chip, [enable_filestream, period_filestream, duty_cycle_filestream, polarity_filestream])
     end
 end
-
-# These pins are exported with the Device Tree Overlay cape-universaln (default)
-validPins = Dict(
-    "P9.22" => ("PWM0A", "pwmchip0", "0"),
-    "P9.21" => ("PWM0B", "pwmchip0", "1"),
-    "P9.14" => ("PWM1A", "pwmchip2", "0"),
-    "P9.16" => ("PWM1B", "pwmchip2", "1"),
-    "P8.19" => ("PWM2A", "pwmchip4", "0"),
-    "P8.13" => ("PWM2B", "pwmchip4", "1"),
-)
-
-# These pins are exported with the Device Tree Overlay cape-universala
-#    "P8.36" => ("PWM1A", "pwmchip1", "0"),
-#    "P9.29" => ("PWM0B", "pwmchip0", "1"),
-#    "P8.46" => ("PWM2B", "pwmchip2", "1")
-#    "P8.45" => ("PWM2A", "pwmchip2", "0"),
-#    "P8.34" => ("PWM1B", "pwmchip1", "1"),
-#    "P9.31" => ("PWM0A", "pwmchip0", "0"),
 
 """
     write!(pwm::PWM, args::Tuple{Int32,String}, debug::Bool=false)
@@ -97,4 +80,17 @@ function teardown!(pwm::PWM, debug::Bool=false)
         export_number = validPins[pwm.pin][3]
         write(filename, export_number)
     return
+end
+
+"""
+  to_string(pwm::PWM,, debug::Bool=false)
+Generates a string representation of the GPIO device.
+"""
+function to_string(pwm::PWM, debug::Bool=false)
+  debug && return
+  message = "\nID: $(pwm.i)\n\nAvailable filestreams:\n"
+  for ii = 1:length(pwm.filestreams)
+    message = string(message, "  index=$(ii) - name=$(pwm.filestreams[ii].name) - write/read=$(iswritable(pwm.filestreams[ii]))/$(isreadable(pwm.filestreams[ii]))\n")
+  end
+  return message
 end

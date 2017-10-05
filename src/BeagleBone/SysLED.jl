@@ -46,21 +46,27 @@ end
 Closes all open filestreams for the SysLED 'led'.
 """
 function teardown(led::SysLED, debug::Bool=false)
-    debug && return
-    close(led.filestream)
+  debug && return
+  close(led.filestream)
 
-    if isdefined(:RUNNING_TESTS)
-      # Remove the dummy file system for testing
-      try
-        #println("$(led.basedir)/beaglebone:green:usr$(led.i-1)")
-        rm("$(led.basedir)/beaglebone:green:usr$(led.i-1)"; recursive=true)
-      catch
-        error("Could not remove the requested LED testfiles for channel beaglebone:green:usr$(led.i-1).")
-      end
+  if isdefined(:RUNNING_TESTS)
+    # Remove the dummy file system for testing
+    try
+      #println("$(led.basedir)/beaglebone:green:usr$(led.i-1)")
+      rm("$(led.basedir)/beaglebone:green:usr$(led.i-1)"; recursive=true)
+    catch
+      error("Could not remove the requested LED testfiles for channel beaglebone:green:usr$(led.i-1).")
     end
+  end
 end
 
-function export_led(i::Int32)
+"""
+    export_led(i::Int32, debug::Bool=false)
+Exports a dummy filesystem for testing the LED implementation
+"""
+function export_led(i::Int32, debug::Bool=false)
+  debug && return
+
   if isdefined(:RUNNING_TESTS)
     # Export a dummy file system for testing
     basedir = "$(pwd())/testfilesystem/leds"
@@ -79,4 +85,15 @@ function export_led(i::Int32)
     basedir = "/sys/class/leds"
   end
   return basedir
+end
+
+"""
+  to_string(led::SysLED, debug::Bool=false)
+Generates a string representation of the GPIO device.
+"""
+function to_string(led::SysLED, debug::Bool=false)
+  debug && return
+  message = "\nID: $(led.i)\n\nAvailable filestream:\n"
+  message = string(message, "  name=$(led.filestream.name) - write/read=$(iswritable(led.filestream))/$(isreadable(led.filestream))\n")
+  return message
 end

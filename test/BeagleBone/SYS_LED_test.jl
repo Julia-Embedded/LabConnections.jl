@@ -7,49 +7,48 @@ using Base.Test
 
     @testset "Inialization/Termination" begin
         # Initialize three devices
-        initdev("sysled", 1)
+        initdev("sysled", Int32(1))
         @test sum(listdev()) == 1
 
-        initdev("sysled", 3)
+        initdev("sysled", Int32(3))
         @test sum(listdev()) == 2
 
         # Attempt to initialize a device which has already been initialized
-        @test_throws ErrorException initdev("sysled", 1)
-        @test_throws ErrorException initdev("sysled", 3)
+        @test_throws ErrorException initdev("sysled", Int32(1))
+        @test_throws ErrorException initdev("sysled", Int32(3))
 
         # Attempt to initialize a device with a very high index (no matching channel)
-        @test_throws ErrorException initdev("sysled", 1000)
+        @test_throws ErrorException initdev("sysled", Int32(1000))
 
         # Attempt to remove devices which have not been initialized
-        @test_throws ErrorException closedev("sysled", 2)
-        @test_throws ErrorException closedev("sysled", 4)
+        @test_throws ErrorException closedev("sysled", Int32(2))
+        @test_throws ErrorException closedev("sysled", Int32(4))
 
         # Remove devices from TOC
-        closedev("sysled", 1)
+        closedev("sysled", Int32(1))
         @test sum(listdev()) == 1
 
-        closedev("sysled", 3)
+        closedev("sysled", Int32(3))
         @test sum(listdev()) == 0
     end
 
     @testset "Error Handling" begin
 
-        device = initdev("sysled", 1)
+        device = initdev("sysled", Int32(1))
 
         # Test that an exception is thrown when a faulty ID is given
         @test_throws ErrorException write!(device, "bad_entry")
 
         # Close device
-        closedev("sysled", 1)
+        closedev("sysled", Int32(1))
     end
 
     @testset "IO Communication" begin
         # Instanciate all possible leds and perform 10 read/write commands
-        println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        device1 = initdev("sysled", 1)
-        device2 = initdev("sysled", 2)
-        device3 = initdev("sysled", 3)
-        device4 = initdev("sysled", 4)
+        device1 = initdev("sysled", Int32(1))
+        device2 = initdev("sysled", Int32(2))
+        device3 = initdev("sysled", Int32(3))
+        device4 = initdev("sysled", Int32(4))
 
         for i = 1:10
             stateA = "$(i%2)"
@@ -65,10 +64,9 @@ using Base.Test
             sleep(0.1)
         end
 
-        println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        closedev("sysled", 1)
-        closedev("sysled", 2)
-        closedev("sysled", 3)
-        closedev("sysled", 4)
+        closedev("sysled", Int32(1))
+        closedev("sysled", Int32(2))
+        closedev("sysled", Int32(3))
+        closedev("sysled", Int32(4))
     end
 end
