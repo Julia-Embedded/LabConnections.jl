@@ -14,7 +14,7 @@
   script:
     # Let's run the tests. Substitute `coverage = false` below, if you do not
     # want coverage results.
-    - /opt/julia/bin/julia -e 'Pkg.rm("LabConnections");Pkg.clone(pwd()); Pkg.test("LabConnections",coverage = false)'
+    - julia -e 'Pkg.rm("LabConnections");Pkg.clone(pwd()); Pkg.test("LabConnections",coverage = false)'
     #- /opt/julia/bin/julia -e 'Pkg.update();Pkg.test("LabConnections", coverage = true)'
     # Comment out below if you do not want coverage results.
     #- /opt/julia/bin/julia -e 'Pkg.add("Coverage"); cd(Pkg.dir("LabProcesses"));
