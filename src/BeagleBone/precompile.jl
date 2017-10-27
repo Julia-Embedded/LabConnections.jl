@@ -7,21 +7,23 @@ function precompile_bb()
 
     #Precompile serialize
     initdev("debug", Int32(1))
+
     serialize(clientside, (true, Int32(2), ("debug", Int32(1), true), ("debug", Int32(1), (1,2.0,"asd"))))
-    serialize(clientside, (true, Int32(2), ("debug", Int32(1), Int32(1)),
-                                    ("debug", Int32(1), 1.0)))
-    serialize(clientside, (false, Int32(2),    ("debug", Int32(1)),
-                                        ("debug", Int32(1))))
+    serialize(clientside, (true, Int32(2), ("debug", Int32(1), Int32(1)), ("debug", Int32(1), 1.0)))
+    serialize(clientside, (false, Int32(2),    ("debug", Int32(1)), ("debug", Int32(1))))
+
     serialize(clientside, (true, Int32(1), ("debug", Int32(1), true)))
     serialize(clientside, (false, Int32(1), ("debug", Int32(1))))
-    serialize(clientside, (true, Int32(4), ("debug", Int32(1), true), ("debug", Int32(2), false),
-                            ("debug", Int32(3), true), ("debug", Int32(4), false)))
+    serialize(clientside, (true, Int32(4), ("debug", Int32(1), true), ("debug", Int32(2), false), ("debug", Int32(3), true), ("debug", Int32(4), false)))
 
+    # Close the client side
     close(clientside)
+
     #Close server
     close(server)
 
     debug = true
+
     #Precompile SysLED
     led = initdev("sysled",Int32(1))
     write!(led, "1", debug)
@@ -32,6 +34,7 @@ function precompile_bb()
 
     # Precompile GPIO
     gpio = initdev("gpio",Int32(1))
+
     write!(gpio, (Int32(1), "1"), debug)
     #read(gpio, ind, args, debug)
 
@@ -49,7 +52,6 @@ function precompile_bb()
     file = open(testfile, "r")
     l = readline(file)
     close(file)
-    println("Read from file: $l")
 
     try getdev("nonexistent")       catch end
     try bbparse("Invalid input")    catch end

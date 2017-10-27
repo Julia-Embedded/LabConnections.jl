@@ -2,8 +2,7 @@
 Description=JuliaServer service
 
 [Service]
-ExecStart=/home/debian/julia-903644385b/bin/julia -i -e 'include("/home/debian/juliapackages/LabConnections/src/BeagleBone/startup/startup.jl")' &
-
+ExecStart=/home/debian/julia/bin/julia -i -e 'include("/home/debian/juliapackages/LabConnections/src/BeagleBone/startup/startup.jl")' &
 
 [Install]
 WantedBy=multi-user.target

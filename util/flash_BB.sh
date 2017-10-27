@@ -7,7 +7,7 @@ NC='\033[0m'
 BASEDIR=../../$(dirname "$0")
 
 # Dependencies
-packages=(LabConnections YAML Codecs Compat)
+packages=(LabConnections SPI_driver)
 
 # Create an empty directory to bundle packages
 if [ -d ${BASEDIR}/juliapackages ]; then

@@ -153,27 +153,28 @@ function run_server(port=2001; debug=false)
         try
             @async while __waiting_first_connection__ && !debug
                 #Blink SysLED 2 when waiting for first connection to signal availability
-                led = initdev("sysled",2)
-                write!(led, true)
+                led = initdev("sysled",Int32(2))
+                write!(led, "1")
                 sleep(0.4)
-                write!(led, false)
+                write!(led, "0")
                 sleep(0.2)
-                write!(led, true)
+                write!(led, "1")
                 sleep(0.4)
-                write!(led, false)
+                write!(led, "0")
                 sleep(0.8)
+                closedev("sysled", Int32(2))
             end
             sock = accept(server)
             __waiting_first_connection__ = false
             @async while isopen(sock)
                 try
                     l = deserialize(sock);
-                    #println("deserialize: $l")
                     bbparse(l, sock)
                 catch err
-                    if !isopen(sock) && isa(err, Base.EOFError)
+                    if !isopen(sock) && (isa(err, Base.EOFError) || isa(err, Base.UVError))
                         println("Connection to server closed")
                     else
+                        println("error: $(typeof(err))")
                         throw(err)
                     end
                 end
