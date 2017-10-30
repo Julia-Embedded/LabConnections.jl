@@ -7,7 +7,9 @@ NC='\033[0m'
 BASEDIR=../../$(dirname "$0")
 
 # Dependencies
-packages=(LabConnections SPI_driver)
+# LabConnections - main repository
+# serbus - a fork of a SPI communicaiton interface
+packages=(LabConnections serbus)
 
 # Create an empty directory to bundle packages
 if [ -d ${BASEDIR}/juliapackages ]; then
