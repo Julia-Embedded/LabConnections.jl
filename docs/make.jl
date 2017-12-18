@@ -1,5 +1,5 @@
 push!(LOAD_PATH,"../src/")
-
+println(LOAD_PATH)
 using Documenter, LabConnections
 # makedocs()
 # deploydocs(
@@ -17,6 +17,8 @@ makedocs(
         "index.md",
         "installation.md",
         "systemConfiguration.md",
+        "testing.md",
+        "examples.md",
     ]
 )
 

@@ -45,7 +45,7 @@ using Base.Test
 
     end
 
-    @testset "Read/Write" begin
+    @testset "Exceptions" begin
 
         # Fixture
         device = initdev("gpio", Int32(1))
@@ -59,6 +59,48 @@ using Base.Test
         @test_throws ErrorException write!(device, (Int32(1), "bad_entry"))
         @test_throws ErrorException write!(device, (Int32(2), "bad_entry"))
         @test_throws ErrorException write!(device, (Int32(3), "bad_entry"))
+
+        # Test operation 3
+        @test_throws ErrorException write!(device, (Int32(3), "none"))
+        @test_throws ErrorException write!(device, (Int32(3), "rising"))
+        @test_throws ErrorException write!(device, (Int32(3), "falling"))
+        @test_throws ErrorException write!(device, (Int32(3), "both"))
+
+        # Close Gpio
+        closedev("gpio", Int32(1))
+    end
+
+    @testset "All channels" begin
+        # Configure the GPIO for output usage
+        devices = []
+        for ii = 1:length(gpio_channels)
+            device = initdev("gpio", Int32(ii))
+            # Operation 2 -> in/out, set out
+            write!(device, (Int32(2), "out"))
+            # Append to list
+            append!(devices, [device])
+        end
+
+        # Sets all available GPIO pins high/low in an alternating pattern
+        for i = 1:20
+            for ii = 1:length(gpio_channels)
+                state = "$(i%2)"
+                write!(devices[ii], (Int32(1), state))
+                @test read(devices[ii], Int32(1)) == state
+            end
+            sleep(0.10)
+        end
+
+        # Closes all devices
+        for ii = 1:length(gpio_channels)
+            closedev("gpio", Int32(ii))
+        end
+    end
+
+    @testset "Read/Write" begin
+
+        # Fixture
+        device = initdev("gpio", Int32(1))
 
         # Test operation 1
         write!(device, (Int32(1), "1"))
@@ -79,43 +121,7 @@ using Base.Test
         write!(device, (Int32(2), "out"))
         @test read(device, Int32(2)) == "out"
 
-        # Test operation 3
-        @test_throws ErrorException write!(device, (Int32(3), "none"))
-        @test_throws ErrorException write!(device, (Int32(3), "rising"))
-        @test_throws ErrorException write!(device, (Int32(3), "falling"))
-        @test_throws ErrorException write!(device, (Int32(3), "both"))
-
         # Close Gpio
         closedev("gpio", Int32(1))
-     end
-
-    @testset "All channels" begin
-        # Instanciate all possible leds and perform 10 read/write commands
-        # with the set high/low operation ("value")
-
-        # Configure the GPIO for output usage
-        devices = []
-        for ii = 1:length(gpio_channels)
-            device = initdev("gpio", Int32(ii))
-            # Operation 2 -> in/out, set out
-            write!(device, (Int32(2), "out"))
-            # Append to list
-            append!(devices, [device])
-        end
-
-        # Sets all available GPIO pins high/low in an alternating pattern
-        for i = 1:10
-            for ii = 1:length(gpio_channels)
-                state = "$(i%2)"
-                write!(devices[ii], (Int32(1), state))
-                @test read(devices[ii], Int32(1)) == state
-            end
-            sleep(0.10)
-        end
-
-        # Closes all devices
-        for ii = 1:length(gpio_channels)
-            closedev("gpio", Int32(ii))
-        end
     end
 end

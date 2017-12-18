@@ -1,9 +1,9 @@
-# System Configuration
+# System Configuration (deprecated)
 The system configuration is designed easy human readable acceess to IO functionality and for speed in the real-time execution. Many pins may be used for different purposes, as can be seen in the diagram below, and the cofiguring of these pins is done on a low level. All pins are referred to by a generic string "PX.YZ". For example, the pin "P9.28" may be used in the PWM or the ADC (SPI), but not both simultaneously.
 
-![block diagram](beaglebone_black_pinmap.png)
+![block diagram](figures/beaglebone_black_pinmap.png)
 
-## Configuration interfaces
+## Configuration interfaces (deprecated)
 The interface to the BB pins is set in the `srcBeagleBone/config/*` directory. Many pins of the BB may have multiple settings, documented in the [`pins.yml'](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/src/BeagleBone/config/pins.yml) interface. Any of the pins listed in this file may be incorporated in configuring a specific process. This is done my creating a new `*.yml' file in the config/ directory, with a set of pins and identifiers.
 
 ## Configuration files
