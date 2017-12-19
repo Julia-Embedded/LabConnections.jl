@@ -109,7 +109,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Tests",
     "title": "Tests",
     "category": "section",
-    "text": "The BeagleBone IO communication can be testedDepth = 3"
+    "text": "The BeagleBone tests can be run on any computer, regrdless of their file-syste. By setting the flag RUNNING_TESTS to true, a dummy file-system is exported in which the tests are run operate. This has the advantage of enabling testing of the code run on the BB free from the BB itself, without building the Debian FS, thereby enabling the automatic testing through Travis.To run the tests, simply enter the /test/ directory and runjulia run_tests.jlIf the tests are to be run on the BB with hardware in the loop, runjulia run_tests.jlon the BB, to run examples separately, see... examples ..."
 },
 
 {
