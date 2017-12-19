@@ -10,21 +10,23 @@ using Documenter, LabConnections
 # osname = "linux"
 # )
 
-makedocs(
-    format = :html,
-    sitename = "LabConnections",
-    pages = [
-        "index.md",
-        "installation.md",
-        "systemConfiguration.md",
-        "testing.md",
-        "examples.md",
-    ]
-)
+makedocs(modules=[LabConnections])
 
-deploydocs(
-    repo   = "gitlab.control.lth.se/labdev/LabConnections.jl.git",
-    target = "build",
-    deps   = nothing,
-    make   = nothing
-)
+#makedocs(
+#    format = :html,
+#    sitename = "LabConnections",
+#    pages = [
+#        "index.md",
+#        "installation.md",
+#        "systemConfiguration.md",
+#        "testing.md",
+#        "examples.md",
+#    ]
+#)
+
+#deploydocs(
+#    repo   = "gitlab.control.lth.se/labdev/LabConnections.jl.git",
+#    target = "build",
+#    deps   = nothing,
+#    make   = nothing
+#)

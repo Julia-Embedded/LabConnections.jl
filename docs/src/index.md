@@ -1,9 +1,24 @@
-# LabConnections
-This is the documentation for the LabCommunication project, detailing installation instructions, examples and tests which may be run, as well as documenting the protocols and structure of the IO communication.
+# LabConnections.jl Manual
+
+```@meta
+CurrentModule = LabConnections
+```
+
+## Examples
+```@contents
+Pages = ["examples/example.md", "examples/testing.md"]
+Depth = 1
+```
+
+## Guide
 
 ```@contents
-Depth = 3
+Pages = ["man/introduction.md", "man/installation.md"]
+Depth = 1
 ```
 
-```@systemConfiguration
-```
+## Functions
+
+
+## Documentation Index
+
