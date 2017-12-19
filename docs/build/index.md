@@ -25,8 +25,12 @@
 
 ## Functions
 
+- [Available devices](lib/io_devices.md#Available-devices-1)
+- [Available functions](lib/functions.md#Available-functions-1)
+
 
 <a id='Documentation-Index-1'></a>
 
 ## Documentation Index
+
 

@@ -16,7 +16,6 @@ The operation of reading the current output value of the GPIO is done by
 
 See the test/BeagleBone/GPIO_test.jl for more examples.
 """
-
 type GPIO <: IO_Object
   i::Int32
   basedir::String
@@ -68,10 +67,9 @@ function read(gpio::GPIO, operation::Int32, debug::Bool=false)
   return l
 end
 
-"""
-  teardown(gpio::GPIO, debug::Bool=false)
+@doc """ teardown(gpio::GPIO, debug::Bool=false)
 Closes all open streams on the GPIO, and unexports it from the file system.
-"""
+""" ->
 function teardown(gpio::GPIO, debug::Bool=false)
   debug && return
 

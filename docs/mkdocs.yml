@@ -29,3 +29,6 @@ pages:
   - Guide:
     - Introduction: 'man/introduction.md'
     - Installation: 'man/installation.md'
+  - API:
+    - IO devices: 'lib/io_devices.md'
+    - Fucntions: 'lib/functions.md'

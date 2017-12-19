@@ -14,13 +14,6 @@ push!(LOAD_PATH, "/home/debian/juliapackages")
 
 When running the examples with hardware in the loop, take caution not to short the BB ground with any output pin, as this will damage the board. For instance, if connecting a diode to the output pins, always use a resistor of >1000 Ohm in parallel. See the configuration page for information on which functionality specific pins support.
 
-- [Examples on the BB](examples.md#Examples-on-the-BB-1)
-    - [Example with LEDs (BB)](examples.md#Example-with-LEDs-(BB)-1)
-    - [Example with GPIOs (BB)](examples.md#Example-with-GPIOs-(BB)-1)
-    - [Example with PWM (BB)](examples.md#Example-with-PWM-(BB)-1)
-    - [Example with SPI (BB)](examples.md#Example-with-SPI-(BB)-1)
-    - [Example with LEDs (HOST)](examples.md#Example-with-LEDs-(HOST)-1)
-
 
 <a id='Example-with-LEDs-(BB)-1'></a>
 

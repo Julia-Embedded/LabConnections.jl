@@ -1,4 +1,4 @@
-# Examples on the BB
+# Examples
 The following examples may be run from the BB, and may require the user to
 export the the LabConnections module to the LOAD_PATH manually, executing the
 following line in the Julia prompt
@@ -10,11 +10,6 @@ the BB ground with any output pin, as this will damage the board. For instance,
 if connecting a diode to the output pins, always use a resistor of >1000 Ohm in
 parallel. See the configuration page for information on which functionality
 specific pins support.
-
-```@contents
-Pages = ["examples.md"]
-Depth = 3
-```
 
 ## Example with LEDs (BB)
 To test the system LED functionality of the Julia code from the BBB, open a

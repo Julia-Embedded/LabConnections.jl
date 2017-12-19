@@ -11,12 +11,10 @@ const DEVICES = Dict("debug" => Debug, "sysled" => SysLED, "gpio" => GPIO, "pwm"
 active_devices = Dict{String,Dict{Int32,IO_Object}}("debug" => Dict{Int32,Debug}(), "sysled" => Dict{Int32,SysLED}(),
                                                           "gpio" => Dict{Int32,GPIO}(), "pwm" => Dict{Int32,PWM}())
 
-"""
-    active_device = initdev(dev_name::String, i:Int32)
+@doc """ active_device = initdev(dev_name::String, i:Int32)
 Initializes a new device of type 'dev_name' at index 'i' on the BeagleBone,
 and adds it to the dict of currently active devices. Returns the initialized
-device 'active_device'.
-"""
+device 'active_device'."""->
 function initdev(dev_name::String, i::Int32)
     #Check if the type of device is valid
     dev_constr = try
@@ -32,11 +30,10 @@ function initdev(dev_name::String, i::Int32)
     return active_device
 end
 
-"""
-    closedev(dev_name::String, i::Int32)
+@doc """ closedev(dev_name::String, i::Int32)
 Closes down a currently active device of type 'dev_name' at index 'i' on the BeagleBone,
 and removes it from the dict of currently active devices.
-"""
+""" ->
 function closedev(dev_name::String, i::Int32)
     active_device = try
         active_devices[dev_name][i]
