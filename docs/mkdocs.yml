@@ -22,4 +22,10 @@ markdown_extensions:
 docs_dir: 'build'
 
 pages:
-  - Home: index.md
+  - Home: 'index.md'
+  - Examples:
+    - Running tests: 'examples/testing.md'
+    - Running BB examples: 'examples/examples.md'
+  - Guide:
+    - Introduction: 'man/introduction.md'
+    - Installation: 'man/installation.md'
