@@ -20,6 +20,8 @@ computer side, while `BeagleBone.jl` defines low-level types and functions meant
 to be used locally on the BBB.
 
 ### BeagleBone.jl
+<img src="docs/images/beaglebonetypes.png" height="300" width="500">
+
 This module defines types representing different pins and LEDs on the BBB, and
 functions to change their status and behaviour. There are currently 4 different types defined
 (each has the abstract super type `IO_Object`):
@@ -41,6 +43,8 @@ information can be found [here](https://gitlab.control.lth.se/labdev/LabConnecti
 
 
 ### Computer.jl
+<img src="docs/images/computertypes.png" height="300" width="800">
+
 This module contains the user interface on the host computer side, and defines 
 types for devices/connections to the lab process, and filestreams between the 
 host computer and different IO-devices (BBB or Comedi). There are currently 3 
