@@ -36,7 +36,7 @@ not represent any physical pin or LED on the board.
 **Note:** In addition to GPIO and PWM, the BBB also has pins dedicated for [Serial Peripheral
 Interface](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus) (SPI).
 Work to feature this functionality in `BeagleBone.jl` is currently ongoing. More
-information can be found [here]()
+information can be found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/man/introduction.md#spi-development)
 
 
 ### Computer.jl
@@ -53,12 +53,11 @@ There are 2 different filestream types (each has the abstract super type `LabStr
 * `ComediStream` : Represent the data stream between the host computer and the old IO-boxes using Comedi. 
 
 ## Getting Started
+Instructions on installing the required software and setting up a connection between 
+the host computer and the BBB are found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/man/installation.md#installation-instructions)
 
-### Installation
-
-### Running a Simple Example
-
-## Repository Structure
-The package is subdivided into two main modules; 
+After successfully setting up a connection between host computer and BBB, there
+are several examples found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/examples/examples.md#examples)
+which let's you test out the functionality of `LabConnections.jl`.
 
 
