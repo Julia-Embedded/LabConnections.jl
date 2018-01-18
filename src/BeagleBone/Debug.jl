@@ -1,6 +1,6 @@
 """
     Debug(i::Int32)
-Type for debugging and precompile
+Type for debugging and precompile.
 """
 type Debug <: IO_Object
     i::Int32

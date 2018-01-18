@@ -11,7 +11,7 @@ it to high, the following code would be used.
 
 The operation of reading the current output value of the GPIO is done by
 
-  read(gpio, 1)
+    read(gpio, 1)
 
 See the test/BeagleBone/GPIO_test.jl for more examples.
 """
