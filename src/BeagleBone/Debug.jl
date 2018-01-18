@@ -1,7 +1,7 @@
-@doc"""
+"""
     Debug()
 Type for debugging and precompile
-"""->
+"""
 type Debug <: IO_Object
     i::Int32
 end

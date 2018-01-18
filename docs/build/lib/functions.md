@@ -33,18 +33,18 @@
 
 
 
-```
-run_server(port=2001; debug=false)
-```
-
-Run a server on `port` that listens for commands from computer Optional debug keyword disables blinking system leds
+run_server(port=2001; debug=false) Run a server on `port` that listens for commands from computer Optional debug keyword disables blinking system leds
 
 <a id='Base.read' href='#Base.read'>#</a>
 **`Base.read`** &mdash; *Function*.
 
 
 
-l = read(gpio::GPIO, operation::Int32, debug::Bool=false) Reads the current value from an operation on a GPIO.
+```
+l = read(led::SysLED, debug::Bool=false)
+```
+
+Reads the current brightness value from the LED 'SysLED'.
 
 <a id='Base.read' href='#Base.read'>#</a>
 **`Base.read`** &mdash; *Function*.
@@ -58,11 +58,7 @@ l = read(pwm::PWM, operation::Int32, debug::Bool=false) Reads the current value 
 
 
 
-```
-l = read(led::SysLED, debug::Bool=false)
-```
-
-Reads the current brightness value from the LED 'SysLED'.
+l = read(gpio::GPIO, operation::Int32, debug::Bool=false) Reads the current value from an operation on a GPIO.
 
 <a id='LabConnections.BeagleBone.assert_pwm_write-Tuple{Int32,String}' href='#LabConnections.BeagleBone.assert_pwm_write-Tuple{Int32,String}'>#</a>
 **`LabConnections.BeagleBone.assert_pwm_write`** &mdash; *Method*.
@@ -80,22 +76,14 @@ Assertsion for the PWM input data
 
 
 
-```
-bbparse(cmd)
-```
-
-Parse and execute the command `cmd`
+bbparse(cmd) Parse and execute the command `cmd`
 
 <a id='LabConnections.BeagleBone.bbparse-Tuple{Tuple,Any}' href='#LabConnections.BeagleBone.bbparse-Tuple{Tuple,Any}'>#</a>
 **`LabConnections.BeagleBone.bbparse`** &mdash; *Method*.
 
 
 
-```
-bbparse(l::Tuple, sock)
-```
-
-Parse input on the form `l=(iswrite, ndev, cmd1, cmd2, ..., cmdn)` where if `iswrite`     `cmdi = (devname, id, val)`     and if not `iswrite`     `cmdi = (devname, id)`
+bbparse(l::Tuple, sock) Parse input on the form `l=(iswrite, ndev, cmd1, cmd2, ..., cmdn)` where if `iswrite`     `cmdi = (devname, id, val)`     and if not `iswrite`     `cmdi = (devname, id)`
 
 and send back on socket (vals, timestamps)
 
@@ -136,11 +124,7 @@ export_gpio(i::Int32, debug::Bool=false) Export the GPIO file system, either for
 
 
 
-```
-dev = getdev(dev_name::String, i::Int32)
-```
-
-Retrieves the active device of type `dev_name` at index 'i'
+dev = getdev(dev_name::String, i::Int32) Retrieves the active device of type `dev_name` at index 'i'
 
 <a id='LabConnections.BeagleBone.initdev-Tuple{String,Int32}' href='#LabConnections.BeagleBone.initdev-Tuple{String,Int32}'>#</a>
 **`LabConnections.BeagleBone.initdev`** &mdash; *Method*.
@@ -154,22 +138,14 @@ active_device = initdev(dev_name::String, i:Int32) Initializes a new device of t
 
 
 
-```
-message = listdev()
-```
-
-Lists all the active devices as an insidence array for testing
+message = listdev() Lists all the active devices as an insidence array for testing
 
 <a id='LabConnections.BeagleBone.printdev-Tuple{String,Int32}' href='#LabConnections.BeagleBone.printdev-Tuple{String,Int32}'>#</a>
 **`LabConnections.BeagleBone.printdev`** &mdash; *Method*.
 
 
 
-```
-message = printdev()
-```
-
-Prints all the active devices and writes out specifics of a single devices
+message = printdev() Prints all the active devices and writes out specifics of a single devices
 
 <a id='LabConnections.BeagleBone.teardown' href='#LabConnections.BeagleBone.teardown'>#</a>
 **`LabConnections.BeagleBone.teardown`** &mdash; *Function*.
@@ -237,16 +213,16 @@ Writes an entry to an operation on the PWM, of the form args = (operation, entry
 
 
 
-write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false) Writes an entry to an operation on a GPIO, of the form args = (operation, entry).
+```
+write!(led::SysLED, val::Bool, debug::Bool=false)
+```
+
+Turns the LED 'SysLed' on/off for val = true/false respectively.
 
 <a id='LabConnections.BeagleBone.write!' href='#LabConnections.BeagleBone.write!'>#</a>
 **`LabConnections.BeagleBone.write!`** &mdash; *Function*.
 
 
 
-```
-write!(led::SysLED, val::Bool, debug::Bool=false)
-```
-
-Turns the LED 'SysLed' on/off for val = true/false respectively.
+write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false) Writes an entry to an operation on a GPIO, of the form args = (operation, entry).
 

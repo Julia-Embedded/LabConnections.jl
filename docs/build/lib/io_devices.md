@@ -25,11 +25,17 @@ Type for debugging and precompile
 
 
 
-Lowest form of communication with the GPIO pins. The available pins are listed in the "channel" parameter, and appear as directories in /sys/class/gpio after being exported.
+```
+GPIO()
+```
 
-For instance, to setup a GPIO on "gpio112", configure it as an output pin and set it to high, the following code would be used.
+Lowest form of communication with the GPIO pins. The available pins are listed in the "channel" parameter, and appear as directories in /sys/class/gpio after being exported. For instance, to setup a GPIO on "gpio112", configure it as an output pin and set it to high, the following code would be used.
 
-gpio = GPIO(1)   write!(gpio, (2,"out"))   write!(gpio, (1, "1"))
+```
+gpio = GPIO(1)
+write!(gpio, (2,"out"))
+write!(gpio, (1, "1"))
+```
 
 The operation of reading the current output value of the GPIO is done by
 
@@ -49,11 +55,11 @@ Define abstract type for pins/LEDS on the BeagleBone
 
 
 
-This script allows for low level PWM control of selected pins The valid pins dictionary relates to memory adresses in of the AM3359 chip, see p.182 in
+```
+PWM()
+```
 
-```
-www.ti.com/product/AM3359/technicaldocuments
-```
+This device allows for low level PWM control of selected pins. The valid pins dictionary pwm_pins relates to memory adresses in of the AM3359 chip, see p.182 in www.ti.com/product/AM3359/technicaldocuments.
 
 <a id='LabConnections.BeagleBone.SysLED' href='#LabConnections.BeagleBone.SysLED'>#</a>
 **`LabConnections.BeagleBone.SysLED`** &mdash; *Type*.

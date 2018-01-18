@@ -1,4 +1,4 @@
-@doc """
+"""
     GPIO()
 Lowest form of communication with the GPIO pins. The available pins are
 listed in the "channel" parameter, and appear as directories in /sys/class/gpio
@@ -14,7 +14,7 @@ The operation of reading the current output value of the GPIO is done by
   read(gpio, 1)
 
 See the test/BeagleBone/GPIO_test.jl for more examples.
-"""->
+"""
 type GPIO <: IO_Object
   i::Int32
   basedir::String
@@ -35,10 +35,10 @@ type GPIO <: IO_Object
   end
 end
 
-@doc"""
+"""
   write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
 Writes an entry to an operation on a GPIO, of the form args = (operation, entry).
-"""->
+"""
 function write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
   debug && return
   operation, entry = args[1], args[2]
@@ -53,10 +53,10 @@ function write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
   end
 end
 
-@doc"""
+"""
   l = read(gpio::GPIO, operation::Int32, debug::Bool=false)
 Reads the current value from an operation on a GPIO.
-"""->
+"""
 function read(gpio::GPIO, operation::Int32, debug::Bool=false)
   debug && return
   # Filestreams 1, 2 and 3 are readable
@@ -66,9 +66,9 @@ function read(gpio::GPIO, operation::Int32, debug::Bool=false)
   return l
 end
 
-@doc """ teardown(gpio::GPIO, debug::Bool=false)
+""" teardown(gpio::GPIO, debug::Bool=false)
 Closes all open streams on the GPIO, and unexports it from the file system.
-"""->
+"""
 function teardown(gpio::GPIO, debug::Bool=false)
   debug && return
 
@@ -94,10 +94,10 @@ function teardown(gpio::GPIO, debug::Bool=false)
   end
 end
 
-@doc"""
+"""
   export_gpio(i::Int32, debug::Bool=false)
 Export the GPIO file system, either for real-time or testing usecases.
-"""->
+"""
 function export_gpio(i::Int32)
   if isdefined(:RUNNING_TESTS)
     # Export a dummy file system for testing
@@ -122,10 +122,10 @@ function export_gpio(i::Int32)
   return basedir
 end
 
-@doc"""
+"""
   to_string(gpio::GPIO, debug::Bool=false)
 Generates a string representation of the GPIO device.
-"""->
+"""
 function to_string(gpio::GPIO, debug::Bool=false)
   debug && return
   message = "\nID: $(gpio.i)\n\nAvailable filestreams:\n"
