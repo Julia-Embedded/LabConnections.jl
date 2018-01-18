@@ -2,8 +2,8 @@
 - [`Base.read`](functions.md#Base.read)
 - [`Base.read`](functions.md#Base.read)
 - [`LabConnections.BeagleBone.assert_pwm_write`](functions.md#LabConnections.BeagleBone.assert_pwm_write-Tuple{Int32,String})
-- [`LabConnections.BeagleBone.bbparse`](functions.md#LabConnections.BeagleBone.bbparse-Tuple{Tuple,Any})
 - [`LabConnections.BeagleBone.bbparse`](functions.md#LabConnections.BeagleBone.bbparse-Tuple{Any})
+- [`LabConnections.BeagleBone.bbparse`](functions.md#LabConnections.BeagleBone.bbparse-Tuple{Tuple,Any})
 - [`LabConnections.BeagleBone.closedev`](functions.md#LabConnections.BeagleBone.closedev-Tuple{String,Int32})
 - [`LabConnections.BeagleBone.export_gpio`](functions.md#LabConnections.BeagleBone.export_gpio-Tuple{Int32})
 - [`LabConnections.BeagleBone.export_led`](functions.md#LabConnections.BeagleBone.export_led)
@@ -44,17 +44,6 @@ Run a server on `port` that listens for commands from computer Optional debug ke
 
 
 
-```
-l = read(led::SysLED, debug::Bool=false)
-```
-
-Reads the current brightness value from the LED 'SysLED'.
-
-<a id='Base.read' href='#Base.read'>#</a>
-**`Base.read`** &mdash; *Function*.
-
-
-
 l = read(gpio::GPIO, operation::Int32, debug::Bool=false) Reads the current value from an operation on a GPIO.
 
 <a id='Base.read' href='#Base.read'>#</a>
@@ -63,6 +52,17 @@ l = read(gpio::GPIO, operation::Int32, debug::Bool=false) Reads the current valu
 
 
 l = read(pwm::PWM, operation::Int32, debug::Bool=false) Reads the current value from an operation on a GPIO.
+
+<a id='Base.read' href='#Base.read'>#</a>
+**`Base.read`** &mdash; *Function*.
+
+
+
+```
+l = read(led::SysLED, debug::Bool=false)
+```
+
+Reads the current brightness value from the LED 'SysLED'.
 
 <a id='LabConnections.BeagleBone.assert_pwm_write-Tuple{Int32,String}' href='#LabConnections.BeagleBone.assert_pwm_write-Tuple{Int32,String}'>#</a>
 **`LabConnections.BeagleBone.assert_pwm_write`** &mdash; *Method*.
@@ -176,17 +176,6 @@ Prints all the active devices and writes out specifics of a single devices
 
 
 
-```
-teardown!(pwd::PWM)
-```
-
-Closes all open streams on the PWM, and unexports it from the file system
-
-<a id='LabConnections.BeagleBone.teardown' href='#LabConnections.BeagleBone.teardown'>#</a>
-**`LabConnections.BeagleBone.teardown`** &mdash; *Function*.
-
-
-
 teardown(gpio::GPIO, debug::Bool=false) Closes all open streams on the GPIO, and unexports it from the file system.
 
 <a id='LabConnections.BeagleBone.teardown' href='#LabConnections.BeagleBone.teardown'>#</a>
@@ -200,12 +189,16 @@ teardown(led::SysLED, debug::Bool=false)
 
 Closes all open filestreams for the SysLED 'led'.
 
-<a id='LabConnections.BeagleBone.to_string' href='#LabConnections.BeagleBone.to_string'>#</a>
-**`LabConnections.BeagleBone.to_string`** &mdash; *Function*.
+<a id='LabConnections.BeagleBone.teardown' href='#LabConnections.BeagleBone.teardown'>#</a>
+**`LabConnections.BeagleBone.teardown`** &mdash; *Function*.
 
 
 
-to_string(pwm::PWM,, debug::Bool=false) Generates a string representation of the GPIO device.
+```
+teardown!(pwd::PWM)
+```
+
+Closes all open streams on the PWM, and unexports it from the file system
 
 <a id='LabConnections.BeagleBone.to_string' href='#LabConnections.BeagleBone.to_string'>#</a>
 **`LabConnections.BeagleBone.to_string`** &mdash; *Function*.
@@ -221,16 +214,12 @@ to_string(gpio::GPIO, debug::Bool=false) Generates a string representation of th
 
 to_string(led::SysLED, debug::Bool=false) Generates a string representation of the GPIO device.
 
-<a id='LabConnections.BeagleBone.write!' href='#LabConnections.BeagleBone.write!'>#</a>
-**`LabConnections.BeagleBone.write!`** &mdash; *Function*.
+<a id='LabConnections.BeagleBone.to_string' href='#LabConnections.BeagleBone.to_string'>#</a>
+**`LabConnections.BeagleBone.to_string`** &mdash; *Function*.
 
 
 
-```
-write!(led::SysLED, val::Bool, debug::Bool=false)
-```
-
-Turns the LED 'SysLed' on/off for val = true/false respectively.
+to_string(pwm::PWM,, debug::Bool=false) Generates a string representation of the GPIO device.
 
 <a id='LabConnections.BeagleBone.write!' href='#LabConnections.BeagleBone.write!'>#</a>
 **`LabConnections.BeagleBone.write!`** &mdash; *Function*.
@@ -249,4 +238,15 @@ Writes an entry to an operation on the PWM, of the form args = (operation, entry
 
 
 write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false) Writes an entry to an operation on a GPIO, of the form args = (operation, entry).
+
+<a id='LabConnections.BeagleBone.write!' href='#LabConnections.BeagleBone.write!'>#</a>
+**`LabConnections.BeagleBone.write!`** &mdash; *Function*.
+
+
+
+```
+write!(led::SysLED, val::Bool, debug::Bool=false)
+```
+
+Turns the LED 'SysLed' on/off for val = true/false respectively.
 
