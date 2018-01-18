@@ -88,7 +88,7 @@ function export_led(i::Int32, debug::Bool=false)
 end
 
 """
-  to_string(led::SysLED, debug::Bool=false)
+    to_string(led::SysLED, debug::Bool=false)
 Generates a string representation of the GPIO device.
 """
 function to_string(led::SysLED, debug::Bool=false)
