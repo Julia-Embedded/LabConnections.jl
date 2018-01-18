@@ -11,10 +11,12 @@ const DEVICES = Dict("debug" => Debug, "sysled" => SysLED, "gpio" => GPIO, "pwm"
 active_devices = Dict{String,Dict{Int32,IO_Object}}("debug" => Dict{Int32,Debug}(), "sysled" => Dict{Int32,SysLED}(),
                                                           "gpio" => Dict{Int32,GPIO}(), "pwm" => Dict{Int32,PWM}())
 
-""" active_device = initdev(dev_name::String, i:Int32)
+"""
+    active_device = initdev(dev_name::String, i:Int32)
 Initializes a new device of type 'dev_name' at index 'i' on the BeagleBone,
 and adds it to the dict of currently active devices. Returns the initialized
-device 'active_device'."""
+device 'active_device'.
+"""
 function initdev(dev_name::String, i::Int32)
     #Check if the type of device is valid
     dev_constr = try
@@ -30,9 +32,11 @@ function initdev(dev_name::String, i::Int32)
     return active_device
 end
 
-""" closedev(dev_name::String, i::Int32)
+"""
+    closedev(dev_name::String, i::Int32)
 Closes down a currently active device of type 'dev_name' at index 'i' on the BeagleBone,
-and removes it from the dict of currently active devices."""
+and removes it from the dict of currently active devices.
+"""
 function closedev(dev_name::String, i::Int32)
     active_device = try
         active_devices[dev_name][i]
@@ -47,8 +51,10 @@ function closedev(dev_name::String, i::Int32)
     delete!(active_devices[dev_name], i)
 end
 
-""" dev = getdev(dev_name::String, i::Int32)
-Retrieves the active device of type `dev_name` at index 'i'"""
+"""
+    dev = getdev(dev_name::String, i::Int32)
+Retrieves the active device of type `dev_name` at index 'i'.
+"""
 function getdev(dev_name::String, i::Int32)
     dev = try
         active_devices[dev_name][i]
@@ -58,8 +64,10 @@ function getdev(dev_name::String, i::Int32)
     return dev
 end
 
-""" message = listdev()
-Lists all the active devices as an insidence array for testing"""
+"""
+    message = listdev()
+Lists all the active devices as an insidence array for testing.
+    """
 function listdev()
     message = "Complete overview of active devices"
     count = zeros(length(keys(DEVICES)))
@@ -69,8 +77,10 @@ function listdev()
     return count
 end
 
-""" message = printdev()
-Prints all the active devices and writes out specifics of a single devices"""
+"""
+    message = printdev()
+Prints all the active devices and writes out specifics of a single devices.
+"""
 function printdev(dev_name::String, i::Int32)
     println("Complete overview of active devices")
     for (index, key) in enumerate(keys(DEVICES))
@@ -84,23 +94,25 @@ function printdev(dev_name::String, i::Int32)
     end
 end
 
-""" bbparse(cmd)
-Parse and execute the command `cmd`"""
+"""
+    bbparse(cmd)
+Parse and execute the command `cmd`.
+"""
 bbparse(any) = error("Unexpected input: $any")
-
 
 function bbsend(sock, vals)#, timestamps)
     serialize(sock, vals)#, (timestamps...)))
 end
 
-""" bbparse(l::Tuple, sock)
+"""
+    bbparse(l::Tuple, sock)
 Parse input on the form `l=(iswrite, ndev, cmd1, cmd2, ..., cmdn)`
 where if `iswrite`
     `cmdi = (devname, id, val)`
     and if not `iswrite`
     `cmdi = (devname, id)`
-
-and send back on socket (vals, timestamps)"""
+and send back on socket (vals, timestamps).
+"""
 function bbparse(l::Tuple, sock)
     iswrite = l[1]::Bool            #True if write command, false if read
     ndev = l[2]::Int32              #Number of devices/commands
@@ -127,9 +139,11 @@ function bbparse(l::Tuple, sock)
 end
 
 global __waiting_first_connection__ = false
-""" run_server(port=2001; debug=false)
+"""
+    run_server(port=2001; debug=false)
 Run a server on `port` that listens for commands from computer
-Optional debug keyword disables blinking system leds"""
+Optional debug keyword disables blinking system leds.
+"""
 function run_server(port=2001; debug=false)
     global __waiting_first_connection__ = true
     server = listen(port)

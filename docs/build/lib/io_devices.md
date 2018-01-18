@@ -18,7 +18,7 @@
 Debug(i::Int32)
 ```
 
-Type for debugging and precompile
+Type for debugging and precompile.
 
 <a id='LabConnections.BeagleBone.GPIO' href='#LabConnections.BeagleBone.GPIO'>#</a>
 **`LabConnections.BeagleBone.GPIO`** &mdash; *Type*.
@@ -39,7 +39,9 @@ write!(gpio, (1, "1"))
 
 The operation of reading the current output value of the GPIO is done by
 
+```
 read(gpio, 1)
+```
 
 See the test/BeagleBone/GPIO_test.jl for more examples.
 
