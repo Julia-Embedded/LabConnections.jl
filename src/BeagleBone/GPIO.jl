@@ -1,18 +1,17 @@
 """
+    GPIO(i::Int32)
 Lowest form of communication with the GPIO pins. The available pins are
 listed in the "channel" parameter, and appear as directories in /sys/class/gpio
-after being exported.
-
-For instance, to setup a GPIO on "gpio112", configure it as an output pin and set
+after being exported. For instance, to setup a GPIO on "gpio112", configure it as an output pin and set
 it to high, the following code would be used.
 
-  gpio = GPIO(1)
-  write!(gpio, (2,"out"))
-  write!(gpio, (1, "1"))
+    `gpio = GPIO(1)`
+    `write!(gpio, (2,"out"))`
+    `write!(gpio, (1, "1"))`
 
 The operation of reading the current output value of the GPIO is done by
 
-  read(gpio, 1)
+    `read(gpio, 1)`
 
 See the test/BeagleBone/GPIO_test.jl for more examples.
 """
@@ -37,7 +36,7 @@ type GPIO <: IO_Object
 end
 
 """
-  write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
+    write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
 Writes an entry to an operation on a GPIO, of the form args = (operation, entry).
 """
 function write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
@@ -55,7 +54,7 @@ function write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
 end
 
 """
-  l = read(gpio::GPIO, operation::Int32, debug::Bool=false)
+    l = read(gpio::GPIO, operation::Int32, debug::Bool=false)
 Reads the current value from an operation on a GPIO.
 """
 function read(gpio::GPIO, operation::Int32, debug::Bool=false)
@@ -67,9 +66,10 @@ function read(gpio::GPIO, operation::Int32, debug::Bool=false)
   return l
 end
 
-@doc """ teardown(gpio::GPIO, debug::Bool=false)
+"""
+    teardown(gpio::GPIO, debug::Bool=false)
 Closes all open streams on the GPIO, and unexports it from the file system.
-""" ->
+"""
 function teardown(gpio::GPIO, debug::Bool=false)
   debug && return
 
@@ -96,7 +96,7 @@ function teardown(gpio::GPIO, debug::Bool=false)
 end
 
 """
-  export_gpio(i::Int32, debug::Bool=false)
+    export_gpio(i::Int32, debug::Bool=false)
 Export the GPIO file system, either for real-time or testing usecases.
 """
 function export_gpio(i::Int32)
@@ -124,7 +124,8 @@ function export_gpio(i::Int32)
 end
 
 """
-  to_string(gpio::GPIO, debug::Bool=false)
+    to_string(gpio::GPIO, debug::Bool=false)
+
 Generates a string representation of the GPIO device.
 """
 function to_string(gpio::GPIO, debug::Bool=false)

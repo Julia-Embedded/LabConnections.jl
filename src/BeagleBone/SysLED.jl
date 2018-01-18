@@ -1,5 +1,5 @@
 """
-    SysLED
+    SysLED(i::Int32)
 Type representing the system LEDs on the BeagleBone. The LEDs are indexed by
 i ∈ [1,2,3,4].
 """
@@ -88,7 +88,7 @@ function export_led(i::Int32, debug::Bool=false)
 end
 
 """
-  to_string(led::SysLED, debug::Bool=false)
+    to_string(led::SysLED, debug::Bool=false)
 Generates a string representation of the GPIO device.
 """
 function to_string(led::SysLED, debug::Bool=false)

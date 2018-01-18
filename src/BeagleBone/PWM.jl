@@ -1,9 +1,8 @@
 """
-This script allows for low level PWM control of selected pins
-The valid pins dictionary relates to memory adresses in of the
-AM3359 chip, see p.182 in
-
-    www.ti.com/product/AM3359/technicaldocuments
+    PWM(i::Int32)
+This device allows for low level PWM control of selected pins. The valid pins
+dictionary pwm_pins relates to memory adresses in of the AM3359 chip, see p.182
+in www.ti.com/product/AM3359/technicaldocuments.
 """
 
 type PWM <: IO_Object
@@ -53,7 +52,7 @@ end
 
 """
     assert_pwm_write(operation::Int32, entry::String)
-Assertsion for the PWM input data
+Assertsion for the PWM input data.
 """
 function assert_pwm_write(operation::Int32, entry::String)
   if operation == "1"
@@ -69,7 +68,7 @@ function assert_pwm_write(operation::Int32, entry::String)
 end
 
 """
-  l = read(pwm::PWM, operation::Int32, debug::Bool=false)
+    l = read(pwm::PWM, operation::Int32, debug::Bool=false)
 Reads the current value from an operation on a GPIO.
 """
 function read(pwm::PWM, operation::Int32, debug::Bool=false)
@@ -112,7 +111,7 @@ function teardown(pwm::PWM, debug::Bool=false)
 end
 
 """
-  export_gpio(i::Int32, debug::Bool=false)
+    export_gpio(i::Int32, debug::Bool=false)
 Export the GPIO file system, either for real-time or testing usecases.
 """
 function export_pwm(i::Int32)
@@ -153,7 +152,7 @@ function export_pwm(i::Int32)
 end
 
 """
-  to_string(pwm::PWM,, debug::Bool=false)
+    to_string(pwm::PWM,, debug::Bool=false)
 Generates a string representation of the GPIO device.
 """
 function to_string(pwm::PWM, debug::Bool=false)
