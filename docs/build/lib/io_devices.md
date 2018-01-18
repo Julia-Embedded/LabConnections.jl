@@ -32,15 +32,15 @@ GPIO(i::Int32)
 Lowest form of communication with the GPIO pins. The available pins are listed in the "channel" parameter, and appear as directories in /sys/class/gpio after being exported. For instance, to setup a GPIO on "gpio112", configure it as an output pin and set it to high, the following code would be used.
 
 ```
-gpio = GPIO(1)
-write!(gpio, (2,"out"))
-write!(gpio, (1, "1"))
+`gpio = GPIO(1)`
+`write!(gpio, (2,"out"))`
+`write!(gpio, (1, "1"))`
 ```
 
 The operation of reading the current output value of the GPIO is done by
 
 ```
-read(gpio, 1)
+`read(gpio, 1)`
 ```
 
 See the test/BeagleBone/GPIO_test.jl for more examples.
