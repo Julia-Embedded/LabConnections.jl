@@ -2,6 +2,7 @@
 [![coverage report](https://gitlab.control.lth.se/labdev/LabConnections.jl/badges/master/coverage.svg)](https://gitlab.control.lth.se/labdev/LabConnections.jl/commits/master)
 
 # Welcome to LabConnections.jl - the IO-software part of the LabDev project
+<img src="docs/images/labio_overview.png" height="200" width="1050">
 
 The goal of this project is to develop a software package in [Julia](https://julialang.org/) 
 for interfacing with lab processes using either the [BeagleBone Black Rev C](http://beagleboard.org/) (BBB)
