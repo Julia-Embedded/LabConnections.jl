@@ -1,7 +1,7 @@
 site_name:        LabConnections.jl
 repo_url:         https://gitlab.control.lth.se/labdev/LabConnections.jl
 site_description: Documentation for LabConnections.jl
-site_author:      Marcus Greiff, Mattias Fält, Marcus Thelander
+site_author:      Marcus Greiff, Mattias Fält, Marcus Thelander Andrén
 
 theme: cinder
 
@@ -31,4 +31,4 @@ pages:
     - Installation: 'man/installation.md'
   - API:
     - IO devices: 'lib/io_devices.md'
-    - Fucntions: 'lib/functions.md'
+    - Functions: 'lib/functions.md'
