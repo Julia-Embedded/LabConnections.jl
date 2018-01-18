@@ -1,7 +1,7 @@
 
-<a id='Examples-on-the-BB-1'></a>
+<a id='Examples-1'></a>
 
-# Examples on the BB
+# Examples
 
 
 The following examples may be run from the BB, and may require the user to export the the LabConnections module to the LOAD_PATH manually, executing the following line in the Julia prompt
