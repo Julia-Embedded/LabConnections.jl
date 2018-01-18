@@ -36,7 +36,7 @@ type GPIO <: IO_Object
 end
 
 """
-  write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
+    write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
 Writes an entry to an operation on a GPIO, of the form args = (operation, entry).
 """
 function write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
@@ -54,7 +54,7 @@ function write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
 end
 
 """
-  l = read(gpio::GPIO, operation::Int32, debug::Bool=false)
+    l = read(gpio::GPIO, operation::Int32, debug::Bool=false)
 Reads the current value from an operation on a GPIO.
 """
 function read(gpio::GPIO, operation::Int32, debug::Bool=false)
@@ -66,7 +66,8 @@ function read(gpio::GPIO, operation::Int32, debug::Bool=false)
   return l
 end
 
-""" teardown(gpio::GPIO, debug::Bool=false)
+"""
+    teardown(gpio::GPIO, debug::Bool=false)
 Closes all open streams on the GPIO, and unexports it from the file system.
 """
 function teardown(gpio::GPIO, debug::Bool=false)
@@ -95,7 +96,7 @@ function teardown(gpio::GPIO, debug::Bool=false)
 end
 
 """
-  export_gpio(i::Int32, debug::Bool=false)
+    export_gpio(i::Int32, debug::Bool=false)
 Export the GPIO file system, either for real-time or testing usecases.
 """
 function export_gpio(i::Int32)
@@ -123,7 +124,8 @@ function export_gpio(i::Int32)
 end
 
 """
-  to_string(gpio::GPIO, debug::Bool=false)
+    to_string(gpio::GPIO, debug::Bool=false)
+
 Generates a string representation of the GPIO device.
 """
 function to_string(gpio::GPIO, debug::Bool=false)
