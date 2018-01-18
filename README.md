@@ -1,7 +1,17 @@
 [![pipeline status](https://gitlab.control.lth.se/labdev/LabConnections.jl/badges/master/pipeline.svg)](https://gitlab.control.lth.se/labdev/LabConnections.jl/commits/master)
 [![coverage report](https://gitlab.control.lth.se/labdev/LabConnections.jl/badges/master/coverage.svg)](https://gitlab.control.lth.se/labdev/LabConnections.jl/commits/master)
 
-Documentation available at [Documentation](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/index.html)
+# Welcome to LabConnections.jl - the IO-software part of the LabDev project
+
+The goal of this project is to develop a software package in [Julia](https://julialang.org/) 
+for interfacing with lab processes using the [BeagleBone Black Rev C](http://beagleboard.org/) (BBB).
+
+The full documentation of the package is available [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/index.md).
+
+## Repository structure
+
+
+
 
 # OBS! SPI development
 The SPI development is done in C and in a forked repository, currently
