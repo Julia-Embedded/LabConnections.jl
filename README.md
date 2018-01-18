@@ -13,14 +13,14 @@ receive control signals and measurements from the lab process.
 The full documentation of the package is available [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/index.md).
 
 ## Package Overview
-The `LabConnections.jl` package is subdivided into two main modules; `BeagleBone.jl`
-and `Computer.jl`. `BeagleBone.jl` defines low-level types and functions meant
-to be used locally on the BBB, and `Computer.jl` defines the user interface on the host
-computer side. Below is an overview of the modules.
+The `LabConnections.jl` package is subdivided into two main modules; `Computer.jl` 
+and `BeagleBone.jl`. `Computer.jl` defines the user interface on the host
+computer side, while `BeagleBone.jl` defines low-level types and functions meant
+to be used locally on the BBB.
 
 ### BeagleBone.jl
 This module defines types representing different pins and LEDs on the BBB, and
-functions to change their status and behaviour. There are 4 different types defined
+functions to change their status and behaviour. There are currently 4 different types defined
 (each has the abstract super type `IO_Object`):
 * `GPIO` : Represents the BBB's General Purpose Input Output (GPIO) pins. 
 Each instance will correspond to a physical GPIO pin on the board, and can be 
@@ -32,6 +32,12 @@ turned on/off, and whose period, duty cycle and polarity can be specified.
 Used to perform simple tests and debugging on the BBB.
 * `Debug` : Used for debugging and pre-compilation on the BBB. It does 
 not represent any physical pin or LED on the board.
+
+**Note:** In addition to GPIO and PWM, the BBB also has pins dedicated for [Serial Peripheral
+Interface](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus) (SPI).
+Work to feature this functionality in `BeagleBone.jl` is currently ongoing. More
+information can be found [here]()
+
 
 ### Computer.jl
 This module contains the user interface on the host computer side, and defines 
@@ -55,21 +61,4 @@ There are 2 different filestream types (each has the abstract super type `LabStr
 ## Repository Structure
 The package is subdivided into two main modules; 
 
-# OBS! SPI development
-The SPI development is done in C and in a forked repository, currently
-separated from the julia project. If you wish to work on the SPI implementation,
-simply clone the repository "serbus", a small C stack available at
-`github.com/mgreiff/serbus` into your julia package directory (for example
-`~/.julia/v0.6`). Then, in the LabConnections package on the host computer, run
-`flash_BB.sh` in the `/utils` directory transferring both LabConnections and
-serbus to the BB.
 
-On the BB, run
-
-    cp /home/debian/juliapackages/serbus/bb_spi.sh /home/debian
-
-and then execute
-
-    ./bb_spi.sh
-
-in the `/home/debian` directory to run the SPI example with the ADC from SPI0.
