@@ -3,7 +3,8 @@ Pages = ["functions.md"]
 ```
 
 # Available functions
-```@docs
-initdev
-closedev
+
+```@autodocs
+Modules = [LabConnections.BeagleBone]
+Order   = [:function]
 ```

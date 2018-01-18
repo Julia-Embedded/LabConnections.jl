@@ -4,6 +4,7 @@ Pages = ["io_devices.md"]
 
 # Available devices
 
-```@docs
-teardown
+```@autodocs
+Modules = [LabConnections.BeagleBone]
+Order   = [:type]
 ```
