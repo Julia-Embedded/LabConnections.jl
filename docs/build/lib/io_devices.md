@@ -15,7 +15,7 @@
 
 
 ```
-Debug()
+Debug(i::Int32)
 ```
 
 Type for debugging and precompile
@@ -26,7 +26,7 @@ Type for debugging and precompile
 
 
 ```
-GPIO()
+GPIO(i::Int32)
 ```
 
 Lowest form of communication with the GPIO pins. The available pins are listed in the "channel" parameter, and appear as directories in /sys/class/gpio after being exported. For instance, to setup a GPIO on "gpio112", configure it as an output pin and set it to high, the following code would be used.
@@ -56,7 +56,7 @@ Define abstract type for pins/LEDS on the BeagleBone
 
 
 ```
-PWM()
+PWM(i::Int32)
 ```
 
 This device allows for low level PWM control of selected pins. The valid pins dictionary pwm_pins relates to memory adresses in of the AM3359 chip, see p.182 in www.ti.com/product/AM3359/technicaldocuments.
@@ -67,7 +67,7 @@ This device allows for low level PWM control of selected pins. The valid pins di
 
 
 ```
-SysLED
+SysLED(i::Int32)
 ```
 
 Type representing the system LEDs on the BeagleBone. The LEDs are indexed by i ∈ [1,2,3,4].

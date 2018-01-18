@@ -1,5 +1,5 @@
 """
-    PWM()
+    PWM(i::Int32)
 This device allows for low level PWM control of selected pins. The valid pins
 dictionary pwm_pins relates to memory adresses in of the AM3359 chip, see p.182
 in www.ti.com/product/AM3359/technicaldocuments.

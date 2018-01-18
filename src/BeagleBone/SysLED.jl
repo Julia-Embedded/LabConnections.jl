@@ -1,5 +1,5 @@
 """
-    SysLED
+    SysLED(i::Int32)
 Type representing the system LEDs on the BeagleBone. The LEDs are indexed by
 i ∈ [1,2,3,4].
 """

@@ -1,5 +1,5 @@
 """
-    Debug()
+    Debug(i::Int32)
 Type for debugging and precompile
 """
 type Debug <: IO_Object

@@ -1,5 +1,5 @@
 """
-    GPIO()
+    GPIO(i::Int32)
 Lowest form of communication with the GPIO pins. The available pins are
 listed in the "channel" parameter, and appear as directories in /sys/class/gpio
 after being exported. For instance, to setup a GPIO on "gpio112", configure it as an output pin and set
