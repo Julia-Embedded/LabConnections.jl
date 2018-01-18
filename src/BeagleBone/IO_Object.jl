@@ -1,11 +1,8 @@
-"""
+@doc"""
 Define abstract type for pins/LEDS on the BeagleBone
-"""
+"""->
 abstract type IO_Object end
 
-"""
-GPIO interfaces
-"""
 const gpio_operations = [
   ["1", "0"],
   ["in", "out"],

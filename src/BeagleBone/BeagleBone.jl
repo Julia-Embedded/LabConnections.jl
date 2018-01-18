@@ -32,8 +32,7 @@ end
 
 @doc """ closedev(dev_name::String, i::Int32)
 Closes down a currently active device of type 'dev_name' at index 'i' on the BeagleBone,
-and removes it from the dict of currently active devices.
-""" ->
+and removes it from the dict of currently active devices."""->
 function closedev(dev_name::String, i::Int32)
     active_device = try
         active_devices[dev_name][i]
@@ -48,10 +47,8 @@ function closedev(dev_name::String, i::Int32)
     delete!(active_devices[dev_name], i)
 end
 
-"""
-    dev = getdev(dev_name::String, i::Int32)
-Retrieves the active device of type `dev_name` at index 'i'
-"""
+@doc """ dev = getdev(dev_name::String, i::Int32)
+Retrieves the active device of type `dev_name` at index 'i'"""->
 function getdev(dev_name::String, i::Int32)
     dev = try
         active_devices[dev_name][i]
@@ -61,10 +58,8 @@ function getdev(dev_name::String, i::Int32)
     return dev
 end
 
-"""
-    message = listdev()
-Lists all the active devices as an insidence array for testing
-"""
+@doc """ message = listdev()
+Lists all the active devices as an insidence array for testing"""->
 function listdev()
     message = "Complete overview of active devices"
     count = zeros(length(keys(DEVICES)))
@@ -74,10 +69,8 @@ function listdev()
     return count
 end
 
-"""
-    message = printdev()
-Prints all the active devices and writes out specifics of a single devices
-"""
+@doc """ message = printdev()
+Prints all the active devices and writes out specifics of a single devices"""->
 function printdev(dev_name::String, i::Int32)
     println("Complete overview of active devices")
     for (index, key) in enumerate(keys(DEVICES))
@@ -91,10 +84,8 @@ function printdev(dev_name::String, i::Int32)
     end
 end
 
-"""
-    bbparse(cmd)
-Parse and execute the command `cmd`
-"""
+@doc """ bbparse(cmd)
+Parse and execute the command `cmd`"""->
 bbparse(any) = error("Unexpected input: $any")
 
 
@@ -102,16 +93,14 @@ function bbsend(sock, vals)#, timestamps)
     serialize(sock, vals)#, (timestamps...)))
 end
 
-"""
-    bbparse(l::Tuple, sock)
+@doc """ bbparse(l::Tuple, sock)
 Parse input on the form `l=(iswrite, ndev, cmd1, cmd2, ..., cmdn)`
 where if `iswrite`
     `cmdi = (devname, id, val)`
     and if not `iswrite`
     `cmdi = (devname, id)`
 
-and send back on socket (vals, timestamps)
-"""
+and send back on socket (vals, timestamps)"""->
 function bbparse(l::Tuple, sock)
     iswrite = l[1]::Bool            #True if write command, false if read
     ndev = l[2]::Int32              #Number of devices/commands
@@ -138,11 +127,9 @@ function bbparse(l::Tuple, sock)
 end
 
 global __waiting_first_connection__ = false
-"""
-    run_server(port=2001; debug=false)
+@doc""" run_server(port=2001; debug=false)
 Run a server on `port` that listens for commands from computer
-Optional debug keyword disables blinking system leds
-"""
+Optional debug keyword disables blinking system leds"""->
 function run_server(port=2001; debug=false)
     global __waiting_first_connection__ = true
     server = listen(port)
