@@ -34,7 +34,9 @@ function send(comedistream::ComediStream, cmd::SendTuple)
     return
 end
 function read(comedistream::ComediStream, cmd::ReadTuple)
-    return ccall((:comedi_read, comedipath), Float64, (Int32,Int32,Int32), cmd[1], cmd[2], cmd[3])
+    val = ccall((:comedi_read, comedipath), Float64, (Int32,Int32,Int32), cmd[1], cmd[2], cmd[3])
+    dummy_timestamp = UInt64(0)
+    return val, dummy_timestamp
 end
 
 function send(comedistream::ComediStream)
