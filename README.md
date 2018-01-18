@@ -43,9 +43,8 @@ different device/connection types (each has the abstract super type `AbstractDev
 * `SysLED` : Represents the System LEDs on the BBB. Used for simple testing and debugging from the host computer side.
 
 There are 2 different filestream types (each has the abstract super type `LabStream`):
-* `BeagleBoneStream` : 
-* `ComediStream` : 
-
+* `BeagleBoneStream` : Represents the data stream between the host computer and the BBB.
+* `ComediStream` : Represent the data stream between the host computer and the old IO-boxes using Comedi. 
 
 ## Getting Started
 
