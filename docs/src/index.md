@@ -6,7 +6,7 @@ CurrentModule = LabConnections
 
 ## Examples
 ```@contents
-Pages = ["examples/example.md", "examples/testing.md"]
+Pages = ["examples/examples.md", "examples/testing.md"]
 Depth = 1
 ```
 

@@ -10,6 +10,7 @@
 
 ## Examples
 
+- [Examples](examples/examples.md#Examples-1)
 - [Tests](examples/testing.md#Tests-1)
 
 
