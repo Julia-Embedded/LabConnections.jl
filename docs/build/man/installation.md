@@ -91,7 +91,7 @@ To setup automatic start of Julia server on the BB, make sure to have completed 
 
 ```
 `ssh debian@192.168.7.2'
-`sudo cp -r /home/debian/juliapackets/LabConnections/src/BeagleBone/startup/juliaserver.service /lib/systemd/system/juliaserver.service` (on the BeagleBone)
+`sudo cp -r /home/debian/juliapackages/LabConnections/src/BeagleBone/startup/juliaserver.service /lib/systemd/system/juliaserver.service` (on the BeagleBone)
 ```
 
 
