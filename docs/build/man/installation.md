@@ -1,4 +1,3 @@
-
 <a id='Installation-Instructions-1'></a>
 
 # Installation Instructions
@@ -55,7 +54,7 @@ Once Julia is installed, run
 ```
 
 
-in the Julia prompt to install all dependencies on the HOST, the source code is then located in `./julia/v0.6/LabCOnnections'.
+in the Julia prompt to install all dependencies on the HOST, the source code is then located in `./julia/v0.6/LabConnections'.
 
 
 If you plan on working with the SPI devices to debug the ADC/DAC, then you will need a forked `serbus' repository which wraps the`linux/spi/spidev'. Simply
@@ -79,7 +78,7 @@ To update the BB with the latest revision of the code,
 ```
 
 
-This scripts bundles the current code in LabCOnnections and serbus on the host computer and transfers it to the /home/debian/juliapackages directory on the BB.
+This scripts bundles the current code in LabConnections and serbus on the host computer and transfers it to the /home/debian/juliapackages directory on the BB.
 
 
 <a id='Setting-up-automatic-communication-1'></a>
