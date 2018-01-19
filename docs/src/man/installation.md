@@ -71,3 +71,16 @@ After a while, the BeagleBone should start blinking on SysLED 2: on-off-on-sleep
 
 ```@systemConfiguration
 ```
+
+
+## Debugging
+
+No errors will be seen on the BeagleBone when the automatic startup is used. For debugging purposes it might be useful to start the service manually on the beagle bone.
+Start julia as root:
+```
+sudo /home/debian/julia/bin/julia
+```
+and run the startup script:
+```
+include("/home/debian/juliapackages/LabConnections/src/BeagleBone/startup/startup.jl")
+```
