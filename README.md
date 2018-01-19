@@ -58,11 +58,38 @@ There are 2 different filestream types (each has the abstract super type `LabStr
 * `ComediStream` : Represent the data stream between the host computer and the old IO-boxes using Comedi. 
 
 ## Getting Started
+### Installation
 Instructions on installing the required software and setting up a connection between 
-the host computer and the BBB are found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/man/installation.md#installation-instructions)
+the host computer and the BBB are found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/man/installation.md#installation-instructions).
 
-After successfully setting up a connection between host computer and BBB, there
-are several examples found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/examples/examples.md#examples)
+### A Simple Example
+We will here go through a simple example of using the host computer interface to communicate with the BBB and control the onboard system LEDs.
+
+First make sure that you have followed the installation guide, and that the BBB is running a server and is connected to the host computer.
+Then, start the Julia REPL and input
+
+    using LabConnections.Computer
+to load the host computer interface. Then define a file stream `stream` and connect to the server running on the BBB by inputting
+
+    stream = BeagleBoneStream(ip"192.168.7.2")
+Now, we continue by defining the LED we want to control 
+
+    led = SysLED(1)
+
+The object `led` will now correspond to the first system LED on the BBB.
+To tell the BBB that we want to control the LED, we make a call to `init_devices!`
+
+    init_devices!(stream, led)
+Now we can start controlling the LED on the BBB. Let's begin by turning it on
+
+    put!(led, true)
+    send(stream)
+The function `put!` puts a new command (`true`) to a device (`led`) to the file stream buffer.
+Then, the function `send` empties the buffer, and sends the commands to the BBB.
+You should now see the first system LED on the BBB being lit.
+
+### More Examples
+There are several examples found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/examples/examples.md#examples)
 which let's you test out the functionality of `LabConnections.jl`.
 
 
