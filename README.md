@@ -82,11 +82,29 @@ To tell the BBB that we want to control the LED, we make a call to `init_devices
     init_devices!(stream, led)
 Now we can start controlling the LED on the BBB. Let's begin by turning it on
 
-    put!(led, true)
-    send(stream)
-The function `put!` puts a new command (`true`) to a device (`led`) to the file stream buffer.
-Then, the function `send` empties the buffer, and sends the commands to the BBB.
+    send(led, true)
 You should now see the first system LED on the BBB being lit.
+The function `send` puts a new command (`true`) to a device (`led`) to the file stream buffer and 
+sends it immediately to the BBB.
+We can read the current status of the LED by calling `read`
+
+    v = read(led)
+You should now see a printout saying that the LED is turned on.
+
+We can also stack several commands to the buffer before sending them to the BBB. 
+We do this with the command `put!`. To turn on 2 LEDS at the same time, we can call
+
+    led2 = SysLED(2)
+    led3 = SysLED(3)
+    init_devices!(stream, led2, led3)
+    put!(led2, true)
+    put!(led3, true)
+    send(stream)
+Similarly we can read from several devices at the same time by using `get`
+
+    get(led2)
+    get(led3)
+    v1, v2 = read(stream)
 
 ### More Examples
 There are several examples found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/examples/examples.md#examples)
