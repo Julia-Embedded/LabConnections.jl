@@ -1,3 +1,4 @@
+
 <a id='Installation-Instructions-1'></a>
 
 # Installation Instructions
@@ -54,7 +55,7 @@ Once Julia is installed, run
 ```
 
 
-in the Julia prompt to install all dependencies on the HOST, the source code is then located in `./julia/v0.6/LabConnections'.
+in the Julia prompt to install all dependencies on the HOST, the source code is then located in `./julia/v0.6/LabCOnnections'.
 
 
 If you plan on working with the SPI devices to debug the ADC/DAC, then you will need a forked `serbus' repository which wraps the`linux/spi/spidev'. Simply
@@ -78,7 +79,7 @@ To update the BB with the latest revision of the code,
 ```
 
 
-This scripts bundles the current code in LabConnections and serbus on the host computer and transfers it to the /home/debian/juliapackages directory on the BB.
+This scripts bundles the current code in LabCOnnections and serbus on the host computer and transfers it to the /home/debian/juliapackages directory on the BB.
 
 
 <a id='Setting-up-automatic-communication-1'></a>
@@ -91,7 +92,7 @@ To setup automatic start of Julia server on the BB, make sure to have completed 
 
 ```
 `ssh debian@192.168.7.2'
-`sudo cp -r /home/debian/juliapackages/LabConnections/src/BeagleBone/startup/juliaserver.service /lib/systemd/system/juliaserver.service` (on the BeagleBone)
+`sudo cp -r /home/debian/juliapackets/LabConnections/src/BeagleBone/startup/juliaserver.service /lib/systemd/system/juliaserver.service` (on the BeagleBone)
 ```
 
 
@@ -108,14 +109,24 @@ After a while, the BeagleBone should start blinking on SysLED 2: on-off-on-sleep
 
 ```
 
+
+<a id='Debugging-1'></a>
+
 ## Debugging
 
-No errors will be seen on the BeagleBone when the automatic startup is used. For debugging purposes it might be useful to start the service manually on the beagle bone.
-Start julia as root:
+
+No errors will be seen on the BeagleBone when the automatic startup is used. For debugging purposes it might be useful to start the service manually on the beagle bone. Start julia as root:
+
+
 ```
 sudo /home/debian/julia/bin/julia
 ```
+
+
 and run the startup script:
+
+
 ```
 include("/home/debian/juliapackages/LabConnections/src/BeagleBone/startup/startup.jl")
 ```
+
