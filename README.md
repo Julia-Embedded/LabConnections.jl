@@ -19,6 +19,21 @@ and `BeagleBone`. `Computer` defines the user interface on the host
 computer side, while `BeagleBone` defines low-level types and functions meant
 to be used locally on the BBB.
 
+### Computer
+<img src="docs/images/computertypes.png" height="300" width="800">
+
+This module contains the user interface on the host computer side, and defines 
+types for devices/connections to the lab process, and filestreams between the 
+host computer and different IO-devices (BBB or Comedi). There are currently 3 
+different device/connection types (each has the abstract super type `AbstractDevice`):
+* `AnalogInput10V` : Represents ±10V connections from the lab process to the IO-device. Each instance will correspond to a physical ±10V measurement signal from the lab process, whose value can be read.
+* `AnalogOutput10V` : Represents ±10V connections from the IO-device to the lab process. Each instance will correspond to a physical ±10V input signal to the lab process, whose value can be set.  
+* `SysLED` : Represents the System LEDs on the BBB. Used for simple testing and debugging from the host computer side.
+
+There are 2 different filestream types (each has the abstract super type `LabStream`):
+* `BeagleBoneStream` : Represents the data stream between the host computer and the BBB.
+* `ComediStream` : Represent the data stream between the host computer and the old IO-boxes using Comedi. 
+
 ### BeagleBone
 <img src="docs/images/beaglebonetypes.png" height="300" width="500">
 
@@ -40,22 +55,6 @@ not represent any physical pin or LED on the board.
 Interface](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus) (SPI).
 Work to feature this functionality in the module `BeagleBone` is currently ongoing. More
 information can be found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/man/introduction.md#spi-development)
-
-
-### Computer
-<img src="docs/images/computertypes.png" height="300" width="800">
-
-This module contains the user interface on the host computer side, and defines 
-types for devices/connections to the lab process, and filestreams between the 
-host computer and different IO-devices (BBB or Comedi). There are currently 3 
-different device/connection types (each has the abstract super type `AbstractDevice`):
-* `AnalogInput10V` : Represents ±10V connections from the lab process to the IO-device. Each instance will correspond to a physical ±10V measurement signal from the lab process, whose value can be read.
-* `AnalogOutput10V` : Represents ±10V connections from the IO-device to the lab process. Each instance will correspond to a physical ±10V input signal to the lab process, whose value can be set.  
-* `SysLED` : Represents the System LEDs on the BBB. Used for simple testing and debugging from the host computer side.
-
-There are 2 different filestream types (each has the abstract super type `LabStream`):
-* `BeagleBoneStream` : Represents the data stream between the host computer and the BBB.
-* `ComediStream` : Represent the data stream between the host computer and the old IO-boxes using Comedi. 
 
 ## Getting Started
 ### Installation
