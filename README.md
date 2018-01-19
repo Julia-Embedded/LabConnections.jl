@@ -14,12 +14,12 @@ receive control signals and measurements from the lab process.
 The full documentation of the package is available [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/index.md).
 
 ## Package Overview
-The `LabConnections.jl` package is subdivided into two main modules; `Computer.jl` 
-and `BeagleBone.jl`. `Computer.jl` defines the user interface on the host
-computer side, while `BeagleBone.jl` defines low-level types and functions meant
+The `LabConnections.jl` package is subdivided into two main modules; `Computer` 
+and `BeagleBone`. `Computer` defines the user interface on the host
+computer side, while `BeagleBone` defines low-level types and functions meant
 to be used locally on the BBB.
 
-### BeagleBone.jl
+### BeagleBone
 <img src="docs/images/beaglebonetypes.png" height="300" width="500">
 
 This module defines types representing different pins and LEDs on the BBB, and
@@ -38,11 +38,11 @@ not represent any physical pin or LED on the board.
 
 **Note:** In addition to GPIO and PWM, the BBB also has pins dedicated for [Serial Peripheral
 Interface](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus) (SPI).
-Work to feature this functionality in `BeagleBone.jl` is currently ongoing. More
+Work to feature this functionality in the module `BeagleBone` is currently ongoing. More
 information can be found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/man/introduction.md#spi-development)
 
 
-### Computer.jl
+### Computer
 <img src="docs/images/computertypes.png" height="300" width="800">
 
 This module contains the user interface on the host computer side, and defines 
