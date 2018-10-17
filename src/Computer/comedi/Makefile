@@ -2,7 +2,7 @@ CC=gcc
 
 CFLAGS=-c -Wall -fPIC
 
-SOURCES=comedi_bridge.c 
+SOURCES=comedi.c 
 OBJECTS=$(SOURCES:.c=.o)
 
 .c.o:
