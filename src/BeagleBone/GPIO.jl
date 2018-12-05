@@ -15,7 +15,7 @@ The operation of reading the current output value of the GPIO is done by
 
 See the test/BeagleBone/GPIO_test.jl for more examples.
 """
-type GPIO <: IO_Object
+struct GPIO <: IO_Object
   i::Int32
   basedir::String
   filestreams::Array{IOStream,1}
@@ -79,7 +79,8 @@ function teardown(gpio::GPIO, debug::Bool=false)
   end
 
   #Unexport filestructure
-  if isdefined(:RUNNING_TESTS)
+  global RUNNING_TESTS
+  if RUNNING_TESTS
     # Remove the dummy file system for testing
     basedir = "$(pwd())/testfilesystem/gpio"
     try
@@ -100,7 +101,8 @@ end
 Export the GPIO file system, either for real-time or testing usecases.
 """
 function export_gpio(i::Int32)
-  if isdefined(:RUNNING_TESTS)
+  global RUNNING_TESTS
+  if RUNNING_TESTS
     # Export a dummy file system for testing
     basedir = "$(pwd())/testfilesystem/gpio"
     try

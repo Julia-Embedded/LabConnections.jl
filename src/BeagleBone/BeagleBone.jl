@@ -125,8 +125,8 @@ function bbparse(l::Tuple, sock)
         return
     else
         #TODO fix to have at least partial type stability
-        vals = Array{Any,1}(ndev)
-        timestamps = Array{UInt64,1}(ndev)
+        vals = Array{Any,1}(undef,ndev)
+        timestamps = Array{UInt64,1}(undef,ndev)
         for i = 1:ndev
             command = l[2+i]::Tuple
             dev = getdev(command[1], command[2])
@@ -146,7 +146,7 @@ Optional debug keyword disables blinking system leds.
 """
 function run_server(port=2001; debug=false)
     global __waiting_first_connection__ = true
-    server = listen(port)
+    server = listen(IPv4(0), port) # IPv4(0) means listen from any ip
     @async while isopen(server)
         try
             @async while __waiting_first_connection__ && !debug
@@ -173,7 +173,7 @@ function run_server(port=2001; debug=false)
                         println("Connection to server closed")
                     else
                         println("error: $(typeof(err))")
-                        throw(err)
+                        rethrow()
                     end
                 end
             end
@@ -181,7 +181,7 @@ function run_server(port=2001; debug=false)
             if isa(err,Base.UVError) && err.prefix == "accept"
                 println("Server closed successfully")
             else
-                throw(err)
+                rethrow()
             end
         end
     end

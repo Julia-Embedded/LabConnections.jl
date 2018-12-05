@@ -1,9 +1,10 @@
 #On beaglebone, run:
 # include("LabConnections/src/LabConnections.jl")
-# using LabConnections.BeagleBone
-# run_server()
+# using Main.LabConnections.BeagleBone
+# srv = run_server()
 
 using LabConnections.Computer
+using Sockets
 
 stream = BeagleBoneStream(ip"192.168.7.2")
 led1 = SysLED(1)
@@ -16,6 +17,7 @@ led4 = SysLED(4)
 init_devices!(stream, led1, led2, led3, led4)
 ledon = true
 for i = 1:100
+    global ledon
     put!(led1, ledon)
     put!(led2, !ledon)
     put!(led3, ledon)

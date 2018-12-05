@@ -1,7 +1,7 @@
 using LabConnections.BeagleBone
 import LabConnections.BeagleBone: initdev, listdev, closedev, printdev, write!, read, gpio_channels
 
-using Base.Test
+using Test
 
 @testset "GPIO tests" begin
 

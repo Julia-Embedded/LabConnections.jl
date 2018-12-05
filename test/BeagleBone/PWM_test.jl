@@ -1,7 +1,7 @@
 using LabConnections.BeagleBone
 import LabConnections.BeagleBone: initdev, listdev, closedev, printdev, write!, read, pwm_pins
 
-using Base.Test
+using Test
 
 @testset "PWM tests" begin
 

@@ -2,6 +2,11 @@ __precompile__()
 module LabConnections
 
     module BeagleBone
+        RUNNING_TESTS = false # TODO Can we make this constant?
+        function running_test(val)
+            global RUNNING_TESTS = val
+        end
+        using Sockets, Serialization
         export run_server
         import Base: read
         println("Initializing BB")
@@ -13,7 +18,10 @@ module LabConnections
     end
 
     module Computer
-        import Base: read, send, close, get, put!, serialize
+        using Sockets, Serialization
+        import Base: read, close, get, put!
+        import Sockets: send
+        import Serialization: serialize
         println("Initializing Computer")
         include(joinpath("Computer","Computer.jl"))
     end

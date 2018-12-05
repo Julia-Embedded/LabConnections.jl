@@ -17,7 +17,7 @@ initialize(::AnalogInput10V) = nothing
 initialize(::AnalogOutput10V) = nothing
 
 close(::AnalogInput10V) = nothing
-close(input::AnalogOutput10V) = ccall((:comedi_write_zero, comedipath), Void, (Int32, Int32, Int32), Int32(0), Int32(1), input.i)
+close(input::AnalogOutput10V) = ccall((:comedi_write_zero, comedipath), Cvoid, (Int32, Int32, Int32), Int32(0), Int32(1), input.i)
 
 getwritecommand(stream::LabStream, input::AnalogInput10V, val) = error("Can't write to device $input")
 getreadcommand(stream::LabStream, output::AnalogOutput10V, val) = error("Can't read from device $output")

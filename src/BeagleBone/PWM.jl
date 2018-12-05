@@ -5,7 +5,7 @@ dictionary pwm_pins relates to memory adresses in of the AM3359 chip, see p.182
 in www.ti.com/product/AM3359/technicaldocuments.
 """
 
-type PWM <: IO_Object
+struct PWM <: IO_Object
     i::Int32
     pin::String
     chip::String
@@ -95,7 +95,8 @@ function teardown(pwm::PWM, debug::Bool=false)
     close(stream)
   end
 
-  if isdefined(:RUNNING_TESTS)
+  global RUNNING_TESTS
+  if RUNNING_TESTS
     # Remove the dummy file system for testing
     try
       rm("$(pwm.basedir)/$(pwm_pins[pwm.pin][2])/pwm$(pwm_pins[pwm.pin][3])"; recursive=true)
@@ -120,7 +121,8 @@ function export_pwm(i::Int32)
   pin = pins[i]
   chip = pwm_pins[pin][2]
 
-  if isdefined(:RUNNING_TESTS)
+  global RUNNING_TESTS
+  if RUNNING_TESTS
     # Export a dummy file system for testing
     basedir = "$(pwd())/testfilesystem/pwm"
     complete_path = "$(basedir)/$(pwm_pins[pin][2])/pwm$(pwm_pins[pin][3])"
