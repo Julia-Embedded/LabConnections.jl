@@ -109,4 +109,4 @@ Similarly we can read from several devices at the same time by using `get`
 There are several examples found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/examples/examples.md#examples)
 which let's you test out the functionality of `LabConnections.jl`.
 
-
+Examples of real-world usage are available in [ball-and-beam](https://gitlab.control.lth.se/processes/LabProcesses.jl/blob/master/src/interface_implementations/ballandbeam.jl)
