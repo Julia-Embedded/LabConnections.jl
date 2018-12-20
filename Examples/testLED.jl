@@ -27,24 +27,25 @@ for i = 1:100
     get(led1)
     get(led2)
     get(led3)
-    #sleep(0.1)
-    v1,v2,v3 = read(stream) #Sends request to read, reads all inputs for which get! was called
-    v1 == !v2 == v3 == ledon ? nothing : println("ledon is $ledon, but read v1, v2, v3 = $v1, $v2, $v3")
+    sleep(0.1)
+     v1,v2,v3 = .==(read(stream), "1") #Sends request to read, reads all inputs for which get! was called
+     v1 == !v2 == v3 == ledon ? nothing : println("ledon is $ledon, but read v1, v2, v3 = $v1, $v2, $v3")
     ledon = !ledon
 end
 for i = 1:40
+    global ledon
     send(led1, ledon)
     #sleep(0.03)
-    v1 = read(led1)
+    v1 = read(led1) == "1"
     send(led2, ledon)
     #sleep(0.03)
-    v2 = read(led2)
+    v2 = read(led2) == "1"
     send(led3, ledon)
     #sleep(0.03)
-    v3 = read(led3)
+    v3 = read(led3) == "1"
     send(led4, ledon)
     #sleep(0.03)
-    v4 = read(led4)
+    v4 = read(led4) == "1"
     v1 == v2 == v3 == v4 == ledon ? nothing : println("ledon is $ledon, but read v1, v2, v3, v4 = $v1, $v2, $v3, $v4")
     ledon = !ledon
 end

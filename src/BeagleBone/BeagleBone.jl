@@ -106,24 +106,26 @@ end
 
 """
     bbparse(l::Tuple, sock)
-Parse input on the form `l=(iswrite, ndev, cmd1, cmd2, ..., cmdn)`
-where if `iswrite`
+Parse input on the form `l=(operation, ndev, cmd1, cmd2, ..., cmdn)`
+where if `operation==1` (write)
     `cmdi = (devname, id, val)`
-    and if not `iswrite`
+    and if `operation==0` (read)
+    `cmdi = (devname, id)`
+    and if `operation==2` (initialize)
     `cmdi = (devname, id)`
 and send back on socket (vals, timestamps).
 """
 function bbparse(l::Tuple, sock)
-    iswrite = l[1]::Bool            #True if write command, false if read
+    operation = l[1]::Int32           #1 if write command, 0 if read, 2 if init
     ndev = l[2]::Int32              #Number of devices/commands
-    if iswrite
+    if operation == 1
         for i = 1:ndev
             command = l[2+i]::Tuple
             dev = getdev(command[1], command[2])
             write!(dev, command[3])
         end
         return
-    else
+    elseif operation == 0
         #TODO fix to have at least partial type stability
         vals = Array{Any,1}(undef,ndev)
         timestamps = Array{UInt64,1}(undef,ndev)
@@ -135,6 +137,14 @@ function bbparse(l::Tuple, sock)
         end
         bbsend(sock, (vals, timestamps))
         return
+    elseif operation == 2
+        for i = 1:ndev
+            command = l[2+i]::Tuple
+            dev = initdev(command[1], command[2])
+        end
+        return
+    else
+        error("Unknown operation $operation, cmd: $l")
     end
 end
 
@@ -173,7 +183,8 @@ function run_server(port=2001; debug=false)
                         println("Connection to server closed")
                     else
                         println("error: $(typeof(err))")
-                        rethrow()
+                        println("err: $err")
+                        rethrow(err)
                     end
                 end
             end

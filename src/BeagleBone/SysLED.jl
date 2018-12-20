@@ -31,6 +31,11 @@ function write!(led::SysLED, entry::String, debug::Bool=false)
     flush(led.filestream)
 end
 
+# Catch Boolean writes
+write!(led::SysLED, entry::Bool, debug::Bool=false) =
+  write!(led::SysLED, entry ? "1" : "0", debug)
+
+
 """
     l = read(led::SysLED, debug::Bool=false)
 Reads the current brightness value from the LED 'SysLED'.
