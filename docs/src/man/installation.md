@@ -18,8 +18,8 @@ Make sure that the Julia folder has the correct name by typing
 The file structure on the micro-SD now has the correct structure. The final step is to make sure that the micro-SD will automatically flash the Debian image onto the BeagleBone when booting up. To do this, follow the instructions found [here](https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#Flashing_eMMC). Congratulations,
 you now have a prepared micro-SD card ready for flashing BeagleBones.
 
-## Flashing a BeagleBone from a prepared micro-SD card
-Insert the micro-SD card in the slot on the BeagleBone, and press down the boot button S2 (the button closest to the micro-SD slot) and hold it down while you plug
+## Flashing the BeagleBone
+Insert a prepared micro-SD card in the slot on the BeagleBone, and press down the boot button S2 (the button closest to the micro-SD slot) and hold it down while you plug
 in the USB-cable to the BeagleBone. Keep the S2 button held down for a couple of seconds, until the onboard LEDs start to blink. After a short while the onboard LEDs should
 start to flash in a wave pattern, indicating that the BeagleBone is being flashed. After a while (can vary between 5-45 minutes) the BeagleBone will be turn off automatically,
 indicating that the flashing is complete. Remove the micro-SD before powering on the BeagleBone again (otherwise it will start to flash the BeagleBone again).
