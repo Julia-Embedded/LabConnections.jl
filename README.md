@@ -59,7 +59,7 @@ information can be found [here](https://gitlab.control.lth.se/labdev/LabConnecti
 ## Getting Started
 ### Installation
 Instructions on installing the required software and setting up a connection between 
-the host computer and the BBB are found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/man/installation.md#installation-instructions).
+the host computer and the BBB are found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/julia1/docs/build/man/installation.md#installation-instructions).
 
 ### A Simple Example
 We will here go through a simple example of using the host computer interface to communicate with the BBB and control the onboard system LEDs.
