@@ -1,42 +1,35 @@
-<a id='Installation-Instructions-1'></a>
-
-# Installation Instructions
+# Installation instructions
 In these instructions we explain how to set up a working environment on a host computer and
-a BeagleBone Black. If you already have a prepared micro-SD card for flashing a BeagleBone, 
+a BeagleBone Black (BBB). If you already have a prepared micro-SD card for flashing a BBB,
 then you can safely skip the first section of these instructions.
 
-
-<a id='On-the-BBB-1'></a>
-
 ## Preparing a micro-SD card
-First, we will prepare a micro-SD card with an image of Debian and a binary of Julia, which we then can flash onto the BeagleBone. Start by downloading the Debian image [here](http://beagleboard.org/latest-images) (Debian 9.5 2018-10-07 4GB SD IoT) and write the image onto a micro-SD card ([this guide](http://derekmolloy.ie/write-a-new-image-to-the-beaglebone-black/) is helpful).
-Proceed by downloading the Julia v1.0 binary for 32-bit ARMv7 found [here](https://julialang.org/downloads/). Put the .tar-file of the Julia binary on the micro-SD card containing the Debian image under `/home/debian`, and unzip it. 
+First, we will prepare a micro-SD card with an image of Debian and a binary of Julia, which we then can flash onto the BBB.
+
+Start by downloading the Debian image [here](http://beagleboard.org/latest-images) (Debian 9.5 2018-10-07 4GB SD IoT) and write the image onto a micro-SD card ([this guide](http://derekmolloy.ie/write-a-new-image-to-the-beaglebone-black/) is helpful).
+Proceed by downloading the Julia v1.0 binary for 32-bit ARMv7 found [here](https://julialang.org/downloads/). Put the .tar-file of the Julia binary on the micro-SD card containing the Debian image under `/home/debian`, and unzip it.
 Make sure that the Julia folder has the correct name by typing
 ```
-`mv /home/debian/julia-<distro specific tag>/bin/julia /home/debian/julia/bin/julia'
+mv /home/debian/julia-<distro specific tag>/bin/julia /home/debian/julia/bin/julia'
 ```
-The file structure on the micro-SD now has the correct structure. The final step is to make sure that the micro-SD will automatically flash the Debian image onto the BeagleBone when booting up. To do this, follow the instructions found [here](https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#Flashing_eMMC). Congratulations,
-you now have a prepared micro-SD card ready for flashing BeagleBones.
+The file structure on the micro-SD now has the correct structure.
+
+The final step is to make sure that the micro-SD will automatically flash the Debian image onto the BBB when booting up. To do this, follow the instructions found [here](https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#Flashing_eMMC). Congratulations, you now have a prepared micro-SD card ready for flashing a BBB.
 
 ## Flashing the BeagleBone
-Insert a prepared micro-SD card in the slot on the BeagleBone, and press down the boot button S2 (the button closest to the micro-SD slot) and hold it down while you plug
-in the USB-cable to the BeagleBone. Keep the S2 button held down for a couple of seconds, until the onboard LEDs start to blink. After a short while the onboard LEDs should
-start to flash in a wave pattern, indicating that the BeagleBone is being flashed. After a while (can vary between 5-45 minutes) the BeagleBone will be turn off automatically,
-indicating that the flashing is complete. Remove the micro-SD before powering on the BeagleBone again (otherwise it will start to flash the BeagleBone again).
+Insert a prepared micro-SD card in the slot on the BBB, and press down the boot button S2 (the button closest to the micro-SD slot) and hold it down while you plug in the USB-cable to the BBB. Keep the S2 button held down for a couple of seconds, until the onboard LEDs start to blink. After a short while the onboard LEDs should start to blink in a wave pattern, indicating that the BBB is being flashed. After a while (can vary between 5-45 minutes) the BBB will be turn off automatically, indicating that the flashing is complete. Remove the micro-SD before powering on the BBB again (otherwise it will start to flash the BBB again).
 
 ## Trying out the BeagleBone
-Now your BeagleBone is ready to use. Log on to the BeagleBone via SSH by opening a terminal and typing
+Now your BBB should be ready to use. Log on to the BeagleBone via SSH by opening a terminal and typing
 ```
-`ssh debian@192.168.7.2'
+ssh debian@192.168.7.2
 ```
-The default password is `temppwd`. You are now logged in to the BeagleBone running Debian. The Julia binary should be located at `/home/debian/julia-/bin/julia`. 
-You can now start a Julia REPL on the BeagleBone by typing
+The default password is `temppwd`. You are now logged in to the BBB running Debian. If the micro-SD was prepared correctly, the Julia binary should be located at `/home/debian/julia/bin/julia`.
+You can now start a Julia REPL on the BBB by typing
 ```
-`/home/debian/julia-<distro specific tag>/bin/julia'
+/home/debian/julia/bin/julia
 ```
-If this works correctly, then you have a functioning BeagleBone ready for use with the LabConnections.jl package.
-
-<a id='On-the-HOST-1'></a>
+If the Julia REPL starts up correctly, then you have a functioning BBB ready for use with the LabConnections.jl package.
 
 ## Setting up the host computer
 
@@ -120,4 +113,3 @@ and run the startup script:
 ```
 include("/home/debian/juliapackages/LabConnections/src/BeagleBone/startup/startup.jl")
 ```
-

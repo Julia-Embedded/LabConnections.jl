@@ -6,20 +6,20 @@
 
 
 
+<a id='Getting-Started-1'></a>
+
+## Getting Started
+
+- [Introduction](man/introduction.md#Introduction-1)
+- [Installation instructions](man/installation.md#Installation-instructions-1)
+
+
 <a id='Examples-1'></a>
 
 ## Examples
 
 - [Examples](examples/examples.md#Examples-1)
 - [Tests](examples/testing.md#Tests-1)
-
-
-<a id='Guide-1'></a>
-
-## Guide
-
-- [Introduction](man/introduction.md#Introduction-1)
-- [Installation Instructions](man/installation.md#Installation-Instructions-1)
 
 
 <a id='Functions-1'></a>
