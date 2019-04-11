@@ -12,6 +12,7 @@
 
 - [Introduction](man/introduction.md#Introduction-1)
 - [Installation instructions](man/installation.md#Installation-instructions-1)
+- [Development](man/development.md#Package-Development-1)
 
 
 <a id='Examples-1'></a>
@@ -62,4 +63,3 @@
 - [`LabConnections.BeagleBone.write!`](lib/functions.md#LabConnections.BeagleBone.write!)
 - [`LabConnections.BeagleBone.write!`](lib/functions.md#LabConnections.BeagleBone.write!)
 - [`LabConnections.BeagleBone.write!`](lib/functions.md#LabConnections.BeagleBone.write!)
-
