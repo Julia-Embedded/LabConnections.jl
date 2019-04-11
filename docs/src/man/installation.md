@@ -21,7 +21,7 @@ Start by downloading the Debian image [here](http://beagleboard.org/latest-image
 Proceed by downloading the Julia v1.0 binary for 32-bit ARMv7 found [here](https://julialang.org/downloads/). Put the .tar-file of the Julia binary on the micro-SD card containing the Debian image under `/home/debian`, and unzip it.
 Make sure that the Julia folder has the correct name by typing
 ```
-mv /home/debian/julia-<distro specific tag>/bin/julia /home/debian/julia/bin/julia'
+mv /home/debian/julia-<distro specific tag>/bin/julia /home/debian/julia/bin/julia
 ```
 The file structure on the micro-SD now has the correct structure.
 
@@ -68,30 +68,6 @@ Then execute the commands
 `sudo systemctl enable juliaserver` (on the BeagleBone) `sudo systemctl start juliaserver` (on the BeagleBone)
 
 After a while, the BeagleBone should start blinking on SysLED 2: on-off-on-sleep-repeat. The server should now start automatically on restart of the BeagleBone, and you should be able to run the examples in in /Examples on the host computer.
-
-## Package Development
-
-### LabConnections.jl Development
-
-If you want to develop the code in LabConnections.jl, then this is how you setup a development environment. First, open up a Julia REPL and type
-```
-] dev https://gitlab.control.lth.se/labdev/LabConnections.jl
-```
-Open a new terminal and navigate to `.julia/dev/LabConnections`, where the package source code is now located. Then type
-```
-git checkout julia1
-git pull
-```
-to ensure that you are working on the correct development branch for Julia v1.0.X.
-
-### SPI Development
-
-If you plan on working with the SPI devices to debug the ADC/DAC, then you will need a forked `serbus` repository which wraps the`linux/spi/spidev`. Simply
-```
-`cd && cd .julia/v0.6'
-`git clone https://github.com/mgreiff/serbus'
-```
-to get the latest revision of the serbus fork.
 
 ## Debugging
 

@@ -5,7 +5,7 @@ CurrentModule = LabConnections
 ```
 ## Getting Started
 ```@contents
-Pages = ["man/introduction.md", "man/installation.md"]
+Pages = ["man/introduction.md", "man/installation.md", "man/development.md"]
 Depth = 1
 ```
 ## Examples
