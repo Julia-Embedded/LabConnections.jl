@@ -4,12 +4,38 @@
 # Installation instructions
 
 
-In these instructions we explain how to set up a working environment on a host computer and a BeagleBone Black (BBB). If you already have a prepared micro-SD card for flashing a BBB, then you can safely skip the first section of these instructions.
+In these instructions we explain how to set up a working environment on a host computer and a BeagleBone Black (BBB).
+
+
+<a id='Host-computer-setup-1'></a>
+
+## Host computer setup
+
+
+<a id='Installing-Julia-and-LabConnections.jl-1'></a>
+
+### Installing Julia and LabConnections.jl
+
+
+To get started, first install Julia v1.0.X on the host computer running a Linux distribution by following the instructions specified [here](https://github.com/JuliaLang/julia/blob/master/README.md). Once Julia is installed, open up a Julia REPL and add LabConnections.jl using the package manager by typing
+
+
+```
+] add https://gitlab.control.lth.se/labdev/LabConnections.jl#julia1
+```
+
+
+You now have the LabConnections.jl package available on the host computer. Note that for Julia v1.0.X it is the branch `julia1` of the package that should be used.
+
+
+<a id='BeagleBone-setup-1'></a>
+
+## BeagleBone setup
 
 
 <a id='Preparing-a-micro-SD-card-1'></a>
 
-## Preparing a micro-SD card
+### Preparing a micro-SD card
 
 
 First, we will prepare a micro-SD card with an image of Debian and a binary of Julia, which we then can flash onto the BBB.
@@ -31,15 +57,15 @@ The final step is to make sure that the micro-SD will automatically flash the De
 
 <a id='Flashing-the-BeagleBone-1'></a>
 
-## Flashing the BeagleBone
+### Flashing the BeagleBone
 
 
 Insert a prepared micro-SD card in the slot on the BBB, and press down the boot button S2 (the button closest to the micro-SD slot) and hold it down while you plug in the USB-cable to the BBB. Keep the S2 button held down for a couple of seconds, until the onboard LEDs start to blink. After a short while the onboard LEDs should start to blink in a wave pattern, indicating that the BBB is being flashed. After a while (can vary between 5-45 minutes) the BBB will be turn off automatically, indicating that the flashing is complete. Remove the micro-SD before powering on the BBB again (otherwise it will start to flash the BBB again).
 
 
-<a id='Trying-out-the-BeagleBone-1'></a>
+<a id='Accessing-the-BeagleBone-1'></a>
 
-## Trying out the BeagleBone
+### Accessing the BeagleBone
 
 
 Now your BBB should be ready to use. Log on to the BeagleBone via SSH by opening a terminal and typing
@@ -61,36 +87,12 @@ The default password is `temppwd`. You are now logged in to the BBB running Debi
 If the Julia REPL starts up correctly, then you have a functioning BBB ready for use with the LabConnections.jl package.
 
 
-<a id='Setting-up-the-host-computer-1'></a>
+<a id='Getting-LabConnections.jl-on-the-BeagleBone-1'></a>
 
-## Setting up the host computer
-
-
-To get started, first install Julia v1.0.X on the host computer running a Linux distribution by following the instructions specified [here](https://github.com/JuliaLang/julia/blob/master/README.md). Once Julia is installed, run
+### Getting LabConnections.jl on the BeagleBone
 
 
-```
-using Pkg
-`Pkg.clone(https://gitlab.control.lth.se/labdev/LabConnections.jl)'
-```
-
-
-in the Julia REPL to install all dependencies on the host computer. The source code is then located in `./julia/v1.0/LabConnections'.
-
-
-If you plan on working with the SPI devices to debug the ADC/DAC, then you will need a forked `serbus' repository which wraps the`linux/spi/spidev'. Simply
-
-
-```
-`cd && cd .julia/v0.6'
-`git clone https://github.com/mgreiff/serbus'
-```
-
-
-to get the latest revision of the serbus fork.
-
-
-To update the BB with the latest revision of the code,  
+To update the BBB with the latest revision of the code,  
 
 
 ```
@@ -99,7 +101,7 @@ To update the BB with the latest revision of the code,
 ```
 
 
-This scripts bundles the current code in LabCOnnections and serbus on the host computer and transfers it to the /home/debian/juliapackages directory on the BB.
+This scripts bundles the current code in LabConnections (and serbus, see SPI development below) on the host computer and transfers it to the /home/debian/juliapackages directory on the BBB.
 
 
 <a id='Setting-up-automatic-communication-1'></a>
@@ -107,10 +109,10 @@ This scripts bundles the current code in LabCOnnections and serbus on the host c
 
 <a id='Setting-up-automatic-communication-1'></a>
 
-## Setting up automatic communication
+### Setting up automatic communication
 
 
-To setup automatic start of Julia server on the BB, make sure to have completed all prior installation instructions, and that the lates revision of the LabConnections package is located on the BB. SSH to the BeagleBone and copy the julilaserver.service to the systemd/system
+To setup automatic start of Julia server on the BB, make sure to have completed all prior installation instructions, and that the latest revision of the LabConnections package is located on the BB. SSH to the BeagleBone and copy the julilaserver.service to the systemd/system
 
 
 ```
@@ -128,12 +130,51 @@ Then execute the commands
 After a while, the BeagleBone should start blinking on SysLED 2: on-off-on-sleep-repeat. The server should now start automatically on restart of the BeagleBone, and you should be able to run the examples in in /Examples on the host computer.
 
 
-```@systemConfiguration
+<a id='Package-Development-1'></a>
 
+## Package Development
+
+
+<a id='LabConnections.jl-Development-1'></a>
+
+### LabConnections.jl Development
+
+
+If you want to develop the code in LabConnections.jl, then this is how you setup a development environment. First, open up a Julia REPL and type
+
+
+```
+] dev https://gitlab.control.lth.se/labdev/LabConnections.jl
 ```
 
 
-<a id='Debugging-1'></a>
+Open a new terminal and navigate to `.julia/dev/LabConnections`, where the package source code is now located. Then type
+
+
+```
+git checkout julia1
+git pull
+```
+
+
+to ensure that you are working on the correct development branch for Julia v1.0.X.
+
+
+<a id='SPI-Development-1'></a>
+
+### SPI Development
+
+
+If you plan on working with the SPI devices to debug the ADC/DAC, then you will need a forked `serbus` repository which wraps the`linux/spi/spidev`. Simply
+
+
+```
+`cd && cd .julia/v0.6'
+`git clone https://github.com/mgreiff/serbus'
+```
+
+
+to get the latest revision of the serbus fork.
 
 
 <a id='Debugging-1'></a>
