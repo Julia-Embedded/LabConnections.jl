@@ -1,14 +1,14 @@
 #!/bin/bash
-#Run in this file un util folder, copies to BB
+#Run in this file in util folder, copies to BB
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
-BASEDIR=../../$(dirname "$0")
+BASEDIR=../../../$(dirname "$0")
 
 # Dependencies
-# LabConnections - main repository
-# serbus - a fork of a SPI communicaiton interface
+# LabConnections.jl package
+# serbus - a fork of a SPI communication interface
 packages=(LabConnections serbus)
 
 # Create an empty directory to bundle packages

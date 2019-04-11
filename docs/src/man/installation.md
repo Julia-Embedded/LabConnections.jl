@@ -12,6 +12,14 @@ To get started, first install Julia v1.0.X on the host computer running a Linux 
 ```
 You now have the LabConnections.jl package available on the host computer. Note that for Julia v1.0.X it is the branch `julia1` of the package that should be used.
 
+### Installing Serbus
+To work with the SPI devices you will need a forked `serbus` repository which wraps the`linux/spi/spidev`. Open up a terminal and type
+```
+cd && cd .julia/packages
+git clone https://github.com/mgreiff/serbus
+```
+to get the latest revision of the `serbus` fork. You are now done with the setup required on the host computer side.
+
 ## BeagleBone setup
 
 ### Preparing a micro-SD card
@@ -42,15 +50,14 @@ You can now start a Julia REPL on the BBB by typing
 ```
 If the Julia REPL starts up correctly, then you have a functioning BBB ready for use with the LabConnections.jl package.
 
-### Getting LabConnections.jl on the BeagleBone
+### Getting LabConnections.jl and serbus on the BeagleBone
 
-To update the BBB with the latest revision of the code,  
+To update the BBB with the latest revision of the code, open up a terminal and type  
 ```
-`cd && cd .julia/v0.6/LabConnection/util'
-`./flash_BB.sh'
+cd && cd .julia/packages/LabConnections/<version id>/util
+./flash_BB.sh
 ```
-This scripts bundles the current code in LabConnections (and serbus, see SPI development below) on the host computer and transfers it to the /home/debian/juliapackages directory on the BBB.
-
+This scripts bundles the current code in LabConnections and serbus on the host computer and transfers it to the /home/debian/juliapackages directory on the BBB.
 
 <a id='Setting-up-automatic-communication-1'></a>
 
@@ -58,8 +65,8 @@ This scripts bundles the current code in LabConnections (and serbus, see SPI dev
 To setup automatic start of Julia server on the BB, make sure to have completed all prior installation instructions, and that the latest revision of the LabConnections package is located on the BB. SSH to the BeagleBone and copy the julilaserver.service to the systemd/system
 
 ```
-`ssh debian@192.168.7.2'
-`sudo cp -r /home/debian/juliapackets/LabConnections/src/BeagleBone/startup/juliaserver.service /lib/systemd/system/juliaserver.service` (on the BeagleBone)
+ssh debian@192.168.7.2
+sudo cp -r /home/debian/juliapackets/LabConnections/src/BeagleBone/startup/juliaserver.service /lib/systemd/system/juliaserver.service` (on the BeagleBone)
 ```
 
 
