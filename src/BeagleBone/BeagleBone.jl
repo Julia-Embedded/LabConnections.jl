@@ -177,10 +177,18 @@ function run_server(port=2001; debug=false)
             @async while isopen(sock)
                 try
                     l = deserialize(sock);
-                    bbparse(l, sock)
+                    println("deserialized:")
+                    println(l)
+                    try
+                        bbparse(l, sock)
+                    catch err
+                        @warn "Failure in bbparse, server should keep running, error:"
+                        println(err)
+                    end
                 catch err
                     if !isopen(sock) && (isa(err, Base.EOFError) || isa(err, Base.UVError))
                         println("Connection to server closed")
+                        # TODO teardown and remove all devices
                     else
                         println("error: $(typeof(err))")
                         println("err: $err")

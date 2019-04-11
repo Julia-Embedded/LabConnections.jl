@@ -34,4 +34,5 @@ include("BeagleBoneStream.jl")
 
 #Include the device definitions
 include("SysLED.jl")
+include("GPIO.jl")
 include("10V.jl")

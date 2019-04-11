@@ -27,8 +27,16 @@ function init_devices!(bbstream::BeagleBoneStream, devs::AbstractDevice...)
             name = readcmd[1]::String
             idx = readcmd[2]::Integer
             serialize(bbstream.stream, (Int32(2), Int32(1), (name, Int32(idx))))
+
+            setupwrite = getsetupwrite(bbstream, dev)
+            if setupwrite  !== nothing
+                name = setupwrite[1]::String
+                idx = setupwrite[2]::Integer
+                commands = setupwrite[3]::Tuple
+                serialize(bbstream.stream, (Int32(1), Int32(1), (name, Int32(idx), commands)))
+            end
         else
-            warn("Device $dev already added to a stream")
+            @warn "Device $dev already added to a stream"
         end
     end
     return
@@ -69,7 +77,6 @@ function read(bbstream::BeagleBoneStream, cmd)
 end
 
 function close(bbstream::BeagleBoneStream)
-    cmds = Tuple[]
     for dev in bbstream.devices
         close(dev)
     end

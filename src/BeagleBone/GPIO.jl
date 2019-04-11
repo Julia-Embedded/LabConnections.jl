@@ -35,6 +35,11 @@ struct GPIO <: IO_Object
   end
 end
 
+# Default to writing "value"
+function write!(gpio::GPIO, val::String, debug::Bool=false)
+  write!(gpio, (Int32(1), val), debug=debug)
+end
+
 """
     write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
 Writes an entry to an operation on a GPIO, of the form args = (operation, entry).
@@ -53,6 +58,10 @@ function write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
   end
 end
 
+# Default to reading "value"
+function read(gpio::GPIO, debug::Bool=false)
+  read(gpio, Int32(1), debug=debug)
+end
 """
     l = read(gpio::GPIO, operation::Int32, debug::Bool=false)
 Reads the current value from an operation on a GPIO.
