@@ -1,3 +1,7 @@
+const GPIO_VALUE = Int32(1)
+const GPIO_DIRECTION = Int32(2)
+const GPIO_EDGE = Int32(3)
+
 """
     GPIO(i::Int32)
 Lowest form of communication with the GPIO pins. The available pins are
@@ -37,7 +41,7 @@ end
 
 # Default to writing "value"
 function write!(gpio::GPIO, val::String, debug::Bool=false)
-  write!(gpio, (Int32(1), val), debug=debug)
+  write!(gpio, (GPIO_VALUE, val), debug=debug)
 end
 
 """
@@ -60,7 +64,7 @@ end
 
 # Default to reading "value"
 function read(gpio::GPIO, debug::Bool=false)
-  read(gpio, Int32(1), debug=debug)
+  read(gpio, GPIO_VALUE, debug=debug)
 end
 """
     l = read(gpio::GPIO, operation::Int32, debug::Bool=false)

@@ -1,3 +1,7 @@
+const READ = Int32(0)
+const WRITE = Int32(1)
+const INIT = Int32(2)
+
 include("IO_Object.jl")
 include("Debug.jl")
 include("SysLED.jl")
@@ -118,14 +122,14 @@ and send back on socket (vals, timestamps).
 function bbparse(l::Tuple, sock)
     operation = l[1]::Int32           #1 if write command, 0 if read, 2 if init
     ndev = l[2]::Int32              #Number of devices/commands
-    if operation == 1
+    if operation == WRITE
         for i = 1:ndev
             command = l[2+i]::Tuple
             dev = getdev(command[1], command[2])
             write!(dev, command[3])
         end
         return
-    elseif operation == 0
+    elseif operation == READ
         #TODO fix to have at least partial type stability
         vals = Array{Any,1}(undef,ndev)
         timestamps = Array{UInt64,1}(undef,ndev)
@@ -137,7 +141,7 @@ function bbparse(l::Tuple, sock)
         end
         bbsend(sock, (vals, timestamps))
         return
-    elseif operation == 2
+    elseif operation == INIT
         for i = 1:ndev
             command = l[2+i]::Tuple
             dev = initdev(command[1], command[2])
