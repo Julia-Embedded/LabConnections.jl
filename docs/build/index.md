@@ -12,7 +12,6 @@
 
 - [Introduction](man/introduction.md#Introduction-1)
 - [Installation instructions](man/installation.md#Installation-instructions-1)
-- [Development](man/development.md#Package-Development-1)
 
 
 <a id='Examples-1'></a>
@@ -43,8 +42,8 @@
 - [`Base.read`](lib/functions.md#Base.read)
 - [`Base.read`](lib/functions.md#Base.read)
 - [`LabConnections.BeagleBone.assert_pwm_write`](lib/functions.md#LabConnections.BeagleBone.assert_pwm_write-Tuple{Int32,String})
-- [`LabConnections.BeagleBone.bbparse`](lib/functions.md#LabConnections.BeagleBone.bbparse-Tuple{Tuple,Any})
 - [`LabConnections.BeagleBone.bbparse`](lib/functions.md#LabConnections.BeagleBone.bbparse-Tuple{Any})
+- [`LabConnections.BeagleBone.bbparse`](lib/functions.md#LabConnections.BeagleBone.bbparse-Tuple{Tuple,Any})
 - [`LabConnections.BeagleBone.closedev`](lib/functions.md#LabConnections.BeagleBone.closedev-Tuple{String,Int32})
 - [`LabConnections.BeagleBone.export_gpio`](lib/functions.md#LabConnections.BeagleBone.export_gpio-Tuple{Int32})
 - [`LabConnections.BeagleBone.export_led`](lib/functions.md#LabConnections.BeagleBone.export_led)
@@ -63,3 +62,4 @@
 - [`LabConnections.BeagleBone.write!`](lib/functions.md#LabConnections.BeagleBone.write!)
 - [`LabConnections.BeagleBone.write!`](lib/functions.md#LabConnections.BeagleBone.write!)
 - [`LabConnections.BeagleBone.write!`](lib/functions.md#LabConnections.BeagleBone.write!)
+

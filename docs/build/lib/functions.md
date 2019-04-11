@@ -2,8 +2,8 @@
 - [`Base.read`](functions.md#Base.read)
 - [`Base.read`](functions.md#Base.read)
 - [`LabConnections.BeagleBone.assert_pwm_write`](functions.md#LabConnections.BeagleBone.assert_pwm_write-Tuple{Int32,String})
-- [`LabConnections.BeagleBone.bbparse`](functions.md#LabConnections.BeagleBone.bbparse-Tuple{Tuple,Any})
 - [`LabConnections.BeagleBone.bbparse`](functions.md#LabConnections.BeagleBone.bbparse-Tuple{Any})
+- [`LabConnections.BeagleBone.bbparse`](functions.md#LabConnections.BeagleBone.bbparse-Tuple{Tuple,Any})
 - [`LabConnections.BeagleBone.closedev`](functions.md#LabConnections.BeagleBone.closedev-Tuple{String,Int32})
 - [`LabConnections.BeagleBone.export_gpio`](functions.md#LabConnections.BeagleBone.export_gpio-Tuple{Int32})
 - [`LabConnections.BeagleBone.export_led`](functions.md#LabConnections.BeagleBone.export_led)
@@ -45,6 +45,17 @@ Run a server on `port` that listens for commands from computer Optional debug ke
 
 
 ```julia
+l = read(pwm::PWM, operation::Int32, debug::Bool=false)
+```
+
+Reads the current value from an operation on a GPIO.
+
+<a id='Base.read' href='#Base.read'>#</a>
+**`Base.read`** &mdash; *Function*.
+
+
+
+```julia
 l = read(led::SysLED, debug::Bool=false)
 ```
 
@@ -57,17 +68,6 @@ Reads the current brightness value from the LED 'SysLED'.
 
 ```julia
 l = read(gpio::GPIO, operation::Int32, debug::Bool=false)
-```
-
-Reads the current value from an operation on a GPIO.
-
-<a id='Base.read' href='#Base.read'>#</a>
-**`Base.read`** &mdash; *Function*.
-
-
-
-```julia
-l = read(pwm::PWM, operation::Int32, debug::Bool=false)
 ```
 
 Reads the current value from an operation on a GPIO.
@@ -210,10 +210,10 @@ Closes all open streams on the GPIO, and unexports it from the file system.
 
 
 ```julia
-teardown!(pwd::PWM)
+teardown(led::SysLED, debug::Bool=false)
 ```
 
-Closes all open streams on the PWM, and unexports it from the file system
+Closes all open filestreams for the SysLED 'led'.
 
 <a id='LabConnections.BeagleBone.teardown' href='#LabConnections.BeagleBone.teardown'>#</a>
 **`LabConnections.BeagleBone.teardown`** &mdash; *Function*.
@@ -221,10 +221,10 @@ Closes all open streams on the PWM, and unexports it from the file system
 
 
 ```julia
-teardown(led::SysLED, debug::Bool=false)
+teardown!(pwd::PWM)
 ```
 
-Closes all open filestreams for the SysLED 'led'.
+Closes all open streams on the PWM, and unexports it from the file system
 
 <a id='LabConnections.BeagleBone.to_string' href='#LabConnections.BeagleBone.to_string'>#</a>
 **`LabConnections.BeagleBone.to_string`** &mdash; *Function*.
@@ -243,7 +243,7 @@ Generates a string representation of the GPIO device.
 
 
 ```julia
-to_string(pwm::PWM,, debug::Bool=false)
+to_string(led::SysLED, debug::Bool=false)
 ```
 
 Generates a string representation of the GPIO device.
@@ -254,7 +254,7 @@ Generates a string representation of the GPIO device.
 
 
 ```julia
-to_string(led::SysLED, debug::Bool=false)
+to_string(pwm::PWM,, debug::Bool=false)
 ```
 
 Generates a string representation of the GPIO device.
@@ -276,10 +276,10 @@ Turns the LED 'SysLed' on/off for val = true/false respectively.
 
 
 ```julia
-write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
+write!(pwm::PWM, args::Tuple{Int32,String}, debug::Bool=false)
 ```
 
-Writes an entry to an operation on a GPIO, of the form args = (operation, entry).
+Writes an entry to an operation on the PWM, of the form args = (operation, entry).
 
 <a id='LabConnections.BeagleBone.write!' href='#LabConnections.BeagleBone.write!'>#</a>
 **`LabConnections.BeagleBone.write!`** &mdash; *Function*.
@@ -287,8 +287,8 @@ Writes an entry to an operation on a GPIO, of the form args = (operation, entry)
 
 
 ```julia
-write!(pwm::PWM, args::Tuple{Int32,String}, debug::Bool=false)
+write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
 ```
 
-Writes an entry to an operation on the PWM, of the form args = (operation, entry).
+Writes an entry to an operation on a GPIO, of the form args = (operation, entry).
 

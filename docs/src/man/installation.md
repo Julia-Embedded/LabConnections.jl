@@ -54,10 +54,11 @@ If the Julia REPL starts up correctly, then you have a functioning BBB ready for
 
 To update the BBB with the latest revision of the code, open up a terminal and type  
 ```
-cd && cd .julia/packages/LabConnections/<version id>/util
+cd
+cd .julia/packages/LabConnections/<version id>/util
 ./flash_BB.sh
 ```
-This scripts bundles the current code in LabConnections and serbus on the host computer and transfers it to the /home/debian/juliapackages directory on the BBB.
+This scripts bundles the current code in LabConnections.jl and serbus on the host computer and transfers it to the BBB and puts it in the directory `/home/debian/juliapackages`.
 
 <a id='Setting-up-automatic-communication-1'></a>
 
