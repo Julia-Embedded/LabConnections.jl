@@ -10,7 +10,7 @@ using Documenter, LabConnections
 # osname = "linux"
 # )
 
-makedocs(modules=[LabConnections])
+makedocs(modules=[LabConnections],format=Documenter.HTML(),sitename="LabConnections")
 
 #makedocs(
 #    format = :html,
