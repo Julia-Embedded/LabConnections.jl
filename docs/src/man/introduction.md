@@ -1,5 +1,5 @@
 # Introduction
-<img src="/images/labio_overview.png" height="150" width="900">
+<img src="../fig/labio_overview.png" height="150" width="900">
 
 This project is developing a software package in [Julia](https://julialang.org/)
 for interfacing with lab processes using either the [BeagleBone Black Rev C](http://beagleboard.org/) (BBB)
