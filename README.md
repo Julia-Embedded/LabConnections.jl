@@ -11,7 +11,7 @@ With this package, the user is able to setup a connection between the
 host computer and the IO-device, and send and 
 receive control signals and measurements from the lab process.
 
-The full documentation of the package is available [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/index.md).
+The full documentation of the package is available [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/julia1/docs/build/index.md).
 
 ## Package Overview
 The `LabConnections.jl` package is subdivided into two main modules; `Computer` 
