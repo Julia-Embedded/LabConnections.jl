@@ -23,7 +23,7 @@ printf "${GREEN}Bundling...${NC}\n\n"
 for (( i=0; i<${#packages[@]}; i++ )); do
   {
     printf "${BLUE}    * ${packages[$i]}${NC}\n"
-    cp -r ../../${packages[$i]} ${BASEDIR}/juliapackages
+    cp -r ../../../${packages[$i]} ${BASEDIR}/juliapackages
   } || {
     printf "${BLUE}WARNING.${NC} Could not bundle package ${packages[$i]}${NC}\n"
     flag=false
