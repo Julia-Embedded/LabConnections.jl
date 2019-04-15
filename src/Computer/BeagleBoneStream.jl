@@ -79,11 +79,3 @@ function read(bbstream::BeagleBoneStream, cmd)
     #TODO Do something with timestamps
     return vals[1], timestamps[1]
 end
-
-function close(bbstream::BeagleBoneStream)
-    for dev in bbstream.devices
-        close(dev)
-    end
-    close(bbstream.stream)
-    return
-end
