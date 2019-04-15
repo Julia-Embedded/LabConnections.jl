@@ -64,7 +64,7 @@ end
 
 # Default to reading "value"
 function read(gpio::GPIO, debug::Bool=false)
-  read(gpio, GPIO_VALUE, debug=debug)
+  read(gpio, GPIO_VALUE, debug)
 end
 """
     l = read(gpio::GPIO, operation::Int32, debug::Bool=false)

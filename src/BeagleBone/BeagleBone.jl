@@ -152,6 +152,18 @@ function bbparse(l::Tuple, sock)
     end
 end
 
+function close_all_devices()
+    # When connection fails or closes, close devices
+    for key in keys(DEVICES)
+        for (devkey, active_device) in active_devices[key]
+            println("teardown $active_device")
+            teardown(active_device)
+            #Remove the device from the dict of active devices
+            delete!(active_devices[key], devkey)
+        end
+    end
+end
+
 global __waiting_first_connection__ = false
 """
     run_server(port=2001; debug=false)
@@ -181,8 +193,8 @@ function run_server(port=2001; debug=false)
             @async while isopen(sock)
                 try
                     l = deserialize(sock);
-                    println("deserialized:")
-                    println(l)
+                    # println("deserialized:")
+                    # println(l)
                     try
                         bbparse(l, sock)
                     catch err
@@ -192,7 +204,7 @@ function run_server(port=2001; debug=false)
                 catch err
                     if !isopen(sock) && (isa(err, Base.EOFError) || isa(err, Base.UVError))
                         println("Connection to server closed")
-                        # TODO teardown and remove all devices
+                        close_all_devices()
                     else
                         println("error: $(typeof(err))")
                         println("err: $err")
@@ -201,10 +213,11 @@ function run_server(port=2001; debug=false)
                 end
             end
         catch err
+            close_all_devices()
             if isa(err,Base.UVError) && err.prefix == "accept"
                 println("Server closed successfully")
             else
-                rethrow()
+                rethrow(err)
             end
         end
     end
