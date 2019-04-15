@@ -1,4 +1,3 @@
-
 <a id='Package-Development-1'></a>
 
 # Package Development
@@ -56,5 +55,9 @@ This will transfer the current development version of `LabConnections.jl` found 
 ### Development with hardware in the loop
 
 
-When testing `LabConnections.jl` with hardware in the loop, the external hardware will be connected to the pin headers on the BB. For reference, the pin map of the BeagleBone (BB) is shown below. <img src="../fig/beaglebone*black*pinmap.png" height="400" width="700"> When running examples and tests with hardware in the loop, take caution not to short the BB ground with any output pin, as this will damage the board. For instance, if connecting a diode to the output pins, always use a resistor of >1 kOhm in parallel.
+When testing `LabConnections.jl` with hardware in the loop, the external hardware will be connected to the pin headers on the BB. For reference, the pin map of the BeagleBone (BB) is shown below.
+
+<img src="../fig/beaglebone_black_pinmap.png">
+
+When running examples and tests with hardware in the loop, take caution not to short the BB ground with any output pin, as this will damage the board. For instance, if connecting a diode to the output pins, always use a resistor of >1 kOhm in parallel.
 
