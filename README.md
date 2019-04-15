@@ -113,15 +113,25 @@ get(led2)
 get(led3)
 v1, v2 = read(stream)
 ```
-We can also manipulate other types of devices on the BB. Let's try manipulating a couple of physical GPIO's on the BB. Similar to the LEDs, we begin by defining two `GPIO`-objects
+We can also manipulate other types of devices on the BB. Let's try manipulating a couple of physical GPIO's on the BB. Similar to the LEDs, we begin by defining two `GPIO`-objects and initializing them on the BB
 ```
 gpio112 = GPIO(1, true)
 gpio66 = GPIO(29,false)
+init_devices!(stream, gpio112, gpio66)
 ```
-When creating the `GPIO`-objects, we input two arguments. The first one is an integer value (1-33) which defines which physical GPIO pin we want to access. The integer corresponds to the index of the physical GPIO in the `gpio_channels`-array defined [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/julia1/src/BeagleBone/IO_Object.jl). Additionally, the pin map of the BB can be found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/julia1/docs/build/man/development.md#Package-Development-1). 
+When creating the `GPIO`-objects, we input two arguments. The first one is an integer value (1-33) which defines which physical GPIO pin we want to access. The integer corresponds to the index of the physical GPIO in the `gpio_channels`-array defined [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/julia1/src/BeagleBone/IO_Object.jl). Additionally, the pin map of the BB can be found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/julia1/docs/build/man/development.md#Package-Development-1). The second argument defines if the GPIO should be of output (`true`) or input (`false`) type.
+
+Now that we have access to two GPIO pins, we can e.g set the output pin's value to high (`true`)
+```
+send(gpio112, true)
+```
+The physical GPIO pin on the BB will now output a voltage. The other GPIO pin was defined to be of input type, and if we want to read from it we simply type
+```
+val = read(gpio66)
+```
+where `val` will be either 0 or 1 depending on the voltage value read by the pin.
 
 ### More Examples
-There are several examples found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/examples/examples.md#examples)
-which let's you test out the functionality of `LabConnections.jl`.
+More examples for testing out the functionality of `LabConnections.jl` are found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/examples/examples.md#examples).
 
-Examples of real-world usage are available in [ball-and-beam](https://gitlab.control.lth.se/processes/LabProcesses.jl/blob/master/src/interface_implementations/ballandbeam.jl)
+A real-world example using `LabConnections.jl` with the old IO-boxes for controlling the ball and beam process is avaible [here](https://gitlab.control.lth.se/processes/LabProcesses.jl/blob/master/src/interface_implementations/ballandbeam.jl).
