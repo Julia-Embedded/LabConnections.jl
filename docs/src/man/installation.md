@@ -79,8 +79,9 @@ sudo systemctl start juliaserver
 ```
 After a while, the BBB should start blinking onboard LED 2 in the following pattern: on-off-on-sleep-repeat. This indicates that the server on the BBB is now running, and server should now start automatically every time you restart the BBB. With this setup ready, you should be able to run the examples in the `/Examples` folder from the host computer.
 
-Note that no errors will be seen on the BeagleBone when the automatic startup is used. For debugging purposes it can also be useful to start the service manually on the BBB. To do this, start Julia as root on the BBB
+Note that no errors will be seen on the BeagleBone when the automatic startup is used. For debugging purposes it can therefore also be useful to start the service manually on the BBB. This way, any warnings or errors will be printed when starting up the Julia server. To start up the Julia server manually on the BBB, SHH into the BBB and start Julia as root
 ```
+ssh debian@192.168.7.2
 sudo /home/debian/julia/bin/julia
 ```
 and then run the startup script
