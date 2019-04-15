@@ -28,7 +28,7 @@ Start by downloading the Debian image [here](http://beagleboard.org/latest-image
 Proceed by downloading the Julia v1.0 binary for 32-bit ARMv7 found [here](https://julialang.org/downloads/). Put the .tar-file of the Julia binary on the micro-SD card containing the Debian image under `/home/debian`, and unzip it.
 Make sure that the Julia folder has the correct name by typing
 ```
-mv /home/debian/julia-<distro specific tag>/bin/julia /home/debian/julia/bin/julia
+mv /home/debian/julia-<distro specific tag> /home/debian/julia
 ```
 The file structure on the micro-SD now has the correct structure.
 

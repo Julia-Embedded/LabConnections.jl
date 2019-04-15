@@ -24,6 +24,7 @@ to be used locally on the BB.
 <p align="center">
 <img src="docs/src/fig/computertypes.png" height="320" width="900">
 </p>
+
 The module `LabConnections.Computer` contains the user interface on the host computer side, and defines
 types for devices/connections to the lab process, and filestreams between the
 host computer and different IO-devices (BB or Comedi). There are currently 3
@@ -67,45 +68,57 @@ First, you should follow the instructions on how to install the required softwar
 This is a simple example that demonstrates the usage of local devices on the BB via a host computer. The devices that will be used in the example are `SysLED` and `GPIO`.
 
 First make sure that you have followed the installation guide, and that the BB is running a server connected to the host computer.
-Then, start the Julia REPL and input
-
-    using LabConnections.Computer
-to load the host computer interface. Then define a file stream `stream` and connect to the server running on the BBB by inputting
-
-    stream = BeagleBoneStream(ip"192.168.7.2")
-Now, we continue by defining the LED we want to control
-
-    led = SysLED(1)
-
-The object `led` will now correspond to the first system LED on the BBB.
-To tell the BBB that we want to control the LED, we make a call to `init_devices!`
-
-    init_devices!(stream, led)
-Now we can start controlling the LED on the BBB. Let's begin by turning it on
-
-    send(led, true)
-You should now see the first system LED on the BBB being lit.
-The function `send` puts a new command (`true`) to a device (`led`) to the file stream buffer and
-sends it immediately to the BBB.
+Then, start a Julia REPL on the host computer and type
+```
+using LabConnections.Computer
+using Sockets
+```
+to load the host computer interface. Then define a file stream and connect to the server running on the BB by typing
+```
+stream = BeagleBoneStream(ip"192.168.7.2")
+```
+Now, we continue by defining the onboard LED on the BB we want to control
+```
+led = SysLED(1)
+```
+The argument `1` means that the object `led` will correspond to the first system LED on the BB. So far, this definition is only known to the host computer. To tell the BB that we want to control the LED, we make a call to `init_devices!`
+```
+init_devices!(stream, led)
+```
+Now the LED object is defined also on the BB, and we can start controlling it from the host computer. Let's begin by turning it on
+```
+send(led, true)
+```
+You should now see the first onboard LED on the BB being lit. The function `send` puts a new command (in this case `true`) to a device (in this case `led`) to the file stream buffer and
+immediately sends it to the BB.
 We can read the current status of the LED by calling `read`
-
-    v = read(led)
+```
+v = read(led)
+```
 You should now see a printout saying that the LED is turned on.
 
-We can also stack several commands to the buffer before sending them to the BBB.
-We do this with the command `put!`. To turn on 2 LEDS at the same time, we can call
-
-    led2 = SysLED(2)
-    led3 = SysLED(3)
-    init_devices!(stream, led2, led3)
-    put!(led2, true)
-    put!(led3, true)
-    send(stream)
+We can also stack several commands to the message buffer before sending them to the BB.
+We do this with the command `put!`. To turn on 2 LEDS at the same time, we do the following call
+```
+led2 = SysLED(2)
+led3 = SysLED(3)
+init_devices!(stream, led2, led3)
+put!(led2, true)
+put!(led3, true)
+send(stream)
+```
 Similarly we can read from several devices at the same time by using `get`
-
-    get(led2)
-    get(led3)
-    v1, v2 = read(stream)
+```
+get(led2)
+get(led3)
+v1, v2 = read(stream)
+```
+We can also manipulate other types of devices on the BB. Let's try manipulating a couple of physical GPIO's on the BB. Similar to the LEDs, we begin by defining two `GPIO`-objects
+```
+gpio112 = GPIO(1, true)
+gpio66 = GPIO(29,false)
+```
+When creating the `GPIO`-objects, we input two arguments. The first one is an integer value (1-33) which defines which physical GPIO pin we want to access. The integer corresponds to the index of the physical GPIO in the `gpio_channels`-array defined [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/julia1/src/BeagleBone/IO_Object.jl). Additionally, the pin map of the BB can be found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/julia1/docs/build/man/development.md#Package-Development-1). 
 
 ### More Examples
 There are several examples found [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/master/docs/build/examples/examples.md#examples)
