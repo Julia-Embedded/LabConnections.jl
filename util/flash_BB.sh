@@ -1,15 +1,15 @@
 #!/bin/bash
-#Run in this file in util folder, copies to BB
+#Run in this file un util folder, copies to BB
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
-BASEDIR=../../../$(dirname "$0")
+BASEDIR=../../$(dirname "$0")
 
 # Dependencies
-# LabConnections.jl package
-# serbus - a fork of a SPI communication interface
-packages=(LabConnections serbus)
+# LabConnections - main repository
+# serbus - a fork of a SPI communicaiton interface
+packages=(LabConnections.jl serbus)
 
 # Create an empty directory to bundle packages
 if [ -d ${BASEDIR}/juliapackages ]; then
@@ -23,12 +23,13 @@ printf "${GREEN}Bundling...${NC}\n\n"
 for (( i=0; i<${#packages[@]}; i++ )); do
   {
     printf "${BLUE}    * ${packages[$i]}${NC}\n"
-    cp -r ../../../${packages[$i]} ${BASEDIR}/juliapackages
+    cp -r ../../${packages[$i]} ${BASEDIR}/juliapackages
   } || {
     printf "${BLUE}WARNING.${NC} Could not bundle package ${packages[$i]}${NC}\n"
     flag=false
   }
 done
+mv ${BASEDIR}/juliapackages/LabConnections.jl ${BASEDIR}/juliapackages/LabConnections
 
 # Transfer files
 if [ "$flag" = true ] ; then

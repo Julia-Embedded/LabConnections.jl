@@ -1,6 +1,6 @@
 name = "LabConnections"
 uuid = "e9ebaa62-f26d-11e8-0a59-692f6511a9a1"
-authors = ["Mattias Fält  <mattiasf@control.lth.se>", "Marcus Greiff", "Marcus Thelander Andrén"]
+authors = ["Mattias Fält  <mattiasf@control.lth.se>", "Marcus Greiff", "Marcus Thelander Andrén <marcus@control.lth.se>"]
 version = "0.1.0"
 
 [deps]
