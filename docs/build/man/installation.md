@@ -109,11 +109,20 @@ If the Julia REPL starts up correctly, then you have a functioning BBB ready for
 ### Getting LabConnections.jl and serbus on the BeagleBone
 
 
-To update the BBB with the latest revision of the code, open up a terminal and type  
+To update the BBB with the latest revision of the code, open up a terminal on the host computer and begin by cloning the `serbus` and `LabConnections.jl` repositories to a common directory
 
 
 ```
-cd ~/.julia/packages/LabConnections/<version id>/util
+git clone https://github.com/mgreiff/serbus
+git clone --branch julia1 https://gitlab.control.lth.se/labdev/LabConnections.jl.git
+```
+
+
+Then proceed by navigating to `LabConnections.jl/util` and run the `flash_BB.sh` shell script
+
+
+```
+cd LabConnections/util
 ./flash_BB.sh
 ```
 
@@ -124,27 +133,30 @@ This scripts bundles the current code in LabConnections.jl and serbus on the hos
 <a id='Setting-up-automatic-communication-1'></a>
 
 
-<a id='Setting-up-automatic-communication-1'></a>
+<a id='Setting-up-a-Julia-server-on-the-BeagleBone-1'></a>
 
-### Setting up automatic communication
+### Setting up a Julia server on the BeagleBone
 
 
-To setup automatic start of Julia server on the BB, make sure to have completed all prior installation instructions, and that the latest revision of the LabConnections package is located on the BB. SSH to the BeagleBone and copy the julilaserver.service to the systemd/system
+To setup automatic start of Julia server on the BBB, make sure to have completed all prior installation instructions, and that the latest revision of the LabConnections package is located on the BBB. SSH into the BBB, and copy the file `juliaserver.service` to the folder `systemd/system`
 
 
 ```
 ssh debian@192.168.7.2
-sudo cp -r /home/debian/juliapackets/LabConnections/src/BeagleBone/startup/juliaserver.service /lib/systemd/system/juliaserver.service` (on the BeagleBone)
+sudo cp -r /home/debian/juliapackets/LabConnections/src/BeagleBone/startup/juliaserver.service /lib/systemd/system/juliaserver.service
 ```
 
 
-Then execute the commands
+Then, still SSH:d into the BBB, execute the commands
 
 
-`sudo systemctl enable juliaserver` (on the BeagleBone) `sudo systemctl start juliaserver` (on the BeagleBone)
+```
+sudo systemctl enable juliaserver
+sudo systemctl start juliaserver
+```
 
 
-After a while, the BeagleBone should start blinking on SysLED 2: on-off-on-sleep-repeat. The server should now start automatically on restart of the BeagleBone, and you should be able to run the examples in in /Examples on the host computer.
+After a while, the BBB should start blinking onboard LED 2 in the following pattern: on-off-on-sleep-repeat. This indicates that the server on the BBB is now running, and server should now start automatically every time you restart the BBB. With this setup ready, you should be able to run the examples in the `/Examples` folder from the host computer.
 
 
 <a id='Debugging-1'></a>
