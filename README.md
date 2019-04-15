@@ -15,9 +15,9 @@ receive control signals and measurements from the lab process.
 The full documentation of the package is available [here](https://gitlab.control.lth.se/labdev/LabConnections.jl/blob/julia1/docs/build/index.md).
 
 ## Package Overview
-The `LabConnections.jl` package is subdivided into two main modules; `Computer`
-and `BeagleBone`. `Computer` defines the user interface on the host
-computer side, while `BeagleBone` defines low-level types and functions meant
+The `LabConnections.jl` package is subdivided into two main modules; `LabConnections.Computer`
+and `LabConnections.BeagleBone`. `LabConnections.Computer` defines the user interface on the host
+computer side, while `LabConnections.BeagleBone` defines low-level types and functions meant
 to be used locally on the BB.
 
 ### LabConnections.Computer
