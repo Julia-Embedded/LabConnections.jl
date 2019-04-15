@@ -44,14 +44,23 @@ const gpio_channels =[
   "gpio7"
 ]
 
-# These pins are exported with the Device Tree Overlay cape-universaln (default)
+# Device Tree Overlay cape-universaln (default) before the v.4.14 kernel
+#const pwm_pins = Dict(
+#    "P9.22" => ("PWM0A", "pwmchip0", "0"),
+#    "P9.21" => ("PWM0B", "pwmchip0", "1"),
+#    "P9.14" => ("PWM1A", "pwmchip2", "0"),
+#    "P9.16" => ("PWM1B", "pwmchip2", "1"),
+#    "P8.19" => ("PWM2A", "pwmchip4", "0"),
+#    "P8.13" => ("PWM2B", "pwmchip4", "1"),
+#)
+# After and including the 4.14 kernel
 const pwm_pins = Dict(
-    "P9.22" => ("PWM0A", "pwmchip0", "0"),
-    "P9.21" => ("PWM0B", "pwmchip0", "1"),
-    "P9.14" => ("PWM1A", "pwmchip2", "0"),
-    "P9.16" => ("PWM1B", "pwmchip2", "1"),
-    "P8.19" => ("PWM2A", "pwmchip4", "0"),
-    "P8.13" => ("PWM2B", "pwmchip4", "1"),
+    "P9.22" => ("1", "pwmchip1", "0"), # PWM0A
+    "P9.21" => ("1", "pwmchip1", "1"), # PWM0B
+    "P9.14" => ("4", "pwmchip4", "0"), # PWM1A
+    "P9.16" => ("4", "pwmchip4", "1"), # PWM1B
+    "P8.19" => ("7", "pwmchip7", "0"), # PWM2A
+    "P8.13" => ("7", "pwmchip7", "1"), # PWM2B
 )
 
 # These pins are exported with the Device Tree Overlay cape-universala

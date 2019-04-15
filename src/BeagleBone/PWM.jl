@@ -1,8 +1,21 @@
 """
     PWM(i::Int32)
 This device allows for low level PWM control of selected pins. The valid pins
-dictionary pwm_pins relates to memory adresses in of the AM3359 chip, see p.182
+dictionary pwm_pins relates to memory adresses in of the AM3359 chip, see p.184
 in www.ti.com/product/AM3359/technicaldocuments.
+
+    pwm = PWM(1)
+    write!(pwm, (1,"1"))
+    write!(pwm, (2, "1000000000"))
+    write!(pwm, (3, "800000000"))
+
+The operation of reading the current output value of the GPIO is done by
+
+    read(pwm, 1)
+    read(pwm, 2)
+    read(pwm, 3)
+
+See the test/BeagleBone/GPIO_test.jl for more examples.
 """
 
 struct PWM <: IO_Object
@@ -20,13 +33,14 @@ struct PWM <: IO_Object
 
         # Setup filestreams
         pins = collect(keys(pwm_pins))
-        pin = pins[i]
+        pin  = pins[i]
         chip = pwm_pins[pin][2]
+        location = "$(basedir)/$(pwm_pins[pin][2])/pwm-$(pwm_pins[pin][1]):$(pwm_pins[pin][3])"
 
-        enable_filestream = open("$(basedir)/$(pwm_pins[pin][2])/pwm$(pwm_pins[pin][3])/enable","r+")
-        period_filestream = open("$(basedir)/$(pwm_pins[pin][2])/pwm$(pwm_pins[pin][3])/period","r+")
-        duty_cycle_filestream = open("$(basedir)/$(pwm_pins[pin][2])/pwm$(pwm_pins[pin][3])/duty_cycle","r+")
-        polarity_filestream = open("$(basedir)/$(pwm_pins[pin][2])/pwm$(pwm_pins[pin][3])/polarity","r+")
+        enable_filestream = open("$(location)/enable","r+")
+        period_filestream = open("$(location)/period","r+")
+        duty_cycle_filestream = open("$(location)/duty_cycle","r+")
+        polarity_filestream = open("$(location)/polarity","r+")
         return new(i, pin, chip, basedir, [enable_filestream, period_filestream, duty_cycle_filestream, polarity_filestream])
     end
 end
@@ -37,17 +51,17 @@ Writes an entry to an operation on the PWM, of the form args = (operation, entry
 """
 function write!(pwm::PWM, args::Tuple{Int32,String}, debug::Bool=false)
     debug && return
-
     operation, entry = args[1], args[2]
-    (operation < 1 || operation > length(pwm.filestreams)) && error("Invalid PWM operation: $operation")
 
-    # Input data check
-    assert_pwm_write(operation, entry)
+    operation ∉ [1,2,3,4] && error("Invalid PWM operation $operation for writing")
 
-    # Write to file
-    seekstart(pwm.filestreams[operation])
-    write(pwm.filestreams[operation], "$entry\n")
-    flush(pwm.filestreams[operation])
+    if assert_pwm_write(operation, entry)
+        seekstart(pwm.filestreams[operation])
+        write(pwm.filestreams[operation], "$entry\n")
+        #flush(pwm.filestreams[operation])
+    else
+        error("Invalid entry for PWM operation $(operation): $(entry)")
+    end
 end
 
 """
@@ -55,33 +69,30 @@ end
 Assertsion for the PWM input data.
 """
 function assert_pwm_write(operation::Int32, entry::String)
-  if operation == "1"
-    entry ∉ ["0", "1"] && error("Invalid SysLED entry $(entry), valid options are 0 and 1 ::String")
+  if operation == 1
+    entry in ["0", "1"] || error("Invalid PWM entry $(entry), valid options are 0 and 1 of type ::String")
   else
     number = try
       parse(Int32, entry)
     catch
       error("Invalid SysLED entry $(entry), cannot parse as Int32")
     end
-    (number < 0 || number > 100000000) && error("Invalid SysLED entry $(entry), not in the range [0,100000000]")
+    !(number < 0 || number > 1000000000) || error("Invalid PWM entry $(entry), not in the range [0,1000000000]")
   end
 end
 
 """
     l = read(pwm::PWM, operation::Int32, debug::Bool=false)
-Reads the current value from an operation on a GPIO.
+Reads the current value from an operation on a PWM pin.
 """
 function read(pwm::PWM, operation::Int32, debug::Bool=false)
   debug && return
   # Filestreams 1, 2 and 3 are readable
-  operation ∉ [1,2,3,4] && error("Invalid GPIO operation: $operation for reading")
+  operation ∉ [1,2,3,4] && error("Invalid PWM operation: $operation for reading")
   seekstart(pwm.filestreams[operation])
   l = readline(pwm.filestreams[operation])
   return l
 end
-
-
-
 
 """
     teardown!(pwd::PWM)
@@ -101,7 +112,7 @@ function teardown(pwm::PWM, debug::Bool=false)
     try
       rm("$(pwm.basedir)/$(pwm_pins[pwm.pin][2])/pwm$(pwm_pins[pwm.pin][3])"; recursive=true)
     catch
-      error("Could not remove the requested GPIO testfiles for channel $(pwm_pins[pwm.pin][2])/pwm$(pwm_pins[pwm.pin][3]).")
+      error("Could not remove the requested PWM testfiles for channel $(pwm_pins[pwm.pin][2])/pwm$(pwm_pins[pwm.pin][3]).")
     end
   else
     #Unexport filestructure
@@ -112,8 +123,8 @@ function teardown(pwm::PWM, debug::Bool=false)
 end
 
 """
-    export_gpio(i::Int32, debug::Bool=false)
-Export the GPIO file system, either for real-time or testing usecases.
+    export_pwm(i::Int32, debug::Bool=false)
+Export the PWM file system, either for real-time or testing usecases.
 """
 function export_pwm(i::Int32)
   # Find chip and export number
@@ -137,7 +148,7 @@ function export_pwm(i::Int32)
       f = open("$(complete_path)/duty_cycle", "w"); write(f,"0"); close(f);
       f = open("$(complete_path)/polarity", "w"); write(f,"0"); close(f);
     catch
-      error("Could not open the requested GPIO testfiles for $(complete_path).")
+      error("Could not open the requested PWM testfiles for $(complete_path).")
     end
   else
     basedir = "/sys/class/pwm"
@@ -147,6 +158,7 @@ function export_pwm(i::Int32)
 
     # Export the filestructure of the corresponding chip
     filename = "/sys/class/pwm/$(chip)/export"
+    println(filename)
     exportNumber = pwm_pins[pin][3]
     write(filename, exportNumber)
   end
@@ -155,7 +167,7 @@ end
 
 """
     to_string(pwm::PWM,, debug::Bool=false)
-Generates a string representation of the GPIO device.
+Generates a string representation of the PWM pin.
 """
 function to_string(pwm::PWM, debug::Bool=false)
   debug && return
