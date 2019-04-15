@@ -1,6 +1,6 @@
 # Package Development
 
-## Development environment
+## Host computer development environment
 If you want to develop the code in LabConnections.jl, then this is how you setup a development environment. First, open up a Julia REPL and type
 ```
 ] dev https://gitlab.control.lth.se/labdev/LabConnections.jl
@@ -12,3 +12,8 @@ git pull
 ```
 to ensure that you are working on the correct development branch for Julia v1.0.X. You can now edit the code in `.julia/dev/LabConnections`
 and run it using a Julia REPL. When you are satisfied with your changes, simply commit and push the changes in the `.julia/dev/LabConnections` directory to the GitLab server.
+
+## Development with the BeagleBone in the loop
+The pin map of the BeagleBone (BB) is shown below.
+<img src="../fig/beaglebone_black_pinmap.png" height="400" width="700">
+When running examples and tests with hardware in the loop, take caution not to short the BB ground with any output pin, as this will damage the board. For instance, if connecting a diode to the output pins, always use a resistor of >1 kOhm in parallel.
