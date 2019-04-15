@@ -46,15 +46,14 @@ function precompile_bb()
 
     # Precompile GPIO
     gpio = initdev("gpio",Int32(1))
-
     write!(gpio, (Int32(1), "1"), debug)
     closedev("gpio", Int32(1))
     #read(gpio, ind, args, debug)
 
     # TODO activate when pwn is working
-    # Precompile PWM
-    #pwm = initdev("pwm", Int32(1))
-    #write!(pwm, (Int32(1),"1"), debug)
+    pwm = initdev("pwm",Int32(1))
+    write!(pwm, (Int32(1), "1"), debug)
+    closedev("pwm", Int32(1))
 
     #Do read/write to file
     val = true
