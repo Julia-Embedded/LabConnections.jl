@@ -15,7 +15,7 @@ You now have the LabConnections.jl package available on the host computer. Note 
 ### Installing Serbus
 To work with the SPI devices you will need a forked `serbus` repository which wraps the`linux/spi/spidev`. Open up a terminal and type
 ```
-cd && cd .julia/packages
+cd ~/.julia/packages
 git clone https://github.com/mgreiff/serbus
 ```
 to get the latest revision of the `serbus` fork. You are now done with the setup required on the host computer side.
@@ -54,8 +54,7 @@ If the Julia REPL starts up correctly, then you have a functioning BBB ready for
 
 To update the BBB with the latest revision of the code, open up a terminal and type  
 ```
-cd
-cd .julia/packages/LabConnections/<version id>/util
+cd ~/.julia/packages/LabConnections/<version id>/util
 ./flash_BB.sh
 ```
 This scripts bundles the current code in LabConnections.jl and serbus on the host computer and transfers it to the BBB and puts it in the directory `/home/debian/juliapackages`.

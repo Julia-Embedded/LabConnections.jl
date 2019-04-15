@@ -37,7 +37,7 @@ To work with the SPI devices you will need a forked `serbus` repository which wr
 
 
 ```
-cd && cd .julia/packages
+cd ~/.julia/packages
 git clone https://github.com/mgreiff/serbus
 ```
 
@@ -113,8 +113,7 @@ To update the BBB with the latest revision of the code, open up a terminal and t
 
 
 ```
-cd
-cd .julia/packages/LabConnections/<version id>/util
+cd ~/.julia/packages/LabConnections/<version id>/util
 ./flash_BB.sh
 ```
 
