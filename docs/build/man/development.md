@@ -1,12 +1,12 @@
 
 <a id='Package-Development-1'></a>
 
-## Package Development
+# Package Development
 
 
-<a id='LabConnections.jl-Development-1'></a>
+<a id='Development-environment-1'></a>
 
-### LabConnections.jl Development
+## Development environment
 
 
 If you want to develop the code in LabConnections.jl, then this is how you setup a development environment. First, open up a Julia REPL and type
@@ -26,5 +26,5 @@ git pull
 ```
 
 
-to ensure that you are working on the correct development branch for Julia v1.0.X.
+to ensure that you are working on the correct development branch for Julia v1.0.X. You can now edit the code in `.julia/dev/LabConnections` and run it using a Julia REPL. When you are satisfied with your changes, simply commit and push the changes in the `.julia/dev/LabConnections` directory to the GitLab server.
 

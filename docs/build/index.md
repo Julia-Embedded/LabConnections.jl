@@ -19,7 +19,14 @@
 ## Examples
 
 - [Examples](examples/examples.md#Examples-1)
-- [Tests](examples/testing.md#Tests-1)
+
+
+<a id='Development-1'></a>
+
+## Development
+
+- [Package Development](man/development.md#Package-Development-1)
+- [Testing](examples/testing.md#Testing-1)
 
 
 <a id='Functions-1'></a>
