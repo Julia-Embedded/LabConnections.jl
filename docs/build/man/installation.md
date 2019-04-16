@@ -133,6 +133,30 @@ This scripts bundles the current code in LabConnections.jl and serbus on the hos
 <a id='Setting-up-automatic-communication-1'></a>
 
 
+<a id='Setting-up-the-uEnv-file-1'></a>
+
+### Setting up the uEnv file
+
+
+Since the deployment of the v4.14 kernel, the slots file and bone_capemgr have been permanantly disabled. This means that there is no need for compiling the device tree overlays as we did for the v0.6 version of the software stack. Instead, we need to configure the /boot/uEnv.txt file to enable the PWM pins correctly. Simply open the `/boot/uEnv.txt` file, add the line
+
+
+```
+cape_enable=bone_capemgr.enable_partno=univ-all,BB-ADC,BB-PWM0,BB-PWM1,BB-PWM2
+```
+
+
+and uncomment the line
+
+
+```
+disable_uboot_overlay_video=1
+```
+
+
+Reboot the BeagleBone, and you should now have access to the PWM pins.
+
+
 <a id='Setting-up-a-Julia-server-on-the-BeagleBone-1'></a>
 
 ### Setting up a Julia server on the BeagleBone
