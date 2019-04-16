@@ -62,7 +62,7 @@ Start by downloading the Debian image [here](http://beagleboard.org/latest-image
 
 
 ```
-mv /home/debian/julia-<distro specific tag>/bin/julia /home/debian/julia/bin/julia
+mv /home/debian/julia-<distro specific tag> /home/debian/julia
 ```
 
 
