@@ -1,7 +1,6 @@
 - [`LabConnections.BeagleBone.Debug`](io_devices.md#LabConnections.BeagleBone.Debug)
 - [`LabConnections.BeagleBone.GPIO`](io_devices.md#LabConnections.BeagleBone.GPIO)
 - [`LabConnections.BeagleBone.IO_Object`](io_devices.md#LabConnections.BeagleBone.IO_Object)
-- [`LabConnections.BeagleBone.PWM`](io_devices.md#LabConnections.BeagleBone.PWM)
 - [`LabConnections.BeagleBone.SysLED`](io_devices.md#LabConnections.BeagleBone.SysLED)
 
 
@@ -14,7 +13,7 @@
 
 
 
-```
+```julia
 Debug(i::Int32)
 ```
 
@@ -25,7 +24,7 @@ Type for debugging and precompile.
 
 
 
-```
+```julia
 GPIO(i::Int32)
 ```
 
@@ -52,23 +51,12 @@ See the test/BeagleBone/GPIO_test.jl for more examples.
 
 Define abstract type for pins/LEDS on the BeagleBone
 
-<a id='LabConnections.BeagleBone.PWM' href='#LabConnections.BeagleBone.PWM'>#</a>
-**`LabConnections.BeagleBone.PWM`** &mdash; *Type*.
-
-
-
-```
-PWM(i::Int32)
-```
-
-This device allows for low level PWM control of selected pins. The valid pins dictionary pwm_pins relates to memory adresses in of the AM3359 chip, see p.182 in www.ti.com/product/AM3359/technicaldocuments.
-
 <a id='LabConnections.BeagleBone.SysLED' href='#LabConnections.BeagleBone.SysLED'>#</a>
 **`LabConnections.BeagleBone.SysLED`** &mdash; *Type*.
 
 
 
-```
+```julia
 SysLED(i::Int32)
 ```
 

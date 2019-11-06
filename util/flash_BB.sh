@@ -9,7 +9,7 @@ BASEDIR=../../$(dirname "$0")
 # Dependencies
 # LabConnections - main repository
 # serbus - a fork of a SPI communicaiton interface
-packages=(LabConnections serbus)
+packages=(LabConnections.jl serbus)
 
 # Create an empty directory to bundle packages
 if [ -d ${BASEDIR}/juliapackages ]; then
@@ -29,6 +29,7 @@ for (( i=0; i<${#packages[@]}; i++ )); do
     flag=false
   }
 done
+mv ${BASEDIR}/juliapackages/LabConnections.jl ${BASEDIR}/juliapackages/LabConnections
 
 # Transfer files
 if [ "$flag" = true ] ; then

@@ -1,10 +1,10 @@
 using LabConnections.BeagleBone
 
-using Base.Test
+using Test
 
 # This flag is enabled if a dummy filesystem should be used for testing (for online testing)
 # disabling the flag allows the BBB to be run in the loop, in this case blinking LEDS
-RUNNING_TESTS = true
+BeagleBone.running_test(true)
 
 # Run tests
 include("BeagleBone/SYS_LED_test.jl")

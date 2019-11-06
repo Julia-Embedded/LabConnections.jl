@@ -33,7 +33,7 @@
 
 
 
-```
+```julia
 run_server(port=2001; debug=false)
 ```
 
@@ -44,18 +44,7 @@ Run a server on `port` that listens for commands from computer Optional debug ke
 
 
 
-```
-l = read(gpio::GPIO, operation::Int32, debug::Bool=false)
-```
-
-Reads the current value from an operation on a GPIO.
-
-<a id='Base.read' href='#Base.read'>#</a>
-**`Base.read`** &mdash; *Function*.
-
-
-
-```
+```julia
 l = read(led::SysLED, debug::Bool=false)
 ```
 
@@ -66,8 +55,19 @@ Reads the current brightness value from the LED 'SysLED'.
 
 
 
-```
+```julia
 l = read(pwm::PWM, operation::Int32, debug::Bool=false)
+```
+
+Reads the current value from an operation on a PWM pin.
+
+<a id='Base.read' href='#Base.read'>#</a>
+**`Base.read`** &mdash; *Function*.
+
+
+
+```julia
+l = read(gpio::GPIO, operation::Int32, debug::Bool=false)
 ```
 
 Reads the current value from an operation on a GPIO.
@@ -77,7 +77,7 @@ Reads the current value from an operation on a GPIO.
 
 
 
-```
+```julia
 assert_pwm_write(operation::Int32, entry::String)
 ```
 
@@ -88,7 +88,7 @@ Assertsion for the PWM input data.
 
 
 
-```
+```julia
 bbparse(cmd)
 ```
 
@@ -99,18 +99,18 @@ Parse and execute the command `cmd`.
 
 
 
-```
+```julia
 bbparse(l::Tuple, sock)
 ```
 
-Parse input on the form `l=(iswrite, ndev, cmd1, cmd2, ..., cmdn)` where if `iswrite`     `cmdi = (devname, id, val)`     and if not `iswrite`     `cmdi = (devname, id)` and send back on socket (vals, timestamps).
+Parse input on the form `l=(operation, ndev, cmd1, cmd2, ..., cmdn)` where if `operation==1` (write)     `cmdi = (devname, id, val)`     and if `operation==0` (read)     `cmdi = (devname, id)`     and if `operation==2` (initialize)     `cmdi = (devname, id)` and send back on socket (vals, timestamps).
 
 <a id='LabConnections.BeagleBone.closedev-Tuple{String,Int32}' href='#LabConnections.BeagleBone.closedev-Tuple{String,Int32}'>#</a>
 **`LabConnections.BeagleBone.closedev`** &mdash; *Method*.
 
 
 
-```
+```julia
 closedev(dev_name::String, i::Int32)
 ```
 
@@ -121,7 +121,7 @@ Closes down a currently active device of type 'dev_name' at index 'i' on the Bea
 
 
 
-```
+```julia
 export_gpio(i::Int32, debug::Bool=false)
 ```
 
@@ -132,7 +132,7 @@ Export the GPIO file system, either for real-time or testing usecases.
 
 
 
-```
+```julia
 export_led(i::Int32, debug::Bool=false)
 ```
 
@@ -143,18 +143,18 @@ Exports a dummy filesystem for testing the LED implementation
 
 
 
-```
-export_gpio(i::Int32, debug::Bool=false)
+```julia
+export_pwm(i::Int32, debug::Bool=false)
 ```
 
-Export the GPIO file system, either for real-time or testing usecases.
+Export the PWM file system, either for real-time or testing usecases.
 
 <a id='LabConnections.BeagleBone.getdev-Tuple{String,Int32}' href='#LabConnections.BeagleBone.getdev-Tuple{String,Int32}'>#</a>
 **`LabConnections.BeagleBone.getdev`** &mdash; *Method*.
 
 
 
-```
+```julia
 dev = getdev(dev_name::String, i::Int32)
 ```
 
@@ -165,18 +165,18 @@ Retrieves the active device of type `dev_name` at index 'i'.
 
 
 
-```
+```julia
 active_device = initdev(dev_name::String, i:Int32)
 ```
 
-Initializes a new device of type 'dev_name' at index 'i' on the BeagleBone, and adds it to the dict of currently active devices. Returns the initialized device 'active_device'.
+Initializes a new device of type 'dev*name' at index 'i' on the BeagleBone, and adds it to the dict of currently active devices. Returns the initialized device 'active*device'.
 
 <a id='LabConnections.BeagleBone.listdev-Tuple{}' href='#LabConnections.BeagleBone.listdev-Tuple{}'>#</a>
 **`LabConnections.BeagleBone.listdev`** &mdash; *Method*.
 
 
 
-```
+```julia
 message = listdev()
 ```
 
@@ -187,7 +187,7 @@ Lists all the active devices as an insidence array for testing.
 
 
 
-```
+```julia
 message = printdev()
 ```
 
@@ -198,7 +198,7 @@ Prints all the active devices and writes out specifics of a single devices.
 
 
 
-```
+```julia
 teardown(led::SysLED, debug::Bool=false)
 ```
 
@@ -209,29 +209,29 @@ Closes all open filestreams for the SysLED 'led'.
 
 
 
-```
-teardown!(pwd::PWM)
+```julia
+teardown(gpio::GPIO, debug::Bool=false)
 ```
 
-Closes all open streams on the PWM, and unexports it from the file system
+Closes all open streams on the GPIO, and unexports it from the file system.
 
 <a id='LabConnections.BeagleBone.teardown' href='#LabConnections.BeagleBone.teardown'>#</a>
 **`LabConnections.BeagleBone.teardown`** &mdash; *Function*.
 
 
 
-```
-teardown(gpio::GPIO, debug::Bool=false)
+```julia
+teardown!(pwd::PWM)
 ```
 
-Closes all open streams on the GPIO, and unexports it from the file system.
+Closes all open streams on the PWM, and unexports it from the file system
 
 <a id='LabConnections.BeagleBone.to_string' href='#LabConnections.BeagleBone.to_string'>#</a>
 **`LabConnections.BeagleBone.to_string`** &mdash; *Function*.
 
 
 
-```
+```julia
 to_string(led::SysLED, debug::Bool=false)
 ```
 
@@ -242,8 +242,8 @@ Generates a string representation of the GPIO device.
 
 
 
-```
-to_string(pwm::PWM,, debug::Bool=false)
+```julia
+to_string(gpio::GPIO, debug::Bool=false)
 ```
 
 Generates a string representation of the GPIO device.
@@ -253,29 +253,18 @@ Generates a string representation of the GPIO device.
 
 
 
-```
-to_string(gpio::GPIO, debug::Bool=false)
+```julia
+to_string(pwm::PWM,, debug::Bool=false)
 ```
 
-Generates a string representation of the GPIO device.
+Generates a string representation of the PWM pin.
 
 <a id='LabConnections.BeagleBone.write!' href='#LabConnections.BeagleBone.write!'>#</a>
 **`LabConnections.BeagleBone.write!`** &mdash; *Function*.
 
 
 
-```
-write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
-```
-
-Writes an entry to an operation on a GPIO, of the form args = (operation, entry).
-
-<a id='LabConnections.BeagleBone.write!' href='#LabConnections.BeagleBone.write!'>#</a>
-**`LabConnections.BeagleBone.write!`** &mdash; *Function*.
-
-
-
-```
+```julia
 write!(led::SysLED, val::Bool, debug::Bool=false)
 ```
 
@@ -286,9 +275,20 @@ Turns the LED 'SysLed' on/off for val = true/false respectively.
 
 
 
-```
+```julia
 write!(pwm::PWM, args::Tuple{Int32,String}, debug::Bool=false)
 ```
 
 Writes an entry to an operation on the PWM, of the form args = (operation, entry).
+
+<a id='LabConnections.BeagleBone.write!' href='#LabConnections.BeagleBone.write!'>#</a>
+**`LabConnections.BeagleBone.write!`** &mdash; *Function*.
+
+
+
+```julia
+write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
+```
+
+Writes an entry to an operation on a GPIO, of the form args = (operation, entry).
 

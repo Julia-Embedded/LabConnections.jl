@@ -1,7 +1,7 @@
 using LabConnections.BeagleBone
 import LabConnections.BeagleBone: initdev, listdev, closedev, printdev, write!, read, pwm_pins
 
-using Base.Test
+using Test
 
 @testset "PWM tests" begin
 
@@ -59,13 +59,13 @@ using Base.Test
         @test_throws ErrorException write!(device, (Int32(1), "-1"))
         @test_throws ErrorException write!(device, (Int32(1), "bad_entry"))
         @test_throws ErrorException write!(device, (Int32(2), "-1"))
-        @test_throws ErrorException write!(device, (Int32(2), "100000001"))
+        @test_throws ErrorException write!(device, (Int32(2), "1000000001"))
         @test_throws ErrorException write!(device, (Int32(2), "bad_entry"))
         @test_throws ErrorException write!(device, (Int32(3), "-1"))
-        @test_throws ErrorException write!(device, (Int32(3), "100000001"))
+        @test_throws ErrorException write!(device, (Int32(3), "1000000001"))
         @test_throws ErrorException write!(device, (Int32(3), "bad_entry"))
         @test_throws ErrorException write!(device, (Int32(4), "-1"))
-        @test_throws ErrorException write!(device, (Int32(4), "100000001"))
+        @test_throws ErrorException write!(device, (Int32(4), "1000000001"))
         @test_throws ErrorException write!(device, (Int32(4), "bad_entry"))
 
         # Close Gpio
@@ -81,8 +81,8 @@ using Base.Test
         for ii = 1:length(pwm_pins)
             device = initdev("pwm", Int32(ii))
             # Operation 2 -> in/out, set out
-            write!(device, (Int32(2), "100000000"))
-            @test read(device, Int32(2)) == "100000000"
+            write!(device, (Int32(2), "1000000000"))
+            @test read(device, Int32(2)) == "1000000000"
             write!(device, (Int32(3), "50000000"))
             @test read(device, Int32(3)) == "50000000"
             write!(device, (Int32(1), "1"))

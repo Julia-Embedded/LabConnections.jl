@@ -3,7 +3,7 @@
 Type representing the system LEDs on the BeagleBone. The LEDs are indexed by
 i ∈ [1,2,3,4].
 """
-type SysLED <: IO_Object
+struct SysLED <: IO_Object
     i::Int32
     basedir::String
     filestream::IOStream
@@ -31,6 +31,11 @@ function write!(led::SysLED, entry::String, debug::Bool=false)
     flush(led.filestream)
 end
 
+# Catch Boolean writes
+write!(led::SysLED, entry::Bool, debug::Bool=false) =
+  write!(led::SysLED, entry ? "1" : "0", debug)
+
+
 """
     l = read(led::SysLED, debug::Bool=false)
 Reads the current brightness value from the LED 'SysLED'.
@@ -49,7 +54,8 @@ function teardown(led::SysLED, debug::Bool=false)
   debug && return
   close(led.filestream)
 
-  if isdefined(:RUNNING_TESTS)
+  global RUNNING_TESTS
+  if RUNNING_TESTS
     # Remove the dummy file system for testing
     try
       #println("$(led.basedir)/beaglebone:green:usr$(led.i-1)")
@@ -67,7 +73,8 @@ Exports a dummy filesystem for testing the LED implementation
 function export_led(i::Int32, debug::Bool=false)
   debug && return
 
-  if isdefined(:RUNNING_TESTS)
+  global RUNNING_TESTS
+  if RUNNING_TESTS
     # Export a dummy file system for testing
     basedir = "$(pwd())/testfilesystem/leds"
     try

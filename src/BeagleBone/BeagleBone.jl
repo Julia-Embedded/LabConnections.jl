@@ -1,3 +1,7 @@
+const READ = Int32(0)
+const WRITE = Int32(1)
+const INIT = Int32(2)
+
 include("IO_Object.jl")
 include("Debug.jl")
 include("SysLED.jl")
@@ -106,27 +110,29 @@ end
 
 """
     bbparse(l::Tuple, sock)
-Parse input on the form `l=(iswrite, ndev, cmd1, cmd2, ..., cmdn)`
-where if `iswrite`
+Parse input on the form `l=(operation, ndev, cmd1, cmd2, ..., cmdn)`
+where if `operation==1` (write)
     `cmdi = (devname, id, val)`
-    and if not `iswrite`
+    and if `operation==0` (read)
+    `cmdi = (devname, id)`
+    and if `operation==2` (initialize)
     `cmdi = (devname, id)`
 and send back on socket (vals, timestamps).
 """
 function bbparse(l::Tuple, sock)
-    iswrite = l[1]::Bool            #True if write command, false if read
+    operation = l[1]::Int32           #1 if write command, 0 if read, 2 if init
     ndev = l[2]::Int32              #Number of devices/commands
-    if iswrite
+    if operation == WRITE
         for i = 1:ndev
             command = l[2+i]::Tuple
             dev = getdev(command[1], command[2])
             write!(dev, command[3])
         end
         return
-    else
+    elseif operation == READ
         #TODO fix to have at least partial type stability
-        vals = Array{Any,1}(ndev)
-        timestamps = Array{UInt64,1}(ndev)
+        vals = Array{Any,1}(undef,ndev)
+        timestamps = Array{UInt64,1}(undef,ndev)
         for i = 1:ndev
             command = l[2+i]::Tuple
             dev = getdev(command[1], command[2])
@@ -135,6 +141,26 @@ function bbparse(l::Tuple, sock)
         end
         bbsend(sock, (vals, timestamps))
         return
+    elseif operation == INIT
+        for i = 1:ndev
+            command = l[2+i]::Tuple
+            dev = initdev(command[1], command[2])
+        end
+        return
+    else
+        error("Unknown operation $operation, cmd: $l")
+    end
+end
+
+function close_all_devices()
+    # When connection fails or closes, close devices
+    for key in keys(DEVICES)
+        for (devkey, active_device) in active_devices[key]
+            println("teardown $active_device")
+            teardown(active_device)
+            #Remove the device from the dict of active devices
+            delete!(active_devices[key], devkey)
+        end
     end
 end
 
@@ -146,7 +172,7 @@ Optional debug keyword disables blinking system leds.
 """
 function run_server(port=2001; debug=false)
     global __waiting_first_connection__ = true
-    server = listen(port)
+    server = listen(IPv4(0), port) # IPv4(0) means listen from any ip
     @async while isopen(server)
         try
             @async while __waiting_first_connection__ && !debug
@@ -167,21 +193,31 @@ function run_server(port=2001; debug=false)
             @async while isopen(sock)
                 try
                     l = deserialize(sock);
-                    bbparse(l, sock)
+                    # println("deserialized:")
+                    # println(l)
+                    try
+                        bbparse(l, sock)
+                    catch err
+                        @warn "Failure in bbparse, server should keep running, error:"
+                        println(err)
+                    end
                 catch err
                     if !isopen(sock) && (isa(err, Base.EOFError) || isa(err, Base.UVError))
                         println("Connection to server closed")
+                        close_all_devices()
                     else
                         println("error: $(typeof(err))")
-                        throw(err)
+                        println("err: $err")
+                        rethrow(err)
                     end
                 end
             end
         catch err
+            close_all_devices()
             if isa(err,Base.UVError) && err.prefix == "accept"
                 println("Server closed successfully")
             else
-                throw(err)
+                rethrow(err)
             end
         end
     end

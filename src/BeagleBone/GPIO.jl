@@ -1,3 +1,7 @@
+const GPIO_VALUE = Int32(1)
+const GPIO_DIRECTION = Int32(2)
+const GPIO_EDGE = Int32(3)
+
 """
     GPIO(i::Int32)
 Lowest form of communication with the GPIO pins. The available pins are
@@ -15,7 +19,7 @@ The operation of reading the current output value of the GPIO is done by
 
 See the test/BeagleBone/GPIO_test.jl for more examples.
 """
-type GPIO <: IO_Object
+struct GPIO <: IO_Object
   i::Int32
   basedir::String
   filestreams::Array{IOStream,1}
@@ -33,6 +37,11 @@ type GPIO <: IO_Object
     # Initialize object
     return new(i, basedir, [value_filestream, direction_filestream, edge_filestream])
   end
+end
+
+# Default to writing "value"
+function write!(gpio::GPIO, val::String, debug::Bool=false)
+  write!(gpio, (GPIO_VALUE, val), debug=debug)
 end
 
 """
@@ -53,6 +62,10 @@ function write!(gpio::GPIO, args::Tuple{Int32,String}, debug::Bool=false)
   end
 end
 
+# Default to reading "value"
+function read(gpio::GPIO, debug::Bool=false)
+  read(gpio, GPIO_VALUE, debug)
+end
 """
     l = read(gpio::GPIO, operation::Int32, debug::Bool=false)
 Reads the current value from an operation on a GPIO.
@@ -79,7 +92,8 @@ function teardown(gpio::GPIO, debug::Bool=false)
   end
 
   #Unexport filestructure
-  if isdefined(:RUNNING_TESTS)
+  global RUNNING_TESTS
+  if RUNNING_TESTS
     # Remove the dummy file system for testing
     basedir = "$(pwd())/testfilesystem/gpio"
     try
@@ -100,7 +114,8 @@ end
 Export the GPIO file system, either for real-time or testing usecases.
 """
 function export_gpio(i::Int32)
-  if isdefined(:RUNNING_TESTS)
+  global RUNNING_TESTS
+  if RUNNING_TESTS
     # Export a dummy file system for testing
     basedir = "$(pwd())/testfilesystem/gpio"
     try

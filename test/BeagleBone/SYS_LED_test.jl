@@ -1,7 +1,7 @@
 using LabConnections.BeagleBone
 import LabConnections.BeagleBone: getdev, write!, closedev, read, initdev, printdev, listdev
 
-using Base.Test
+using Test
 
 @testset "SYS LED Tests" begin
 

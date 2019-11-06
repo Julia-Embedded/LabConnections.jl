@@ -23,7 +23,7 @@ function init_devices!(comedistream::ComediStream, devs::AbstractDevice...)
             push!(comedistream.devices, dev)
             initialize(dev)
         else
-            warn("Device $dev already added to the stream")
+            @warn "Device $dev already added to the stream"
         end
     end
     return

@@ -6,20 +6,27 @@
 
 
 
+<a id='Getting-Started-1'></a>
+
+## Getting Started
+
+- [Introduction](man/introduction.md#Introduction-1)
+- [Installation instructions](man/installation.md#Installation-instructions-1)
+
+
 <a id='Examples-1'></a>
 
 ## Examples
 
 - [Examples](examples/examples.md#Examples-1)
-- [Tests](examples/testing.md#Tests-1)
 
 
-<a id='Guide-1'></a>
+<a id='Development-1'></a>
 
-## Guide
+## Development
 
-- [Introduction](man/introduction.md#Introduction-1)
-- [Installation Instructions](man/installation.md#Installation-Instructions-1)
+- [Package Development](man/development.md#Package-Development-1)
+- [Testing](examples/testing.md#Testing-1)
 
 
 <a id='Functions-1'></a>
@@ -37,7 +44,6 @@
 - [`LabConnections.BeagleBone.Debug`](lib/io_devices.md#LabConnections.BeagleBone.Debug)
 - [`LabConnections.BeagleBone.GPIO`](lib/io_devices.md#LabConnections.BeagleBone.GPIO)
 - [`LabConnections.BeagleBone.IO_Object`](lib/io_devices.md#LabConnections.BeagleBone.IO_Object)
-- [`LabConnections.BeagleBone.PWM`](lib/io_devices.md#LabConnections.BeagleBone.PWM)
 - [`LabConnections.BeagleBone.SysLED`](lib/io_devices.md#LabConnections.BeagleBone.SysLED)
 - [`Base.read`](lib/functions.md#Base.read)
 - [`Base.read`](lib/functions.md#Base.read)

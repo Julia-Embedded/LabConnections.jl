@@ -4,7 +4,7 @@
 # Examples
 
 
-The following examples may be run from the BB, and may require the user to export the the LabConnections module to the LOAD_PATH manually, executing the following line in the Julia prompt
+The following examples may be run from the BeagleBone (BB), and may require the user to export the the LabConnections module to the LOAD_PATH manually, executing the following line in the Julia REPL (while SSH:d into the BB)
 
 
 ```
@@ -12,7 +12,7 @@ push!(LOAD_PATH, "/home/debian/juliapackages")
 ```
 
 
-When running the examples with hardware in the loop, take caution not to short the BB ground with any output pin, as this will damage the board. For instance, if connecting a diode to the output pins, always use a resistor of >1000 Ohm in parallel. See the configuration page for information on which functionality specific pins support.
+When running the examples with hardware in the loop, take caution not to short the BBB ground with any output pin, as this will damage the board. For instance, if connecting a diode to the output pins, always use a resistor of >1000 Ohm in parallel.
 
 
 <a id='Example-with-LEDs-(BB)-1'></a>
@@ -20,7 +20,7 @@ When running the examples with hardware in the loop, take caution not to short t
 ## Example with LEDs (BB)
 
 
-To test the system LED functionality of the Julia code from the BBB, open a Julia prompt and run the SYS_LED_test.jl file
+To test the system LED functionality of the Julia code from the BBB, open a Julia prompt and run the SYS*LED*test.jl file
 
 
 ```

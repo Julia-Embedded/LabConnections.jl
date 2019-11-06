@@ -2,7 +2,7 @@
     Debug(i::Int32)
 Type for debugging and precompile.
 """
-type Debug <: IO_Object
+struct Debug <: IO_Object
     i::Int32
 end
 write!(::Debug, val, debug::Bool=false) = nothing

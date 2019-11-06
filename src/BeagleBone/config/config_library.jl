@@ -2,7 +2,7 @@ import YAML
 
 abstract type IO_Object end
 
-type GPIO <: IO_Object
+struct GPIO <: IO_Object
     ID::Int32
     pins::Array{String, 1}
     InOut::String
@@ -11,7 +11,7 @@ end
 GPIO(ID, pins, InOut; file_handles=[])=GPIO(ID, pins, InOut, file_handles)
 
 # The PWM type
-type PWM <: IO_Object
+struct PWM <: IO_Object
     ID::Int32
     pins::Array{String, 1}
     file_handles::Array{IOStream}
@@ -19,7 +19,7 @@ end
 PWM(ID, pins; file_handles=[])=PWM(ID, pins, file_handles)
 
 # The analog to digital converter type
-type ADC <: IO_Object
+struct ADC <: IO_Object
     ID::Int32
     pins::Array{String, 1}
     channel::String
@@ -28,7 +28,7 @@ end
 ADC(ID, pins, channel; file_handles=[])=ADC(ID, pins, channel, file_handles)
 
 # The quadrature encoder type
-type QEP <: IO_Object
+struct QEP <: IO_Object
     ID::Int32
     pins::Array{String, 1}
     file_handles::Array{IOStream}

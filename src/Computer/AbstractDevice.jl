@@ -10,6 +10,8 @@ getstream(dev::AbstractDevice) = dev.stream
 #Set the stream the AbstractDevice is connected to
 setstream!(dev::AbstractDevice, stream::LabStream) = dev.stream = stream
 
+# Write command that needs to be sent after setup (for example direction of GPIO)
+getsetupwrite(::LabStream, ::AbstractDevice) = nothing
 
 function safe_getwritecommand(dev::AbstractDevice, val)
     stream = try getstream(dev) catch
